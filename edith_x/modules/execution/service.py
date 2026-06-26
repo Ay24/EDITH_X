@@ -31,6 +31,7 @@ class ExecutionService:
         if self._settings.nvidia_api_key:
             import os
             os.environ["NVIDIA_API_KEY"] = self._settings.nvidia_api_key
+            os.environ["NVIDIA_NIM_API_KEY"] = self._settings.nvidia_api_key
 
     def _build_messages(self, context: Context) -> list[dict]:
         messages = []
