@@ -597,8 +597,16 @@
                 </div>
                 
                 <div class="chat-messages" id="chat-messages">
-                    <div class="message system">
-                        Welcome to EDITH-X. Try asking me a simple question to hit the Local LLM (L1), or ask me to write code to hit the Cloud LLM (L3).
+                    <div class="message system" style="max-width: 95%;">
+                        <strong>Welcome to EDITH-X.</strong> Try these test commands to see the Neural Router in action:<br><br>
+                        <span style="color: var(--text-secondary); font-size: 0.9rem;">☁️ To hit the L3 Cloud Tier (NVIDIA NIM):</span><br>
+                        <div onclick="document.getElementById('chat-input').value='Write a complex python script to parse JSON'; document.querySelector('.chat-submit:not(#upload-btn)').click();" style="background: rgba(88, 166, 255, 0.1); border: 1px solid var(--accent-glow); padding: 8px 12px; border-radius: 6px; margin: 4px 0 12px 0; cursor: pointer; display: inline-block; transition: 0.2s;" onmouseover="this.style.background='rgba(88, 166, 255, 0.2)'" onmouseout="this.style.background='rgba(88, 166, 255, 0.1)'">"Write a complex python script to parse JSON"</div><br>
+                        
+                        <span style="color: var(--text-secondary); font-size: 0.9rem;">🚀 To hit the L1 Fast Tier (Local Air-Gapped):</span><br>
+                        <div onclick="document.getElementById('chat-input').value='What is the capital of France?'; document.querySelector('.chat-submit:not(#upload-btn)').click();" style="background: rgba(88, 166, 255, 0.1); border: 1px solid var(--accent-glow); padding: 8px 12px; border-radius: 6px; margin: 4px 0 12px 0; cursor: pointer; display: inline-block; transition: 0.2s;" onmouseover="this.style.background='rgba(88, 166, 255, 0.2)'" onmouseout="this.style.background='rgba(88, 166, 255, 0.1)'">"What is the capital of France?"</div><br>
+                        
+                        <span style="color: var(--text-secondary); font-size: 0.9rem;">⚡ To hit the L0 Semantic Cache (Zero Cost):</span><br>
+                        <div style="background: rgba(48, 54, 61, 0.4); border: 1px dashed var(--border-color); padding: 8px 12px; border-radius: 6px; margin: 4px 0 8px 0; display: inline-block;">Ask the exact same question twice!</div>
                     </div>
                 </div>
 
