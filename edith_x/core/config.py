@@ -60,7 +60,7 @@ class Settings(BaseSettings):
 
     # Model Routing
     local_models: str = "llama-3.2-3b-instruct"
-    cloud_models: str = "nvidia_nim/meta/llama-3.1-405b-instruct,gpt-4o-mini,gpt-4o,claude-3-5-haiku-20241022"
+    cloud_models: str = "nvidia_nim/meta/llama-3.1-70b-instruct,gpt-4o-mini,gpt-4o,claude-3-5-haiku-20241022"
 
     # Cost Thresholds
     max_cost_per_request_usd: float = 0.10

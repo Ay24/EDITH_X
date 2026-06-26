@@ -11,7 +11,7 @@ log = structlog.get_logger(__name__)
 # Cost per 1K tokens (input) — approximate
 _MODEL_COSTS: dict[str, float] = {
     "nvidia_nim/meta/llama-3.1-8b-instruct": 0.0001,
-    "nvidia_nim/meta/llama-3.1-405b-instruct": 0.005,
+    "nvidia_nim/meta/llama-3.1-70b-instruct": 0.0008,
     "gpt-4o-mini": 0.00015,
     "gpt-4o": 0.0025,
     "claude-3-5-haiku-20241022": 0.0008,
@@ -22,7 +22,7 @@ _MODEL_COSTS: dict[str, float] = {
 
 _MODEL_LATENCY: dict[str, int] = {
     "nvidia_nim/meta/llama-3.1-8b-instruct": 600,
-    "nvidia_nim/meta/llama-3.1-405b-instruct": 2500,
+    "nvidia_nim/meta/llama-3.1-70b-instruct": 1200,
     "gpt-4o-mini": 2000,
     "gpt-4o": 4000,
     "claude-3-5-haiku-20241022": 2500,
@@ -80,9 +80,9 @@ class RouterService:
             preferred = ["nvidia_nim/meta/llama-3.1-8b-instruct", "gpt-4o-mini", "claude-3-5-haiku-20241022"]
         else:
             # Use smarter model
-            preferred = ["nvidia_nim/meta/llama-3.1-405b-instruct", "gpt-4o"]
+            preferred = ["nvidia_nim/meta/llama-3.1-70b-instruct", "gpt-4o"]
 
-        model = next((m for m in preferred if m in cloud_available), "nvidia_nim/meta/llama-3.1-405b-instruct")
+        model = next((m for m in preferred if m in cloud_available), "nvidia_nim/meta/llama-3.1-70b-instruct")
         provider = self._infer_provider(model)
 
         log.info("routed_to_cloud", model=model, complexity=intent.complexity)
