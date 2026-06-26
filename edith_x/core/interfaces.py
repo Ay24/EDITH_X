@@ -94,7 +94,7 @@ class Context(BaseModel):
 
 
 class ModelSelection(BaseModel):
-    provider: Literal["ollama", "vllm", "openai", "anthropic", "google", "groq", "local_llm", "nvidia"]
+    provider: Literal["ollama", "vllm", "openai", "anthropic", "google", "groq", "local_llm", "nvidia", "nvidia_nim"]
     model: str
     reasoning: str
     estimated_cost_usd: float = 0.0
