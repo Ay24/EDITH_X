@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDITH-X Enterprise AI</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --panel-bg: rgba(22, 27, 34, 0.7);
+            --border-color: rgba(48, 54, 61, 0.8);
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --accent: #58a6ff;
+            --accent-glow: rgba(88, 166, 255, 0.4);
+            --success: #3fb950;
+            --danger: #f85149;
+            --node-idle: rgba(48, 54, 61, 0.5);
+            --node-active: #58a6ff;
+            --node-success: #3fb950;
+            --font-family: 'Inter', -apple-system, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at center, #161b22 0%, #0d1117 100%);
+            color: var(--text-primary);
+            font-family: var(--font-family);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- Scrollytelling Sections --- */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .section-content {
+            max-width: 1000px;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #58a6ff, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        
+        h3 {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .highlight { color: var(--accent); font-weight: bold; }
+        .highlight-danger { color: var(--danger); font-weight: bold; }
+        .highlight-success { color: var(--success); font-weight: bold; }
+
+        /* Grid for Modules */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .module-card {
+            background: rgba(22, 27, 34, 0.8);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            border-radius: 16px;
+            text-align: left;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(88, 166, 255, 0.1);
+        }
+
+        .module-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* Call to Action Button */
+        .cta-button {
+            display: inline-block;
+            background: var(--accent);
+            color: #000;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none;
+            margin-top: 40px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .cta-button:hover {
+            background: #79c0ff;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        /* --- Live Demo Section (Interactive UI) --- */
+        #demo-section {
+            background: #010409;
+            border-top: 1px solid var(--border-color);
+            padding: 0;
+            height: 100vh;
+        }
+
+        .demo-layout {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Glassmorphism Panels */
+        .panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            margin: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Left Chat Section */
+        .chat-container {
+            flex: 1;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .chat-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .chat-header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .chat-header .badge {
+            background: rgba(88, 166, 255, 0.1);
+            color: var(--accent);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid var(--accent-glow);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            text-align: left;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 15px 20px;
+            border-radius: 12px;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: rgba(88, 166, 255, 0.15);
+            border: 1px solid var(--accent-glow);
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.system {
+            align-self: flex-start;
+            background: rgba(48, 54, 61, 0.4);
+            border: 1px solid var(--border-color);
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-input-container {
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 8px 15px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .chat-input-wrapper:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px var(--accent-glow);
+        }
+
+        .chat-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: var(--font-family);
+            outline: none;
+        }
+
+        .chat-submit {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .chat-submit:hover {
+            transform: scale(1.05);
+            background: #79c0ff;
+        }
+
+        /* Right Graph Section */
+        .graph-container {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .graph-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .graph-header h2 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            text-align: left;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .stat-value.highlight {
+            color: var(--success);
+        }
+
+        .graph-body {
+            flex: 1;
+            position: relative;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* The Nodes */
+        .flowchart {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 900px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .node-group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+        }
+
+        .node {
+            background: var(--node-idle);
+            border: 2px solid var(--border-color);
+            padding: 15px 20px;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 120px;
+            transition: all 0.4s ease;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .node .icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .node .label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .node.active {
+            background: rgba(88, 166, 255, 0.1);
+            border-color: var(--node-active);
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        .node.success {
+            background: rgba(63, 185, 80, 0.1);
+            border-color: var(--node-success);
+            box-shadow: 0 0 20px rgba(63, 185, 80, 0.3);
+        }
+
+        .connection-line {
+            position: absolute;
+            height: 2px;
+            background: var(--border-color);
+            z-index: 0;
+            transition: background 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .connection-line.active {
+            background: var(--node-active);
+            box-shadow: 0 0 10px var(--node-active);
+        }
+
+        .node-meta {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .node.active .node-meta {
+            opacity: 1;
+        }
+
+        .pulse-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: inherit;
+            box-shadow: inset 0 0 0 2px var(--accent);
+            opacity: 0;
+            z-index: 10;
+        }
+        
+        @keyframes pulseBorder {
+            0% { opacity: 0.8; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.1); }
+        }
+        
+        .node.active .pulse-overlay {
+            animation: pulseBorder 1.5s infinite ease-out;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Hero -->
+    <section id="hero">
+        <div class="section-content">
+            <h1>EDITH-X</h1>
+            <h2 style="font-size: 2rem; font-weight: normal; color: var(--text-secondary);">Enterprise Distributed Intelligence Token Handler</h2>
+            <p style="font-size: 1.5rem; margin-top: 40px;">
+                The definitive Hybrid AI Orchestration Engine.<br>
+                Stop leaking data and overpaying for cloud LLMs on simple tasks.
+            </p>
+            <div style="display: flex; justify-content: center; gap: 40px; margin-top: 50px;">
+                <div style="text-align: center;">
+                    <h3 style="font-size: 3rem; margin: 0; color: var(--success);">70%</h3>
+                    <p style="font-size: 1rem; margin:0;">Reduction in API Costs</p>
+                </div>
+                <div style="text-align: center;">
+                    <h3 style="font-size: 3rem; margin: 0; color: var(--accent);">Zero</h3>
+                    <p style="font-size: 1rem; margin:0;">Local Data Leaks</p>
+                </div>
+                <div style="text-align: center;">
+                    <h3 style="font-size: 3rem; margin: 0; color: #d2a8ff;">10ms</h3>
+                    <p style="font-size: 1rem; margin:0;">Router Latency</p>
+                </div>
+            </div>
+            <a href="#langgraph" class="cta-button">Explore the Architecture ↓</a>
+        </div>
+    </section>
+
+    <!-- Section 2: LangGraph & Memory -->
+    <section id="langgraph" style="background: rgba(255,255,255,0.02);">
+        <div class="section-content">
+            <h2>Stateful Memory & LangGraph</h2>
+            <p>Unlike standard stateless chatbots that just proxy data to an LLM, EDITH-X is built on a highly structured <strong>LangGraph DAG (Directed Acyclic Graph)</strong>.</p>
+            <p>Every query initiates a <strong>Persistent Session State</strong> containing the user's conversational history, behavioral context, and role-based policies. This state traverses mathematically proven graph nodes—allowing the system to reflect, halt on policy violations, and route effectively without losing context.</p>
+            <a href="#modules" class="cta-button">View the Engine Modules ↓</a>
+        </div>
+    </section>
+
+    <!-- Section 3: The Enterprise Modules -->
+    <section id="modules">
+        <div class="section-content">
+            <h2>The Neural OS Modules</h2>
+            <p>EDITH-X is composed of specialized micro-modules working in parallel orchestration.</p>
+            
+            <div class="module-grid">
+                <!-- Intent -->
+                <div class="module-card">
+                    <div class="module-icon">🧠</div>
+                    <h3 style="font-size: 1.5rem;">Intent Engine (M5)</h3>
+                    <p style="font-size: 1rem;">Calculates task complexity and determines whether the query requires deep analysis or simple retrieval, forming the basis for cost-routing.</p>
+                </div>
+                <!-- Policy -->
+                <div class="module-card">
+                    <div class="module-icon">🛡️</div>
+                    <h3 style="font-size: 1.5rem;">Policy & RBAC (M10)</h3>
+                    <p style="font-size: 1rem;">Inspects the Stateful Context against strict corporate guardrails. Immediately terminates the graph execution if unauthorized access is detected.</p>
+                </div>
+                <!-- Router -->
+                <div class="module-card">
+                    <div class="module-icon">🚦</div>
+                    <h3 style="font-size: 1.5rem;">Neural Router (M9)</h3>
+                    <p style="font-size: 1rem;">The core hybrid engine. It routes simple logic to local air-gapped models (L1) and sends only highly complex tasks to the Cloud (L3).</p>
+                </div>
+                <!-- Caching -->
+                <div class="module-card">
+                    <div class="module-icon">⚡</div>
+                    <h3 style="font-size: 1.5rem;">Optimization (M6)</h3>
+                    <p style="font-size: 1rem;">Checks semantic L0 caches. If the company has solved a problem before, EDITH-X bypasses the LLM entirely, generating instant, zero-cost responses.</p>
+                </div>
+                <!-- Memory -->
+                <div class="module-card">
+                    <div class="module-icon">📚</div>
+                    <h3 style="font-size: 1.5rem;">Engram Memory (M7)</h3>
+                    <p style="font-size: 1rem;">A distributed vector knowledge base containing internal company policies, runbooks, and financial data for RAG integrations.</p>
+                </div>
+            </div>
+            <a href="#demo-section" class="cta-button" style="margin-top: 60px;">Launch the Live Demo ↓</a>
+        </div>
+    </section>
+
+    <!-- Section 4: Live Demo (The old index.html) -->
+    <section id="demo-section">
+        <div class="demo-layout">
+            <!-- Left Chat Interface -->
+            <div class="panel chat-container">
+                <div class="chat-header">
+                    <h1 style="font-size: 1.5rem;">EDITH-X Live Terminal</h1>
+                    <span class="badge">Enterprise Runtime</span>
+                </div>
+                
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message system">
+                        Welcome to EDITH-X. Try asking me a simple question to hit the Local LLM (L1), or ask me to write code to hit the Cloud LLM (L3).
+                    </div>
+                </div>
+
+                <div class="chat-input-container">
+                    <form id="chat-form" class="chat-input-wrapper">
+                        <!-- Add Document Upload Button -->
+                        <button type="button" class="chat-submit" id="upload-btn" title="Upload to Engram Memory" style="background: var(--text-secondary);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                        </button>
+                        <input type="file" id="file-upload" style="display: none;" accept=".txt,.md,.pdf,.csv">
+
+                        <input type="text" id="chat-input" class="chat-input" placeholder="Enter a goal or query..." autocomplete="off">
+                        <button type="submit" class="chat-submit">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Graph / HUD Interface -->
+            <div class="panel graph-container">
+                <div class="graph-header">
+                    <h2 style="font-size: 1.2rem;">Live LangGraph Trace</h2>
+                    <div class="stats-row">
+                        <div class="stat-box">
+                            <span class="stat-label">Latency</span>
+                            <span class="stat-value" id="stat-latency">-- ms</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">Cost</span>
+                            <span class="stat-value" id="stat-cost">$0.000</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">Savings</span>
+                            <span class="stat-value highlight" id="stat-savings">$0.000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="graph-body">
+                    <!-- Simulated background connecting lines -->
+                    <div class="connection-line" id="line-1" style="width: 15%; left: 10%; top: 50%;"></div>
+                    <div class="connection-line" id="line-2" style="width: 15%; left: 30%; top: 50%;"></div>
+                    <div class="connection-line" id="line-3" style="width: 15%; left: 50%; top: 50%;"></div>
+                    <div class="connection-line" id="line-4-top" style="width: 15%; left: 70%; top: 35%; transform: rotate(-25deg); transform-origin: left center;"></div>
+                    <div class="connection-line" id="line-4-mid" style="width: 15%; left: 70%; top: 50%;"></div>
+                    <div class="connection-line" id="line-4-bot" style="width: 15%; left: 70%; top: 65%; transform: rotate(25deg); transform-origin: left center;"></div>
+
+                    <div class="flowchart">
+                        <!-- Stage 1 -->
+                        <div class="node-group" style="align-items: center;">
+                            <div class="node" id="node-input">
+                                <div class="pulse-overlay"></div>
+                                <span class="icon">📥</span>
+                                <span class="label">Ingest</span>
+                            </div>
+                        </div>
+
+                        <!-- Stage 2 -->
+                        <div class="node-group" style="align-items: center;">
+                            <div class="node" id="node-intent">
+                                <div class="pulse-overlay"></div>
+                                <div class="node-meta" id="meta-intent">Classifying...</div>
+                                <span class="icon">🧠</span>
+                                <span class="label">Intent Engine</span>
+                            </div>
+                        </div>
+
+                        <!-- Stage 3 -->
+                        <div class="node-group" style="align-items: center;">
+                            <div class="node" id="node-policy">
+                                <div class="pulse-overlay"></div>
+                                <span class="icon">🛡️</span>
+                                <span class="label">Policy & RBAC</span>
+                            </div>
+                            <div class="node" id="node-rag">
+                                <div class="pulse-overlay"></div>
+                                <span class="icon">📚</span>
+                                <span class="label">Engram Vector</span>
+                            </div>
+                        </div>
+
+                        <!-- Stage 4 -->
+                        <div class="node-group" style="align-items: center;">
+                            <div class="node" id="node-router">
+                                <div class="pulse-overlay"></div>
+                                <div class="node-meta" id="meta-router">Routing...</div>
+                                <span class="icon">🚦</span>
+                                <span class="label">Neural Router</span>
+                            </div>
+                        </div>
+
+                        <!-- Stage 5: The Tiers -->
+                        <div class="node-group" style="align-items: center; justify-content: space-between; height: 300px;">
+                            <div class="node" id="node-l3" style="opacity: 0.5;">
+                                <div class="pulse-overlay"></div>
+                                <div class="node-meta" id="meta-l3">NVIDIA Cloud</div>
+                                <span class="icon">☁️</span>
+                                <span class="label">L3 Cloud</span>
+                            </div>
+                            <div class="node" id="node-l1" style="opacity: 0.5;">
+                                <div class="pulse-overlay"></div>
+                                <div class="node-meta" id="meta-l1">NVIDIA Fast</div>
+                                <span class="icon">🚀</span>
+                                <span class="label">L1 Fast Tier</span>
+                            </div>
+                            <div class="node" id="node-l0" style="opacity: 0.5;">
+                                <div class="pulse-overlay"></div>
+                                <div class="node-meta" id="meta-l0">Semantic Cache</div>
+                                <span class="icon">⚡</span>
+                                <span class="label">L0 Cache</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+        const chatMessages = document.getElementById('chat-messages');
+
+        // Stats
+        const statLatency = document.getElementById('stat-latency');
+        const statCost = document.getElementById('stat-cost');
+        const statSavings = document.getElementById('stat-savings');
+
+        // Nodes
+        const nodes = {
+            input: document.getElementById('node-input'),
+            intent: document.getElementById('node-intent'),
+            policy: document.getElementById('node-policy'),
+            rag: document.getElementById('node-rag'),
+            router: document.getElementById('node-router'),
+            l0: document.getElementById('node-l0'),
+            l1: document.getElementById('node-l1'),
+            l3: document.getElementById('node-l3')
+        };
+        
+        // Lines
+        const lines = [
+            document.getElementById('line-1'),
+            document.getElementById('line-2'),
+            document.getElementById('line-3')
+        ];
+
+        function resetGraph() {
+            Object.values(nodes).forEach(n => {
+                n.classList.remove('active', 'success');
+            });
+            lines.forEach(l => l.classList.remove('active'));
+            document.getElementById('line-4-top').classList.remove('active');
+            document.getElementById('line-4-mid').classList.remove('active');
+            document.getElementById('line-4-bot').classList.remove('active');
+            
+            nodes.l0.style.opacity = '0.5';
+            nodes.l1.style.opacity = '0.5';
+            nodes.l3.style.opacity = '0.5';
+            
+            statLatency.innerText = '-- ms';
+            statCost.innerText = '$0.000';
+        }
+
+        async function animateGraphSequence(data) {
+            const delay = ms => new Promise(res => setTimeout(res, ms));
+            
+            // 1. Input
+            nodes.input.classList.add('active');
+            await delay(300);
+            lines[0].classList.add('active');
+            nodes.input.classList.remove('active');
+            nodes.input.classList.add('success');
+            
+            // 2. Intent
+            nodes.intent.classList.add('active');
+            document.getElementById('meta-intent').innerText = data.intent ? data.intent.toUpperCase() : 'TASK';
+            await delay(400);
+            lines[1].classList.add('active');
+            nodes.intent.classList.remove('active');
+            nodes.intent.classList.add('success');
+            
+            // 3. Policy & RAG (Parallel)
+            nodes.policy.classList.add('active');
+            if (data.intent === 'retrieval' || data.intent === 'question') {
+                nodes.rag.classList.add('active');
+            }
+            await delay(400);
+            lines[2].classList.add('active');
+            nodes.policy.classList.remove('active');
+            nodes.rag.classList.remove('active');
+            nodes.policy.classList.add('success');
+            if (data.intent === 'retrieval' || data.intent === 'question') nodes.rag.classList.add('success');
+
+            // 4. Router
+            nodes.router.classList.add('active');
+            document.getElementById('meta-router').innerText = data.layer || 'L3_cloud';
+            await delay(400);
+            nodes.router.classList.remove('active');
+            nodes.router.classList.add('success');
+
+            // 5. Execution Layer
+            let targetNode = nodes.l3;
+            let targetLine = document.getElementById('line-4-top');
+            
+            if (data.cache_hit || data.layer === 'L0_cache') {
+                targetNode = nodes.l0;
+                targetLine = document.getElementById('line-4-bot');
+            } else if (data.layer === 'L1_local') {
+                targetNode = nodes.l1;
+                targetLine = document.getElementById('line-4-mid');
+            }
+
+            targetNode.style.opacity = '1';
+            targetLine.classList.add('active');
+            targetNode.classList.add('active');
+            
+            if(data.model) {
+                targetNode.querySelector('.node-meta').innerText = data.model;
+            }
+
+            await delay(600);
+            targetNode.classList.remove('active');
+            targetNode.classList.add('success');
+            
+            // Update Stats
+            statLatency.innerText = data.latency_ms + ' ms';
+            statCost.innerText = '$' + (data.cost_usd || 0).toFixed(5);
+            
+            let savingsDelta = data.cost_saved_usd || 0;
+            // If we routed locally or hit cache, we saved money compared to hitting the cloud!
+            if (data.layer === 'L1_local' || data.layer === 'L0_cache' || data.cache_hit) {
+                // Approximate cost of an L3 Cloud query (assuming 500 tokens at $0.01/1K)
+                savingsDelta += 0.005;
+            }
+            
+            if (savingsDelta > 0) {
+                const currentStr = statSavings.innerText.replace('$', '');
+                const current = parseFloat(currentStr) || 0;
+                statSavings.innerText = '$' + (current + savingsDelta).toFixed(5);
+                
+                // Add a cool flash animation to the savings box
+                const savingsBox = statSavings.parentElement;
+                savingsBox.style.transition = 'all 0.3s';
+                savingsBox.style.background = 'rgba(63, 185, 80, 0.3)';
+                savingsBox.style.boxShadow = '0 0 15px rgba(63, 185, 80, 0.5)';
+                setTimeout(() => {
+                    savingsBox.style.background = 'rgba(0, 0, 0, 0.2)';
+                    savingsBox.style.boxShadow = 'none';
+                }, 1000);
+            }
+        }
+
+        function appendMessage(role, content) {
+            const div = document.createElement('div');
+            div.className = 'message ' + role;
+            div.innerText = content;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return div;
+        }
+
+        // --- NETLIFY CONFIGURATION ---
+        // Change this to your deployed Render/Railway backend URL when hosting on Netlify.
+        // E.g., 'https://my-edith-backend.onrender.com'
+        const API_BASE_URL = ''; 
+        // -----------------------------
+
+        // File Upload Logic
+        const uploadBtn = document.getElementById('upload-btn');
+        const fileInput = document.getElementById('file-upload');
+
+        uploadBtn.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            appendMessage('user', `Uploading document: ${file.name}...`);
+            const reader = new FileReader();
+            reader.onload = async (event) => {
+                const content = event.target.result;
+                
+                // Visual Node Activation for Engram Memory
+                nodes.rag.classList.add('active');
+                
+                try {
+                    const response = await fetch(`${API_BASE_URL}/edith/v1/documents`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer demo-key'
+                        },
+                        body: JSON.stringify({ 
+                            content: content, 
+                            source: file.name,
+                            metadata: { type: file.type }
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        nodes.rag.classList.remove('active');
+                        nodes.rag.classList.add('success');
+                        appendMessage('system', `Successfully indexed ${file.name} into Engram Memory! You can now query it.`);
+                    } else {
+                        nodes.rag.classList.remove('active');
+                        appendMessage('system', `Failed to upload document.`);
+                    }
+                } catch (err) {
+                    nodes.rag.classList.remove('active');
+                    appendMessage('system', `Network error uploading document: ${err.message}`);
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const goal = chatInput.value.trim();
+            if (!goal) return;
+
+            // Reset UI
+            resetGraph();
+            chatInput.value = '';
+            appendMessage('user', goal);
+
+            // Add typing indicator
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message system typing-indicator';
+            typingDiv.innerHTML = '<span></span><span></span><span></span>';
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                // Call API
+                const response = await fetch(`${API_BASE_URL}/edith/v1/run`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer demo-key'
+                    },
+                    body: JSON.stringify({ goal: goal, autonomy: "autonomous" })
+                });
+
+                const data = await response.json();
+                
+                // Remove typing indicator
+                chatMessages.removeChild(typingDiv);
+                
+                if (data.error) {
+                    appendMessage('system', 'Error: ' + data.error);
+                    return;
+                }
+
+                // Animate graph first
+                await animateGraphSequence(data);
+                
+                // Then show response
+                appendMessage('system', data.response);
+
+            } catch (err) {
+                chatMessages.removeChild(typingDiv);
+                appendMessage('system', 'Network error: ' + err.message);
+            }
+        });
+    </script>
+</body>
+</html>
