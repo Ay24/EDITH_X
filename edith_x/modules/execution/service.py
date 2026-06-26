@@ -87,6 +87,13 @@ class ExecutionService:
             }
             if selection.provider == "local_llm":
                 kwargs["api_base"] = self._settings.local_llm_host
+            elif selection.provider == "nvidia_nim":
+                # Bypass litellm's buggy nvidia_nim provider by using generic openai routing
+                kwargs["api_base"] = "https://integrate.api.nvidia.com/v1"
+                kwargs["api_key"] = self._settings.nvidia_api_key
+                # Remove nvidia_nim/ prefix and replace with openai/
+                actual_model = model.replace("nvidia_nim/", "")
+                kwargs["model"] = f"openai/{actual_model}"
 
             response = await litellm.acompletion(**kwargs)
             elapsed_ms = int((time.monotonic() - start) * 1000)
