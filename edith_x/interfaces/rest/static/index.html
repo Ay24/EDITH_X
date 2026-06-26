@@ -503,6 +503,96 @@
         .node.active .pulse-overlay {
             animation: pulseBorder 1.5s infinite ease-out;
         }
+    
+        /* --- NEW SPA LAYOUT CSS --- */
+        body {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+            background: radial-gradient(circle at center, #0d1117 0%, #010409 100%);
+        }
+        
+        .sidebar {
+            width: 260px;
+            background: rgba(13, 17, 23, 0.8);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            z-index: 100;
+        }
+        
+        .sidebar-logo {
+            padding: 0 20px 20px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-shadow: 0 0 10px rgba(88, 166, 255, 0.5);
+        }
+        
+        .nav-item {
+            padding: 14px 24px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-item:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.03);
+        }
+        
+        .nav-item.active {
+            color: var(--accent);
+            background: rgba(88, 166, 255, 0.08);
+            border-left: 3px solid var(--accent);
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .page {
+            display: none;
+            height: 100%;
+            width: 100%;
+            animation: fadeInPage 0.4s ease-out;
+        }
+        
+        .page.active {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Adjust original demo-section to fit inside flex */
+        #demo-section {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
     </style>
 </head>
 <body>
@@ -734,6 +824,18 @@
     </section>
 
     <script>
+
+        // --- SPA ROUTING LOGIC ---
+        function switchPage(pageId, navElement) {
+            // Update active nav class
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            navElement.classList.add('active');
+            
+            // Hide all pages, show target
+            document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
         const chatForm = document.getElementById('chat-form');
         const chatInput = document.getElementById('chat-input');
         const chatMessages = document.getElementById('chat-messages');
@@ -918,10 +1020,18 @@
                     if (response.ok) {
                         nodes.rag.classList.remove('active');
                         nodes.rag.classList.add('success');
+                        
                         appendMessage('system', `Successfully indexed ${file.name} into Engram Memory! You can now query it.`);
+                        const statusDiv = document.getElementById('upload-status');
+                        if(statusDiv) { statusDiv.style.color = '#3fb950'; statusDiv.innerText = `✓ Successfully indexed ${file.name}`; }
+
                     } else {
                         nodes.rag.classList.remove('active');
+                        
                         appendMessage('system', `Failed to upload document.`);
+                        const statusDiv = document.getElementById('upload-status');
+                        if(statusDiv) { statusDiv.style.color = '#f85149'; statusDiv.innerText = `✗ Failed to upload ${file.name}`; }
+
                     }
                 } catch (err) {
                     nodes.rag.classList.remove('active');
