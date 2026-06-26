@@ -10,8 +10,8 @@ log = structlog.get_logger(__name__)
 
 # Cost per 1K tokens (input) — approximate
 _MODEL_COSTS: dict[str, float] = {
-    "nvidia/meta/llama-3.1-8b-instruct": 0.0001,
-    "nvidia/meta/llama-3.1-405b-instruct": 0.005,
+    "nvidia_nim/meta/llama-3.1-8b-instruct": 0.0001,
+    "nvidia_nim/meta/llama-3.1-405b-instruct": 0.005,
     "gpt-4o-mini": 0.00015,
     "gpt-4o": 0.0025,
     "claude-3-5-haiku-20241022": 0.0008,
@@ -21,8 +21,8 @@ _MODEL_COSTS: dict[str, float] = {
 }
 
 _MODEL_LATENCY: dict[str, int] = {
-    "nvidia/meta/llama-3.1-8b-instruct": 600,
-    "nvidia/meta/llama-3.1-405b-instruct": 2500,
+    "nvidia_nim/meta/llama-3.1-8b-instruct": 600,
+    "nvidia_nim/meta/llama-3.1-405b-instruct": 2500,
     "gpt-4o-mini": 2000,
     "gpt-4o": 4000,
     "claude-3-5-haiku-20241022": 2500,
@@ -46,10 +46,10 @@ class RouterService:
             intent.complexity < 0.5
         ):
             # Hackathon: Shifted L1 Local to NVIDIA Fast Tier for cloud hosting
-            model = "nvidia/meta/llama-3.1-8b-instruct"
+            model = "nvidia_nim/meta/llama-3.1-8b-instruct"
             log.info("routed_to_fast_tier", model=model, reason="complexity_low_or_policy")
             return ModelSelection(
-                provider="nvidia",
+                provider="nvidia_nim",
                 model=model,
                 reasoning=f"NVIDIA Fast Tier selected: complexity={intent.complexity:.2f}",
                 estimated_cost_usd=_MODEL_COSTS.get(model, 0.0),
@@ -77,12 +77,12 @@ class RouterService:
 
         if intent.complexity < 0.6:
             # Use cheaper/faster model
-            preferred = ["nvidia/meta/llama-3.1-8b-instruct", "gpt-4o-mini", "claude-3-5-haiku-20241022"]
+            preferred = ["nvidia_nim/meta/llama-3.1-8b-instruct", "gpt-4o-mini", "claude-3-5-haiku-20241022"]
         else:
             # Use smarter model
-            preferred = ["nvidia/meta/llama-3.1-405b-instruct", "gpt-4o"]
+            preferred = ["nvidia_nim/meta/llama-3.1-405b-instruct", "gpt-4o"]
 
-        model = next((m for m in preferred if m in cloud_available), "nvidia/meta/llama-3.1-405b-instruct")
+        model = next((m for m in preferred if m in cloud_available), "nvidia_nim/meta/llama-3.1-405b-instruct")
         provider = self._infer_provider(model)
 
         log.info("routed_to_cloud", model=model, complexity=intent.complexity)
@@ -96,8 +96,8 @@ class RouterService:
         )
 
     def _infer_provider(self, model: str) -> str:
-        if "nvidia/" in model:
-            return "nvidia"
+        if "nvidia" in model:
+            return "nvidia_nim"
         if "gpt" in model or "o1" in model:
             return "openai"
         if "claude" in model:
