@@ -25,7 +25,12 @@
             margin: 0;
             padding: 0;
             background-color: var(--bg-color);
-            background-image: radial-gradient(circle at center, #161b22 0%, #0d1117 100%);
+            background-image: 
+                radial-gradient(circle at center, rgba(88, 166, 255, 0.05) 0%, transparent 70%),
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            background-position: center center, center center, center center;
             color: var(--text-primary);
             font-family: var(--font-family);
             overflow-x: hidden;
@@ -150,12 +155,14 @@
             background: var(--panel-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
             display: flex;
             flex-direction: column;
             margin: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         /* Left Chat Section */
@@ -204,12 +211,14 @@
             border-radius: 12px;
             line-height: 1.5;
             font-size: 0.95rem;
-            animation: fadeIn 0.3s ease-out;
+            animation: slideBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0;
+            transform-origin: bottom;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes slideBounce {
+            0% { opacity: 0; transform: translateY(20px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .message.user {
@@ -224,6 +233,32 @@
             background: rgba(48, 54, 61, 0.4);
             border: 1px solid var(--border-color);
             border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Typing indicator glow */
+        .typing-indicator {
+            box-shadow: 0 0 10px var(--accent-glow);
+            border-color: var(--accent);
+            animation: slideBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, pulseBorder 1.5s infinite;
+        }
+
+        .typing-indicator span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
         }
 
         .chat-input-container {
@@ -400,11 +435,34 @@
             background: var(--border-color);
             z-index: 0;
             transition: background 0.4s ease, box-shadow 0.4s ease;
+            overflow: hidden;
         }
 
         .connection-line.active {
-            background: var(--node-active);
+            background: rgba(88, 166, 255, 0.2);
+        }
+
+        /* Data Packet Animation */
+        .packet {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 20%;
+            background: linear-gradient(90deg, transparent, var(--node-active), transparent);
             box-shadow: 0 0 10px var(--node-active);
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+
+        .connection-line.active .packet {
+            animation: packetFlow 1s ease-in-out forwards;
+            opacity: 1;
+        }
+
+        @keyframes packetFlow {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(500%); }
         }
 
         .node-meta {
@@ -588,13 +646,13 @@
                 </div>
 
                 <div class="graph-body">
-                    <!-- Simulated background connecting lines -->
-                    <div class="connection-line" id="line-1" style="width: 15%; left: 10%; top: 50%;"></div>
-                    <div class="connection-line" id="line-2" style="width: 15%; left: 30%; top: 50%;"></div>
-                    <div class="connection-line" id="line-3" style="width: 15%; left: 50%; top: 50%;"></div>
-                    <div class="connection-line" id="line-4-top" style="width: 15%; left: 70%; top: 35%; transform: rotate(-25deg); transform-origin: left center;"></div>
-                    <div class="connection-line" id="line-4-mid" style="width: 15%; left: 70%; top: 50%;"></div>
-                    <div class="connection-line" id="line-4-bot" style="width: 15%; left: 70%; top: 65%; transform: rotate(25deg); transform-origin: left center;"></div>
+                    <!-- Simulated background connecting lines with Data Packets -->
+                    <div class="connection-line" id="line-1" style="width: 15%; left: 10%; top: 50%;"><div class="packet"></div></div>
+                    <div class="connection-line" id="line-2" style="width: 15%; left: 30%; top: 50%;"><div class="packet"></div></div>
+                    <div class="connection-line" id="line-3" style="width: 15%; left: 50%; top: 50%;"><div class="packet"></div></div>
+                    <div class="connection-line" id="line-4-top" style="width: 15%; left: 70%; top: 35%; transform: rotate(-25deg); transform-origin: left center;"><div class="packet"></div></div>
+                    <div class="connection-line" id="line-4-mid" style="width: 15%; left: 70%; top: 50%;"><div class="packet"></div></div>
+                    <div class="connection-line" id="line-4-bot" style="width: 15%; left: 70%; top: 65%; transform: rotate(25deg); transform-origin: left center;"><div class="packet"></div></div>
 
                     <div class="flowchart">
                         <!-- Stage 1 -->
@@ -814,7 +872,7 @@
         // --- NETLIFY CONFIGURATION ---
         // Change this to your deployed Render/Railway backend URL when hosting on Netlify.
         // E.g., 'https://my-edith-backend.onrender.com'
-        const API_BASE_URL = ''; 
+        const API_BASE_URL = 'https://edith-x.onrender.com'; 
         // -----------------------------
 
         // File Upload Logic
