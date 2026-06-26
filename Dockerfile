@@ -23,6 +23,6 @@ EXPOSE 8000 8501
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s \
-    CMD curl -f http://localhost:8000/edith/v1/health || exit 1
+    CMD curl -f http://localhost:${PORT:-8000}/edith/v1/health || exit 1
 
-CMD ["uvicorn", "edith_x.interfaces.rest.app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD uvicorn edith_x.interfaces.rest.app:app --host 0.0.0.0 --port ${PORT:-8000}
