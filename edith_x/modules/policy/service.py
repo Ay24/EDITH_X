@@ -1,21 +1,13 @@
 """M4 — Policy Engine: Evaluates enterprise policies before any AI call."""
 from __future__ import annotations
 
-import re
 import structlog
 
 from edith_x.core.config import Settings
 from edith_x.core.interfaces import AuthContext, IntentResult, PolicyDecision
+from edith_x.modules.policy.firewall import PIIFirewall
 
 log = structlog.get_logger(__name__)
-
-# PII patterns
-_PII_PATTERNS = [
-    re.compile(r"\b\d{3}-\d{2}-\d{4}\b"),           # SSN
-    re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"),  # Email
-    re.compile(r"\b4[0-9]{12}(?:[0-9]{3})?\b"),       # Visa card
-    re.compile(r"\b\d{10,11}\b"),                      # Phone
-]
 
 # Domain-based policy rules
 _DOMAIN_POLICIES: dict[str, dict] = {
@@ -46,20 +38,32 @@ _DOMAIN_POLICIES: dict[str, dict] = {
 class PolicyService:
     def __init__(self, settings: Settings) -> None:
         self._settings = settings
+        self._firewall = PIIFirewall()
 
-    def _detect_pii(self, text: str) -> bool:
-        return any(p.search(text) for p in _PII_PATTERNS)
+    def sanitize_payload(self, text: str) -> tuple[str, bool, list[str]]:
+        """Redact PII/secrets from text."""
+        return self._firewall.redact(text)
 
-    async def evaluate(self, intent: IntentResult, ctx: AuthContext) -> PolicyDecision:
+    async def evaluate(self, intent: IntentResult, ctx: AuthContext, query: str = "") -> PolicyDecision:
+        # Check PII in query or intent context
+        check_text = f"{query} {getattr(intent, 'summary', '')}".strip()
+        _, pii_detected, pii_types = self._firewall.redact(check_text) if check_text else ("", False, [])
+
         # Start permissive, restrict based on rules
         decision = PolicyDecision(
             allowed_models=self._settings.cloud_model_list + self._settings.local_model_list,
-            requires_local=False,
+            requires_local=pii_detected,
             requires_human_approval=False,
-            pii_detected=False,
-            data_residency="any",
+            pii_detected=pii_detected,
+            data_residency="local" if pii_detected else "any",
             blocked=False,
         )
+
+        # If PII detected, lock down models to local only
+        if pii_detected:
+            decision.allowed_models = list(self._settings.local_model_list)
+            decision.requires_local = True
+            log.warning("pii_detected_enforcing_local", detected=pii_types)
 
         # Block very high risk intents that need human approval
         if intent.risk > 0.8:
