@@ -147,7 +147,7 @@ async def chat_completions(
             "cache_hit": state.get("cache_hit", False),
             "cost_usd": state.get("cost_usd", 0.0),
             "cost_saved_usd": state.get("cost_saved_usd", 0.0),
-            "layer": state.get("model_selection", {}).get("layer", "L3_cloud"),
+            "layer": "L0_cache" if state.get("cache_hit") else state.get("model_selection", {}).get("layer", "L3_cloud"),
             "run_id": state.get("run_id", ""),
         },
     }
@@ -198,7 +198,7 @@ async def run_goal(
         "tokens_output": state.get("tokens_output", 0),
         "latency_ms": state.get("latency_ms", 0),
         "model": state.get("model_selection", {}).get("model", ""),
-        "layer": state.get("model_selection", {}).get("layer", ""),
+        "layer": "L0_cache" if state.get("cache_hit") else state.get("model_selection", {}).get("layer", ""),
         "intent": intent.type,
         "iterations": state.get("iteration_count", 1),
     }

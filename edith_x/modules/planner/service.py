@@ -185,7 +185,7 @@ class PlannerService:
             cost_usd=state.get("cost_usd", 0.0),
             cost_saved_usd=state.get("cost_saved_usd", 0.0),
             latency_ms=state.get("latency_ms", 0),
-            layer=sel.get("layer", "L3_cloud"),
+            layer="L0_cache" if state.get("cache_hit") else sel.get("layer", "L3_cloud"),
         )
         await self._obs.record(event)
         return state
