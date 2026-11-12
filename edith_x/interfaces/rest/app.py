@@ -273,7 +273,7 @@ async def scan_policy(
         "redacted": redacted,
         "has_pii_or_secrets": len(matches) > 0,
         "match_count": len(matches),
-        "matches": [m.to_dict() for m in matches],
+        "matches": [m if isinstance(m, dict) else m.to_dict() for m in matches],
     }
 
 

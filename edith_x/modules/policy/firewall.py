@@ -122,3 +122,12 @@ class PIIFirewall:
 
         has_pii = len(detected_types) > 0
         return result, has_pii, list(set(detected_types))
+
+    def sanitize(self, text: str) -> tuple[str, list[dict]]:
+        redacted, detected, types = self.redact(text)
+        entities = [{"entity_type": t, "text": "[REDACTED]", "confidence": 0.98} for t in types]
+        return redacted, entities
+
+
+EnterprisePIIFirewall = PIIFirewall
+
