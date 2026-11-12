@@ -239,3 +239,10 @@ async def get_memory(
     memory = container.memory()
     items = await memory.get(auth.user_id, query or "recent")
     return {"items": [i.model_dump() for i in items], "user_id": auth.user_id}
+
+
+@app.get("/metrics")
+async def prometheus_metrics():
+    from fastapi.responses import PlainTextResponse
+    obs = container.observability()
+    return PlainTextResponse(obs.generate_prometheus_metrics(), media_type="text/plain; version=0.0.4")

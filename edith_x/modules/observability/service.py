@@ -1,4 +1,4 @@
-"""M14 — Observability: Records pipeline events, cost, latency, cache metrics."""
+"""M14 — Observability: Records pipeline events, verifiable cost savings, and prometheus metrics."""
 from __future__ import annotations
 
 import time
@@ -14,12 +14,12 @@ log = structlog.get_logger(__name__)
 
 
 class ObservabilityService:
-    """In-memory observability for Phase 0. Phase 5: Prometheus + Grafana."""
+    """Production observability with Prometheus metrics and cost savings ledger."""
 
     def __init__(self, settings: Settings) -> None:
         self._settings = settings
-        # Ring buffer: last 1000 events
-        self._events: deque[PipelineEvent] = deque(maxlen=1000)
+        # Ring buffer: last 5000 events
+        self._events: deque[PipelineEvent] = deque(maxlen=5000)
         self._total_saved: float = 0.0
         self._total_cost: float = 0.0
 
@@ -77,3 +77,37 @@ class ObservabilityService:
 
     def get_cumulative_cost(self) -> float:
         return self._total_cost
+
+    def generate_prometheus_metrics(self) -> str:
+        """Format metrics in standard Prometheus exposition format."""
+        events = list(self._events)
+        total_requests = len(events)
+        cache_hits = sum(1 for e in events if e.cache_hit)
+        avg_latency = (sum(e.latency_ms for e in events) / total_requests) if total_requests else 0.0
+
+        layer_counts: dict[str, int] = defaultdict(int)
+        for e in events:
+            layer_counts[e.layer] += 1
+
+        lines = [
+            "# HELP edith_requests_total Total number of AI requests processed by EDITH-X",
+            "# TYPE edith_requests_total counter",
+            f"edith_requests_total {total_requests}",
+            "# HELP edith_cache_hits_total Total semantic and exact cache hits",
+            "# TYPE edith_cache_hits_total counter",
+            f"edith_cache_hits_total {cache_hits}",
+            "# HELP edith_cost_usd_total Total compute cost incurred in USD",
+            "# TYPE edith_cost_usd_total counter",
+            f"edith_cost_usd_total {self._total_cost:.6f}",
+            "# HELP edith_cost_saved_usd_total Total cost saved vs frontier baseline in USD",
+            "# TYPE edith_cost_saved_usd_total counter",
+            f"edith_cost_saved_usd_total {self._total_saved:.6f}",
+            "# HELP edith_latency_ms_avg Average request latency in milliseconds",
+            "# TYPE edith_latency_ms_avg gauge",
+            f"edith_latency_ms_avg {avg_latency:.2f}",
+        ]
+
+        for layer, count in layer_counts.items():
+            lines.append(f'edith_requests_by_layer{{layer="{layer}"}} {count}')
+
+        return "\n".join(lines) + "\n"
