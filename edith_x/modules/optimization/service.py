@@ -1,4 +1,4 @@
-"""M8 — Optimization Engine: 4-layer cost firewall with real semantic cache."""
+"""M8 — Optimization Engine: 4-layer cost firewall with real semantic cache and information-density compressor."""
 from __future__ import annotations
 
 import structlog
@@ -6,6 +6,7 @@ import structlog
 from edith_x.core.config import Settings
 from edith_x.core.interfaces import CacheResult, CompressedPrompt
 from edith_x.modules.optimization.cache import SemanticCache
+from edith_x.modules.optimization.compressor import InformationDensityCompressor
 
 log = structlog.get_logger(__name__)
 
@@ -18,8 +19,9 @@ class OptimizationService:
             max_entries=10000,
             default_ttl_seconds=86400.0,
         )
+        self._compressor = InformationDensityCompressor()
         self._initialized = True
-        log.info("optimization_service_initialized", cache="semantic_and_exact")
+        log.info("optimization_service_initialized", cache="semantic_and_exact", compressor="information_density")
 
     async def check_cache(self, query: str) -> CacheResult | None:
         """Check L0 dual exact and semantic cache."""
@@ -44,34 +46,16 @@ class OptimizationService:
         log.info("cache_stored", query=query[:60], saved_usd=baseline_cost)
 
     async def compress_prompt(self, prompt: str, budget: int) -> CompressedPrompt:
-        """Compress prompt to fit token budget."""
-        original_tokens = await self.estimate_tokens(prompt)
-        if original_tokens <= budget:
-            return CompressedPrompt(
-                original_tokens=original_tokens,
-                compressed_tokens=original_tokens,
-                compressed_text=prompt,
-                compression_ratio=1.0,
+        """Coarse-to-fine token compression preserving technical terms and identifiers."""
+        result = self._compressor.compress(prompt, budget=budget)
+        if result.compression_ratio < 1.0:
+            log.info(
+                "prompt_compressed",
+                original=result.original_tokens,
+                compressed=result.compressed_tokens,
+                ratio=round(result.compression_ratio, 2),
             )
-
-        sentences = prompt.split(". ")
-        compressed = ""
-        token_count = 0
-        for sentence in sentences:
-            est = len(sentence.split()) * 1.3
-            if token_count + est > budget:
-                break
-            compressed += sentence + ". "
-            token_count += est
-
-        compressed = compressed.strip() or prompt[:budget * 4]
-        compressed_tokens = await self.estimate_tokens(compressed)
-        return CompressedPrompt(
-            original_tokens=original_tokens,
-            compressed_tokens=compressed_tokens,
-            compressed_text=compressed,
-            compression_ratio=compressed_tokens / max(original_tokens, 1),
-        )
+        return result
 
     async def estimate_tokens(self, text: str) -> int:
         """Fast token estimation: ~1.3 tokens per word."""

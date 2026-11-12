@@ -1,30 +1,18 @@
 """M3 — Intent Engine: Classifies query type, complexity, risk, and cost estimate."""
 from __future__ import annotations
 
-import re
 import structlog
 
 from edith_x.core.config import Settings
 from edith_x.core.interfaces import AuthContext, IntentResult
+from edith_x.modules.intent.router import CentroidIntentRouter
 
 log = structlog.get_logger(__name__)
 
-# Keyword-based intent patterns (Phase 0 — no LLM needed)
-_PATTERNS: list[tuple[list[str], str]] = [
-    (["write code", "implement", "create function", "debug", "fix bug", "refactor"], "coding"),
-    (["search", "find", "look up", "retrieve", "fetch", "list all"], "retrieval"),
-    (["summarize", "summary", "tldr", "brief", "overview"], "summarization"),
-    (["analyze", "analyse", "evaluate", "assess", "compare", "audit"], "analysis"),
-    (["plan", "roadmap", "strategy", "schedule", "organize"], "planning"),
-    (["automate", "run", "execute", "deploy", "trigger", "schedule"], "automation"),
-    (["secure", "vulnerability", "exploit", "pentest", "security"], "security"),
-    (["what", "why", "how", "when", "who", "explain", "define"], "question"),
-]
-
 _COMPLEXITY_SIGNALS = {
-    "high": ["enterprise", "production", "multi-step", "complex", "architecture", "system"],
-    "medium": ["integrate", "connect", "configure", "setup", "build"],
-    "low": ["simple", "quick", "basic", "single", "what is"],
+    "high": ["enterprise", "production", "multi-step", "complex", "architecture", "system", "distributed", "kubernetes"],
+    "medium": ["integrate", "connect", "configure", "setup", "build", "refactor", "optimize"],
+    "low": ["simple", "quick", "basic", "single", "what is", "hello", "hi"],
 }
 
 _COST_MAP = {
@@ -39,51 +27,64 @@ _COST_MAP = {
     "task": 0.005,
 }
 
+_RISK_MAP = {
+    "security": 0.7,
+    "automation": 0.5,
+    "coding": 0.3,
+    "planning": 0.2,
+    "analysis": 0.2,
+    "retrieval": 0.1,
+    "summarization": 0.1,
+    "question": 0.05,
+    "task": 0.2,
+}
+
 
 class IntentService:
     def __init__(self, settings: Settings) -> None:
         self._settings = settings
+        self._router = CentroidIntentRouter()
 
     async def classify(self, query: str, ctx: AuthContext) -> IntentResult:
         query_lower = query.lower()
 
-        # Detect type
-        intent_type = "task"
-        for keywords, itype in _PATTERNS:
-            if any(kw in query_lower for kw in keywords):
-                intent_type = itype
-                break
+        # 1. Sub-2ms Centroid Vector Classification
+        intent_type = self._router.classify(query)
 
-        # Estimate complexity
+        # 2. Complexity Scoring
         complexity = 0.4  # default medium
         for kw in _COMPLEXITY_SIGNALS["high"]:
             if kw in query_lower:
-                complexity = 0.8
-                break
+                complexity = max(complexity, 0.8)
+        for kw in _COMPLEXITY_SIGNALS["medium"]:
+            if kw in query_lower and complexity < 0.8:
+                complexity = max(complexity, 0.6)
         for kw in _COMPLEXITY_SIGNALS["low"]:
-            if kw in query_lower:
+            if kw in query_lower and complexity == 0.4:
                 complexity = 0.2
-                break
 
-        # Estimate risk
-        risk = 0.1
-        if intent_type in ("security", "automation"):
-            risk = 0.7
-        elif intent_type in ("coding",):
-            risk = 0.3
+        if len(query.split()) > 100:
+            complexity = min(1.0, complexity + 0.2)
 
-        estimated_cost = _COST_MAP.get(intent_type, 0.005) * (1 + complexity)
+        risk = _RISK_MAP.get(intent_type, 0.2)
+        if "delete" in query_lower or "drop database" in query_lower or "rm -rf" in query_lower:
+            risk = 0.95
 
-        # Latency: simple questions need fast responses
-        latency_req = 2000 if complexity < 0.4 else 10000
+        cost_est = _COST_MAP.get(intent_type, 0.005) * (1 + complexity)
 
-        result = IntentResult(
+        log.info(
+            "intent_classified",
             type=intent_type,
             complexity=complexity,
             risk=risk,
-            estimated_cost_usd=estimated_cost,
-            confidence=0.85,
-            latency_requirement_ms=latency_req,
+            query=query[:60],
         )
-        log.info("intent_classified", type=result.type, complexity=complexity)
-        return result
+
+        return IntentResult(
+            type=intent_type,
+            complexity=complexity,
+            risk=risk,
+            estimated_cost_usd=round(cost_est, 5),
+            confidence=0.92,
+            latency_requirement_ms=2000 if complexity > 0.7 else 800,
+        )

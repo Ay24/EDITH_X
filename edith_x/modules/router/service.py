@@ -5,10 +5,11 @@ import structlog
 
 from edith_x.core.config import Settings
 from edith_x.core.interfaces import Context, IntentResult, ModelSelection, PolicyDecision
+from edith_x.modules.router.pareto import ParetoModelRouter
 
 log = structlog.get_logger(__name__)
 
-# Cost per 1K tokens (input) — approximate
+# Cost per 1K tokens (input)
 _MODEL_COSTS: dict[str, float] = {
     "nvidia_nim/meta/llama-3.1-8b-instruct": 0.0001,
     "nvidia_nim/meta/llama-3.1-70b-instruct": 0.0008,
@@ -16,25 +17,21 @@ _MODEL_COSTS: dict[str, float] = {
     "gpt-4o": 0.0025,
     "claude-3-5-haiku-20241022": 0.0008,
     "claude-sonnet-4-5": 0.003,
-    "gemini-1.5-flash": 0.000075,
-    "gemini-1.5-pro": 0.00125,
 }
 
 _MODEL_LATENCY: dict[str, int] = {
-    "nvidia_nim/meta/llama-3.1-8b-instruct": 600,
-    "nvidia_nim/meta/llama-3.1-70b-instruct": 1200,
-    "gpt-4o-mini": 2000,
-    "gpt-4o": 4000,
-    "claude-3-5-haiku-20241022": 2500,
-    "claude-sonnet-4-5": 5000,
-    "gemini-1.5-flash": 1500,
-    "gemini-1.5-pro": 3000,
+    "nvidia_nim/meta/llama-3.1-8b-instruct": 400,
+    "nvidia_nim/meta/llama-3.1-70b-instruct": 1100,
+    "gpt-4o-mini": 1200,
+    "gpt-4o": 3000,
+    "llama-3.2-3b-instruct": 250,
 }
 
 
 class RouterService:
     def __init__(self, settings: Settings) -> None:
         self._settings = settings
+        self._pareto = ParetoModelRouter(threshold_cheap=0.50, threshold_medium=0.25)
 
     async def route(
         self,
@@ -42,68 +39,64 @@ class RouterService:
         policy: PolicyDecision,
         intent: IntentResult,
     ) -> ModelSelection:
-        if policy.requires_local or (
-            intent.complexity < 0.5
-        ):
-            # Hackathon: Shifted L1 Local to NVIDIA Fast Tier for cloud hosting
-            model = "nvidia_nim/meta/llama-3.1-8b-instruct"
-            log.info("routed_to_fast_tier", model=model, reason="complexity_low_or_policy")
-            return ModelSelection(
-                provider="nvidia_nim",
-                model=model,
-                reasoning=f"NVIDIA Fast Tier selected: complexity={intent.complexity:.2f}",
-                estimated_cost_usd=_MODEL_COSTS.get(model, 0.0),
-                estimated_latency_ms=_MODEL_LATENCY.get(model, 600),
-                layer="L1_local", # Kept as L1_local for graph UI compatibility
-            )
-
-        # L2/L3: Cloud routing
-        if not self._settings.has_cloud_models:
-            # Fallback to local even for complex tasks
+        # 1. Policy Constraint: Air-gapped / PII detected
+        if policy.requires_local:
             local = self._settings.local_model_list
             model = local[0] if local else "llama-3.2-3b-instruct"
+            log.info("policy_enforcing_local_tier", model=model)
             return ModelSelection(
                 provider="local_llm",
                 model=model,
-                reasoning="No cloud keys configured, using local fallback",
+                reasoning="Policy firewall requires local on-premise model",
                 estimated_cost_usd=0.0,
-                estimated_latency_ms=_MODEL_LATENCY.get(model, 2000),
+                estimated_latency_ms=_MODEL_LATENCY.get(model, 250),
                 layer="L1_local",
             )
 
-        # Select best cloud model based on complexity + allowed list
-        allowed = policy.allowed_models or self._settings.cloud_model_list
-        cloud_available = [m for m in self._settings.cloud_model_list if m in allowed]
+        # 2. Calibrated Pareto Route Selection
+        pareto_tier = self._pareto.select_tier(context.query)
+        cheap_prob = self._pareto.predict_cheap_capability(context.query)
 
-        if intent.complexity < 0.6:
-            # Use cheaper/faster model
-            preferred = ["nvidia_nim/meta/llama-3.1-8b-instruct", "gpt-4o-mini", "claude-3-5-haiku-20241022"]
+        if pareto_tier == "L1_local":
+            model = "nvidia_nim/meta/llama-3.1-8b-instruct"
+            log.info("routed_to_fast_tier", model=model, p_cheap=cheap_prob)
+            return ModelSelection(
+                provider="nvidia_nim",
+                model=model,
+                reasoning=f"Calibrated Pareto router: P(cheap)={cheap_prob:.2f} >= 0.50",
+                estimated_cost_usd=_MODEL_COSTS.get(model, 0.0001),
+                estimated_latency_ms=_MODEL_LATENCY.get(model, 400),
+                layer="L1_local",
+            )
+        elif pareto_tier == "L2_compressed":
+            model = "nvidia_nim/meta/llama-3.1-70b-instruct"
+            log.info("routed_to_medium_tier", model=model, p_cheap=cheap_prob)
+            return ModelSelection(
+                provider="nvidia_nim",
+                model=model,
+                reasoning=f"Calibrated Pareto router: 0.25 <= P(cheap)={cheap_prob:.2f} < 0.50",
+                estimated_cost_usd=_MODEL_COSTS.get(model, 0.0008),
+                estimated_latency_ms=_MODEL_LATENCY.get(model, 1100),
+                layer="L2_compressed",
+            )
         else:
-            # Use smarter model
-            preferred = ["nvidia_nim/meta/llama-3.1-70b-instruct", "gpt-4o"]
+            # L3 Flagship Cloud
+            if self._settings.openai_api_key:
+                provider = "openai"
+                model = "gpt-4o"
+            elif self._settings.nvidia_api_key:
+                provider = "nvidia_nim"
+                model = "nvidia_nim/meta/llama-3.1-70b-instruct"
+            else:
+                provider = "local_llm"
+                model = self._settings.local_model_list[0] if self._settings.local_model_list else "llama-3.2-3b-instruct"
 
-        model = next((m for m in preferred if m in cloud_available), "nvidia_nim/meta/llama-3.1-70b-instruct")
-        provider = self._infer_provider(model)
-
-        log.info("routed_to_cloud", model=model, complexity=intent.complexity)
-        return ModelSelection(
-            provider=provider,
-            model=model,
-            reasoning=f"Cloud model: complexity={intent.complexity:.2f}, type={intent.type}",
-            estimated_cost_usd=_MODEL_COSTS.get(model, 0.001) * context.token_count / 1000,
-            estimated_latency_ms=_MODEL_LATENCY.get(model, 3000),
-            layer="L3_cloud",
-        )
-
-    def _infer_provider(self, model: str) -> str:
-        if "nvidia" in model:
-            return "nvidia_nim"
-        if "gpt" in model or "o1" in model:
-            return "openai"
-        if "claude" in model:
-            return "anthropic"
-        if "gemini" in model:
-            return "google"
-        if "llama" in model or "mistral" in model:
-            return "local_llm"
-        return "openai"
+            log.info("routed_to_frontier_cloud", model=model, p_cheap=cheap_prob)
+            return ModelSelection(
+                provider=provider,
+                model=model,
+                reasoning=f"High complexity reasoning task: P(cheap)={cheap_prob:.2f} < 0.25",
+                estimated_cost_usd=_MODEL_COSTS.get(model, 0.0025),
+                estimated_latency_ms=_MODEL_LATENCY.get(model, 3000),
+                layer="L3_cloud",
+            )

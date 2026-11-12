@@ -65,3 +65,12 @@ async def test_policy_service_forces_local_on_pii():
     assert decision.requires_local is True
     assert decision.allowed_models == settings.local_model_list
     assert "gpt-4o" not in decision.allowed_models
+
+
+def test_detect_high_entropy_raw_secret():
+    firewall = PIIFirewall()
+    text = "Database connection token is 8f9b2c3d4e5a6f7b8c9d0e1f2a3b4c5d6e7f8a9b"
+    cleaned, detected, items = firewall.redact(text)
+    assert detected is True
+    assert "8f9b2c3d4e5a6f7b8c9d0e1f2a3b4c5d6e7f8a9b" not in cleaned
+    assert "[REDACTED_SECRET]" in cleaned
