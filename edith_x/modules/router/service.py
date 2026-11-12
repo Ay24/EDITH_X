@@ -5,6 +5,7 @@ import structlog
 
 from edith_x.core.config import Settings
 from edith_x.core.interfaces import Context, IntentResult, ModelSelection, PolicyDecision
+from edith_x.modules.execution.service import _is_valid_key
 from edith_x.modules.router.pareto import ParetoModelRouter
 
 log = structlog.get_logger(__name__)
@@ -81,10 +82,16 @@ class RouterService:
             )
         else:
             # L3 Flagship Cloud
-            if self._settings.openai_api_key:
+            if _is_valid_key(self._settings.openai_api_key):
                 provider = "openai"
                 model = "gpt-4o"
-            elif self._settings.nvidia_api_key:
+            elif _is_valid_key(self._settings.groq_api_key):
+                provider = "groq"
+                model = "llama-3.3-70b-versatile"
+            elif _is_valid_key(self._settings.anthropic_api_key):
+                provider = "anthropic"
+                model = "claude-3-5-sonnet-20241022"
+            elif _is_valid_key(self._settings.nvidia_api_key):
                 provider = "nvidia_nim"
                 model = "nvidia_nim/meta/llama-3.1-70b-instruct"
             else:
