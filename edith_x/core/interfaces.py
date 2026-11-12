@@ -125,6 +125,8 @@ class ExecutionResult(BaseModel):
     tokens_output: int = 0
     cost_usd: float = 0.0
     latency_ms: int = 0
+    failover_active: bool = False
+    failover_reason: str | None = None
 
 
 class VerificationResult(BaseModel):

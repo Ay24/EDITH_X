@@ -1,4 +1,4 @@
-"""M10 — Execution Engine: Calls LLMs via LiteLLM with streaming support."""
+"""M10 — Execution Engine: Calls LLMs via LiteLLM with resilient multi-provider fallback waterfall."""
 from __future__ import annotations
 
 import time
@@ -16,6 +16,7 @@ from edith_x.core.interfaces import (
 log = structlog.get_logger(__name__)
 
 litellm.drop_params = True  # Ignore unsupported params per provider
+litellm.telemetry = False   # Disable network telemetry in test/enterprise environments
 
 
 class ExecutionService:
@@ -60,123 +61,176 @@ class ExecutionService:
         messages.append({"role": "user", "content": context.query})
         return messages
 
-    def _resolve_model(self, selection: ModelSelection) -> str:
-        """Map provider:model to LiteLLM format."""
-        if selection.provider == "local_llm":
-            return f"openai/{selection.model}"  # LM Studio uses OpenAI format
-        if selection.provider == "nvidia":
-            return selection.model # litellm supports nvidia/ prefix directly
-        if selection.provider == "anthropic":
-            return selection.model
-        if selection.provider == "google":
-            return f"gemini/{selection.model}"
-        return selection.model
+    def _resolve_model_kwargs(self, provider: str, model_name: str) -> dict:
+        """Map provider and model name to LiteLLM arguments."""
+        kwargs: dict = {
+            "model": model_name,
+            "max_tokens": 2048,
+            "temperature": 0.3,
+        }
+
+        if provider == "local_llm":
+            kwargs["model"] = f"openai/{model_name}"
+            kwargs["api_base"] = self._settings.local_llm_host
+        elif provider in ("nvidia", "nvidia_nim"):
+            actual_model = model_name.replace("nvidia_nim/", "").replace("nvidia/", "")
+            kwargs["model"] = f"openai/{actual_model}"
+            kwargs["api_base"] = "https://integrate.api.nvidia.com/v1"
+            kwargs["api_key"] = self._settings.nvidia_api_key
+        elif provider == "google":
+            kwargs["model"] = f"gemini/{model_name}"
+        elif provider == "openai":
+            if self._settings.openai_api_key:
+                kwargs["api_key"] = self._settings.openai_api_key
+        elif provider == "anthropic":
+            if self._settings.anthropic_api_key:
+                kwargs["api_key"] = self._settings.anthropic_api_key
+
+        return kwargs
+
+    def _get_fallback_candidates(self, primary_provider: str, primary_model: str) -> list[tuple[str, str]]:
+        """Ordered list of fallback (provider, model) candidates."""
+        candidates = []
+
+        # 1. Secondary Cloud Fallbacks
+        if primary_provider in ("nvidia", "nvidia_nim"):
+            if self._settings.openai_api_key:
+                candidates.append(("openai", "gpt-4o-mini"))
+            if self._settings.anthropic_api_key:
+                candidates.append(("anthropic", "claude-3-haiku-20240307"))
+        elif primary_provider == "openai":
+            if self._settings.nvidia_api_key:
+                candidates.append(("nvidia_nim", "meta/llama-3.1-70b-instruct"))
+            if self._settings.anthropic_api_key:
+                candidates.append(("anthropic", "claude-3-haiku-20240307"))
+        elif primary_provider == "anthropic":
+            if self._settings.openai_api_key:
+                candidates.append(("openai", "gpt-4o-mini"))
+
+        # 2. Local Fallback (Ollama / vLLM / LM Studio)
+        if self._settings.local_model_list:
+            candidates.append(("local_llm", self._settings.local_model_list[0]))
+
+        return [c for c in candidates if not (c[0] == primary_provider and c[1] == primary_model)]
 
     async def execute(self, context: Context, selection: ModelSelection) -> ExecutionResult:
         run_id = str(uuid.uuid4())
         messages = self._build_messages(context)
-        model = self._resolve_model(selection)
-
         start = time.monotonic()
+
+        # 1. Primary Attempt
+        primary_kwargs = self._resolve_model_kwargs(selection.provider, selection.model)
+        primary_kwargs["messages"] = messages
+
         try:
-            kwargs: dict = {
-                "model": model,
-                "messages": messages,
-                "max_tokens": 2048,
-                "temperature": 0.3,
-            }
-            if selection.provider == "local_llm":
-                kwargs["api_base"] = self._settings.local_llm_host
-            elif selection.provider == "nvidia_nim":
-                # Bypass litellm's buggy nvidia_nim provider by using generic openai routing
-                kwargs["api_base"] = "https://integrate.api.nvidia.com/v1"
-                kwargs["api_key"] = self._settings.nvidia_api_key
-                # Remove nvidia_nim/ prefix and replace with openai/
-                actual_model = model.replace("nvidia_nim/", "")
-                kwargs["model"] = f"openai/{actual_model}"
-
-            response = await litellm.acompletion(**kwargs)
+            response = await litellm.acompletion(**primary_kwargs)
             elapsed_ms = int((time.monotonic() - start) * 1000)
-
             content = response.choices[0].message.content or ""
             usage = response.usage
 
+            tokens_in = getattr(usage, "prompt_tokens", 0) if usage else 0
+            tokens_out = getattr(usage, "completion_tokens", 0) if usage else 0
+
             log.info(
                 "execution_complete",
-                model=model,
-                tokens_in=usage.prompt_tokens if usage else 0,
-                tokens_out=usage.completion_tokens if usage else 0,
+                model=selection.model,
+                provider=selection.provider,
+                tokens_in=tokens_in,
+                tokens_out=tokens_out,
                 latency_ms=elapsed_ms,
             )
 
             return ExecutionResult(
                 run_id=run_id,
                 response=content,
-                model_used=model,
-                tokens_input=usage.prompt_tokens if usage else 0,
-                tokens_output=usage.completion_tokens if usage else 0,
+                model_used=selection.model,
+                tokens_input=tokens_in,
+                tokens_output=tokens_out,
                 cost_usd=selection.estimated_cost_usd,
                 latency_ms=elapsed_ms,
+                failover_active=False,
             )
-        except Exception as e:
-            log.error("execution_failed", model=model, error=str(e))
-            # Try fallback to local
-            if selection.provider != "local_llm" and self._settings.has_local_models:
-                log.info("trying_local_fallback")
-                fallback_model = f"openai/{self._settings.local_model_list[0]}"
+
+        except Exception as primary_err:
+            log.warning(
+                "primary_execution_failed_initiating_waterfall",
+                provider=selection.provider,
+                model=selection.model,
+                error=str(primary_err),
+            )
+
+            # 2. Resilient Fallback Waterfall
+            fallbacks = self._get_fallback_candidates(selection.provider, selection.model)
+            for fb_provider, fb_model in fallbacks:
+                log.info("attempting_fallback_provider", provider=fb_provider, model=fb_model)
+                fb_kwargs = self._resolve_model_kwargs(fb_provider, fb_model)
+                fb_kwargs["messages"] = messages
                 try:
-                    response = await litellm.acompletion(
-                        model=fallback_model,
-                        messages=messages,
-                        api_base=self._settings.local_llm_host,
-                        max_tokens=1024,
+                    fb_response = await litellm.acompletion(**fb_kwargs)
+                    elapsed_ms = int((time.monotonic() - start) * 1000)
+                    fb_content = fb_response.choices[0].message.content or ""
+                    fb_usage = fb_response.usage
+
+                    fb_tokens_in = getattr(fb_usage, "prompt_tokens", 0) if fb_usage else 0
+                    fb_tokens_out = getattr(fb_usage, "completion_tokens", 0) if fb_usage else 0
+
+                    log.info(
+                        "fallback_execution_succeeded",
+                        fallback_provider=fb_provider,
+                        fallback_model=fb_model,
+                        latency_ms=elapsed_ms,
                     )
-                    content = response.choices[0].message.content or ""
+
                     return ExecutionResult(
                         run_id=run_id,
-                        response=content,
-                        model_used=fallback_model,
-                        tokens_input=0,
-                        tokens_output=0,
-                        cost_usd=0.0,
-                        latency_ms=int((time.monotonic() - start) * 1000),
+                        response=fb_content,
+                        model_used=fb_model,
+                        tokens_input=fb_tokens_in,
+                        tokens_output=fb_tokens_out,
+                        cost_usd=0.0 if fb_provider == "local_llm" else 0.0005,
+                        latency_ms=elapsed_ms,
+                        failover_active=True,
+                        failover_reason=str(primary_err),
                     )
-                except Exception as fe:
-                    log.error("fallback_failed", error=str(fe))
+                except Exception as fb_err:
+                    log.warning(
+                        "fallback_attempt_failed",
+                        fallback_provider=fb_provider,
+                        fallback_model=fb_model,
+                        error=str(fb_err),
+                    )
+                    continue
 
+            # 3. Graceful degradation if every provider is unreachable
+            elapsed_ms = int((time.monotonic() - start) * 1000)
             return ExecutionResult(
                 run_id=run_id,
-                response=f"Execution failed: {e}. Please check your API keys and model availability.",
-                model_used=model,
-                latency_ms=int((time.monotonic() - start) * 1000),
+                response=(
+                    f"EDITH-X Resilient Mesh: Upstream models are temporarily unavailable ({primary_err}). "
+                    "All fallback candidates exhausted."
+                ),
+                model_used=selection.model,
+                tokens_input=0,
+                tokens_output=0,
+                cost_usd=0.0,
+                latency_ms=elapsed_ms,
+                failover_active=True,
+                failover_reason=str(primary_err),
             )
 
     async def stream(
         self, context: Context, selection: ModelSelection
     ) -> AsyncGenerator[str, None]:
         messages = self._build_messages(context)
-        model = self._resolve_model(selection)
-        kwargs: dict = {
-            "model": model,
-            "messages": messages,
-            "stream": True,
-            "max_tokens": 2048,
-            "temperature": 0.3,
-        }
-        if selection.provider == "local_llm":
-            kwargs["api_base"] = self._settings.local_llm_host
-        try:
-            async for chunk in await litellm.acompletion(**kwargs):
-                delta = chunk.choices[0].delta.content
-                if delta:
-                    yield delta
-        except Exception as e:
-            yield f"[Stream error: {e}]"
+        kwargs = self._resolve_model_kwargs(selection.provider, selection.model)
+        kwargs["messages"] = messages
+        kwargs["stream"] = True
 
-    async def call_tool(self, tool: str, args: dict) -> ToolResult:
-        """Phase 0 stub. Phase 4: full tool execution."""
-        return ToolResult(
-            call_id=str(uuid.uuid4()),
-            output=f"[Tool '{tool}' called with args {args}] — Phase 4 implementation pending",
-            success=True,
-        )
+        response = await litellm.acompletion(**kwargs)
+        async for chunk in response:
+            delta = chunk.choices[0].delta.content or ""
+            if delta:
+                yield delta
+
+    async def call_tool(self, tool_call: ToolCall) -> ToolResult:
+        return ToolResult(call_id=tool_call.id, output=None, success=False, error="Tool not implemented")
