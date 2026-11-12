@@ -8,7 +8,7 @@ from typing import Any, AsyncGenerator
 import structlog
 from fastapi import Depends, FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import FileResponse, PlainTextResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -35,6 +35,13 @@ app.add_middleware(
 import os
 static_dir = os.path.join(os.path.dirname(__file__), "static")
 app.mount("/client", StaticFiles(directory=static_dir, html=True), name="client")
+
+
+@app.get("/")
+@app.get("/dashboard")
+async def root_dashboard():
+    """Serve the Enterprise Multi-Page Control Center UI."""
+    return FileResponse(os.path.join(static_dir, "index.html"))
 
 
 # ── Auth Dependency ──────────────────────────────────────────────────────────
@@ -246,3 +253,37 @@ async def prometheus_metrics():
     from fastapi.responses import PlainTextResponse
     obs = container.observability()
     return PlainTextResponse(obs.generate_prometheus_metrics(), media_type="text/plain; version=0.0.4")
+
+
+class ScanRequest(BaseModel):
+    text: str
+
+
+@app.post("/edith/v1/policy/scan")
+async def scan_policy(
+    request: ScanRequest,
+    auth: AuthContext = Depends(get_auth),
+) -> dict:
+    """Scan and sanitize text against enterprise PII and Shannon entropy firewall."""
+    from edith_x.modules.policy.firewall import EnterprisePIIFirewall
+    firewall = EnterprisePIIFirewall()
+    redacted, matches = firewall.sanitize(request.text)
+    return {
+        "original": request.text,
+        "redacted": redacted,
+        "has_pii_or_secrets": len(matches) > 0,
+        "match_count": len(matches),
+        "matches": [m.to_dict() for m in matches],
+    }
+
+
+@app.get("/edith/v1/knowledge/query")
+async def query_knowledge(
+    q: str,
+    top_k: int = 5,
+    auth: AuthContext = Depends(get_auth),
+) -> dict:
+    """Direct query against Qdrant hybrid vector & lexical collection."""
+    knowledge = container.knowledge()
+    chunks = await knowledge.retrieve(q, top_k=top_k)
+    return {"query": q, "chunks": [c.model_dump() for c in chunks]}

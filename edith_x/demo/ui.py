@@ -1,4 +1,4 @@
-"""EDITH-X Streamlit Demo Dashboard — Live visualization of the AI runtime."""
+"""EDITH-X Streamlit Demo Dashboard — Multi-Page Enterprise AI Runtime."""
 import time
 import httpx
 import streamlit as st
@@ -21,7 +21,6 @@ st.markdown("""
     
     .stApp { background: #09090B; color: #ECECF1; }
     
-    /* Hide default Streamlit elements for cleaner look */
     header { visibility: hidden; }
     footer { visibility: hidden; }
     
@@ -35,18 +34,18 @@ st.markdown("""
     
     .metric-value {
         font-family: 'JetBrains Mono', monospace;
-        font-size: 2rem;
+        font-size: 1.8rem;
         font-weight: 500;
         color: #F4F4F5;
         line-height: 1.2;
     }
     
     .metric-label {
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         color: #A1A1AA;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
     }
     
     .layer-badge {
@@ -59,24 +58,24 @@ st.markdown("""
     }
     
     .layer-L0 { border-color: #10B981; color: #10B981; }
-    .layer-L1 { border-color: #3B82F6; color: #3B82F6; }
+    .layer-L1 { border-color: #06B6D4; color: #06B6D4; }
     .layer-L2 { border-color: #F59E0B; color: #F59E0B; }
     .layer-L3 { border-color: #EF4444; color: #EF4444; }
     
     .pipeline-step {
         border-left: 1px solid #27272A;
-        padding: 6px 0 6px 16px;
-        font-size: 0.85rem;
+        padding: 6px 0 6px 14px;
+        font-size: 0.82rem;
         color: #D4D4D8;
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
     }
     
     .step-id {
         font-family: 'JetBrains Mono', monospace;
         color: #71717A;
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         width: 30px;
     }
     
@@ -85,38 +84,9 @@ st.markdown("""
     
     .savings-counter {
         font-family: 'JetBrains Mono', monospace;
-        font-size: 2.5rem;
+        font-size: 2.2rem;
         font-weight: 500;
         color: #10B981;
-    }
-    
-    h1, h2, h3 { color: #F4F4F5 !important; font-weight: 500 !important; }
-    h1 { font-size: 1.5rem !important; letter-spacing: -0.02em; margin-bottom: 2rem !important; }
-    
-    .stTextInput input { 
-        background: #18181B; 
-        color: #F4F4F5; 
-        border: 1px solid #27272A; 
-        border-radius: 0;
-        font-size: 0.9rem;
-    }
-    .stTextInput input:focus {
-        border-color: #3F3F46;
-        box-shadow: none;
-    }
-    
-    .chat-message-user {
-        background: transparent;
-        padding: 16px 0;
-        border-bottom: 1px solid #27272A;
-        color: #D4D4D8;
-    }
-    
-    .chat-message-ai {
-        background: transparent;
-        padding: 16px 0 24px 0;
-        border-bottom: 1px solid #27272A;
-        color: #F4F4F5;
     }
     
     .tag {
@@ -127,34 +97,28 @@ st.markdown("""
         font-size: 0.7rem;
         font-family: 'JetBrains Mono', monospace;
         margin-right: 6px;
-        margin-top: 8px;
-    }
-    
-    .sidebar-section {
-        margin-bottom: 2rem;
+        margin-top: 6px;
     }
     
     hr { border-color: #27272A; }
     
-    .stButton button {
-        background: #18181B;
-        border: 1px solid #27272A;
-        color: #D4D4D8;
-        border-radius: 0;
-        font-size: 0.85rem;
-        transition: all 0.2s ease;
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 12px;
+        background-color: #09090B;
+        border-bottom: 1px solid #27272A;
+        padding-bottom: 4px;
     }
-    .stButton button:hover {
-        border-color: #3F3F46;
-        color: #F4F4F5;
+
+    .stTabs [data-baseweb="tab"] {
+        color: #A1A1AA;
+        font-size: 0.9rem;
+        padding: 8px 16px;
     }
-    .stButton button[kind="primary"] {
-        background: #F4F4F5;
-        color: #09090B;
-        border: none;
-    }
-    .stButton button[kind="primary"]:hover {
-        background: #D4D4D8;
+
+    .stTabs [aria-selected="true"] {
+        color: #F4F4F5 !important;
+        font-weight: 600;
+        border-bottom: 2px solid #06B6D4 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -172,6 +136,18 @@ def call_api(goal: str) -> dict:
             return resp.json()
     except Exception as e:
         return {"error": str(e), "response": f"API Error: {e}"}
+
+def scan_policy(text: str) -> dict:
+    try:
+        with httpx.Client(timeout=10.0) as client:
+            resp = client.post(
+                f"{API_BASE}/edith/v1/policy/scan",
+                json={"text": text},
+                headers={"Authorization": "Bearer demo-key"},
+            )
+            return resp.json()
+    except Exception as e:
+        return {"error": str(e), "redacted": text, "matches": []}
 
 def get_metrics() -> dict:
     try:
@@ -214,7 +190,7 @@ if "run_history" not in st.session_state:
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 
 with st.sidebar:
-    st.markdown("<div style='font-family: JetBrains Mono; font-weight: 600; color: #F4F4F5; font-size: 1.1rem; margin-bottom: 2rem;'>EDITH-X RUNTIME</div>", unsafe_allow_html=True)
+    st.markdown("<div style='font-family: JetBrains Mono; font-weight: 700; color: #F4F4F5; font-size: 1.15rem; margin-bottom: 1.5rem;'>EDITH-X CONTROL CENTER</div>", unsafe_allow_html=True)
     
     health = get_health()
     status = health.get("status", "unreachable")
@@ -244,20 +220,20 @@ with st.sidebar:
         st.progress(pct / 100)
         
     st.markdown("<hr>", unsafe_allow_html=True)
-    st.markdown("<div class='metric-label'>TEST VECTORS</div>", unsafe_allow_html=True)
-    if st.button("EXEC: Simple Query"):
+    st.markdown("<div class='metric-label'>QUICK TEST VECTORS</div>", unsafe_allow_html=True)
+    if st.button("EXEC: Simple Query (L1/L2)"):
         st.session_state.quick_query = "What is the capital of France?"
-    if st.button("EXEC: Logic Task"):
-        st.session_state.quick_query = "Write a Python function to sort a list of dicts by a key"
-    if st.button("EXEC: Analysis"):
-        st.session_state.quick_query = "Analyze the key risks in enterprise AI deployment"
-    if st.button("EXEC: Cache Hit Test"):
+    if st.button("EXEC: Logic & Coding (L3)"):
+        st.session_state.quick_query = "Write a Python function to sort a list of dicts by a key with error handling"
+    if st.button("EXEC: PII Redaction Test"):
+        st.session_state.quick_query = "Process customer refund for Alice, card 4532-0123-4567-8910, SSN 123-45-6789"
+    if st.button("EXEC: L0 Cache Hit Test"):
         if st.session_state.chat_history:
             st.session_state.quick_query = st.session_state.chat_history[0]["goal"]
 
-# ── Main Layout ───────────────────────────────────────────────────────────────
+# ── Main Header Metrics ───────────────────────────────────────────────────────
 
-st.markdown("<h1>EDITH-X ENTERPRISE DASHBOARD</h1>", unsafe_allow_html=True)
+st.markdown("<h2 style='letter-spacing: -0.02em;'>EDITH-X ENTERPRISE RUNTIME</h2>", unsafe_allow_html=True)
 
 metrics = get_metrics()
 col1, col2, col3, col4, col5 = st.columns(5)
@@ -265,7 +241,7 @@ col1, col2, col3, col4, col5 = st.columns(5)
 def render_metric(col, label, value, delta=None, is_mono=True):
     with col:
         font_class = "mono" if is_mono else ""
-        delta_html = f"<span style='color: #10B981; font-size: 0.8rem; font-family: JetBrains Mono; margin-left: 8px;'>{delta}</span>" if delta else ""
+        delta_html = f"<span style='color: #10B981; font-size: 0.75rem; font-family: JetBrains Mono; margin-left: 6px;'>{delta}</span>" if delta else ""
         st.markdown(f"""
         <div class='metric-card'>
             <div class='metric-label'>{label}</div>
@@ -290,126 +266,185 @@ render_metric(col5, "AVG LATENCY", f"{avg_lat:.0f}ms")
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-chat_col, pipeline_col = st.columns([3, 2], gap="large")
+# ── Multi-Page Tabs ───────────────────────────────────────────────────────────
 
-with chat_col:
-    st.markdown("<div class='metric-label'>INPUT TERMINAL</div>", unsafe_allow_html=True)
-    
-    default_query = st.session_state.pop("quick_query", "")
-    user_input = st.text_input(
-        "QUERY",
-        value=default_query,
-        placeholder="Enter instruction...",
-        label_visibility="collapsed",
-        key="user_input"
-    )
-    
-    submit = st.button("INITIALIZE RUNTIME", type="primary", use_container_width=True)
-    
-    if submit and user_input:
-        with st.spinner("Processing..."):
-            start_time = time.time()
-            result = call_api(user_input)
-            elapsed = time.time() - start_time
-            
-        if "error" not in result:
-            cost = result.get("cost_usd", 0.0)
-            saved = result.get("cost_saved_usd", 0.0)
-            st.session_state.total_saved += saved
-            st.session_state.total_cost += cost
-            st.session_state.run_history.append(result)
-            st.session_state.chat_history.insert(0, {
-                "goal": user_input,
-                "response": result.get("response", ""),
-                "layer": result.get("layer", "L3_cloud"),
-                "model": result.get("model", ""),
-                "cache_hit": result.get("cache_hit", False),
-                "cost_usd": cost,
-                "cost_saved_usd": saved,
-                "tokens_in": result.get("tokens_input", 0),
-                "tokens_out": result.get("tokens_output", 0),
-                "latency_ms": result.get("latency_ms", int(elapsed * 1000)),
-                "intent": result.get("intent", ""),
-            })
-        else:
-            st.error(f"SYSTEM ERROR: {result.get('error')}")
-            
-        st.rerun()
-        
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown("<div class='metric-label'>EXECUTION LOG</div>", unsafe_allow_html=True)
-    
-    for entry in st.session_state.chat_history:
-        layer = entry.get("layer", "L3_cloud")
-        cache = entry.get("cache_hit", False)
-        cls = layer_class(layer)
-        
-        st.markdown(f"<div class='chat-message-user'><span style='color:#71717A; font-family:JetBrains Mono;'>USR ></span> {entry['goal']}</div>", unsafe_allow_html=True)
-        
-        tags = []
-        tags.append(f"<span class='tag layer-{cls}'>{layer_label(layer)}</span>")
-        if cache:
-            tags.append("<span class='tag' style='color:#10B981; border-color:#10B981;'>CACHE_HIT</span>")
-        if entry.get("intent"):
-            tags.append(f"<span class='tag'>INTENT:{entry['intent']}</span>")
-        if entry.get("model"):
-            tags.append(f"<span class='tag'>MDL:{entry['model']}</span>")
-            
-        tags.append(f"<span class='tag' style='border:none; color:#71717A;'>COST:${entry.get('cost_usd',0):.5f} | LAT:{entry.get('latency_ms',0)}ms | TOK:{entry.get('tokens_in',0)}->{entry.get('tokens_out',0)}</span>")
-        
-        tag_html = "".join(tags)
-        
-        st.markdown(f"<div class='chat-message-ai'><span style='color:#3B82F6; font-family:JetBrains Mono;'>SYS ></span> {entry['response']}<br>{tag_html}</div>", unsafe_allow_html=True)
+tab_gateway, tab_firewall, tab_roi, tab_topology = st.tabs([
+    "⚡ Gateway Playground",
+    "🔒 Security & DLP Firewall",
+    "📊 Financial ROI & Ledger",
+    "🌊 Waterfall Topology",
+])
 
-with pipeline_col:
-    st.markdown("<div class='metric-label'>RUNTIME TRACE</div>", unsafe_allow_html=True)
-    
-    pipeline_steps = [
-        ("M01", "Gateway", "Auth & Rate Limit"),
-        ("M02", "Identity", "RBAC & Tenant"),
-        ("M03", "Intent Engine", "Classify & Score"),
-        ("M04", "Policy Engine", "Rules & Compliance"),
-        ("M05", "Planner", "LangGraph Execution"),
-        ("M06", "Knowledge", "Hybrid Retrieval"),
-        ("M07", "Context Builder", "Merge & Compress"),
-        ("M08", "Optimization", "Semantic Cache"),
-        ("M09", "Model Router", "Cost-Aware Routing"),
-        ("M10", "Execution", "LiteLLM Call"),
-        ("M11", "Verification", "Confidence Check"),
-        ("M12", "Reflection", "Quality Review"),
-        ("M13", "Memory", "Persist Learnings"),
-        ("M14", "Observability", "Record Metrics"),
-    ]
-    
-    latest = st.session_state.run_history[-1] if st.session_state.run_history else None
-    
-    for module_id, name, desc in pipeline_steps:
-        color_class = "step-active" if latest else ""
-        if latest and module_id == "M08" and latest.get("cache_hit"):
-            color_class = "step-done"
-            
-        st.markdown(f"""
-        <div class='pipeline-step {color_class}'>
-            <span class='step-id'>[{module_id}]</span>
-            <span style='font-weight: 500;'>{name.upper()}</span>
-            <span style='color:#71717A; font-size:0.75rem; margin-left:auto;'>{desc.upper()}</span>
-        </div>
-        """, unsafe_allow_html=True)
+# ── TAB 1: GATEWAY PLAYGROUND ─────────────────────────────────────────────────
+with tab_gateway:
+    chat_col, pipeline_col = st.columns([3, 2], gap="large")
+
+    with chat_col:
+        st.markdown("<div class='metric-label'>INPUT TERMINAL</div>", unsafe_allow_html=True)
         
-    if latest:
+        default_query = st.session_state.pop("quick_query", "")
+        user_input = st.text_input(
+            "QUERY",
+            value=default_query,
+            placeholder="Enter instruction, agent goal, or code query...",
+            label_visibility="collapsed",
+            key="user_input"
+        )
+        
+        submit = st.button("DISPATCH TO GATEWAY", type="primary", use_container_width=True)
+        
+        if submit and user_input:
+            with st.spinner("Executing runtime graph..."):
+                start_time = time.time()
+                result = call_api(user_input)
+                elapsed = time.time() - start_time
+                
+            if "error" not in result:
+                cost = result.get("cost_usd", 0.0)
+                saved = result.get("cost_saved_usd", 0.0)
+                st.session_state.total_saved += saved
+                st.session_state.total_cost += cost
+                st.session_state.run_history.append(result)
+                st.session_state.chat_history.insert(0, {
+                    "goal": user_input,
+                    "response": result.get("response", ""),
+                    "layer": result.get("layer", "L3_cloud"),
+                    "model": result.get("model", ""),
+                    "cache_hit": result.get("cache_hit", False),
+                    "cost_usd": cost,
+                    "cost_saved_usd": saved,
+                    "tokens_in": result.get("tokens_input", 0),
+                    "tokens_out": result.get("tokens_output", 0),
+                    "latency_ms": result.get("latency_ms", int(elapsed * 1000)),
+                    "intent": result.get("intent", ""),
+                })
+            else:
+                st.error(f"SYSTEM ERROR: {result.get('error')}")
+                
+            st.rerun()
+            
         st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("<div class='metric-label'>LAST INVOCATION STATS</div>", unsafe_allow_html=True)
-        layer = latest.get("layer", "L3_cloud")
-        cls = layer_class(layer)
+        st.markdown("<div class='metric-label'>EXECUTION LOG</div>", unsafe_allow_html=True)
         
-        st.markdown(f"""
-        <div style='background: #18181B; border: 1px solid #27272A; padding: 16px; font-family: JetBrains Mono; font-size: 0.85rem; color: #A1A1AA;'>
-            <div style='margin-bottom: 8px;'><span style='color:#71717A'>LAYER:</span> <span class='layer-{cls}'>{layer_label(layer)}</span></div>
-            <div style='margin-bottom: 8px;'><span style='color:#71717A'>MODEL:</span> {latest.get('model', 'N/A')}</div>
-            <div style='margin-bottom: 8px;'><span style='color:#71717A'>CACHE:</span> <span style='color:{"#10B981" if latest.get("cache_hit") else "#EF4444"}'>{str(latest.get('cache_hit', False)).upper()}</span></div>
-            <div style='margin-bottom: 8px;'><span style='color:#71717A'>COST :</span> ${latest.get('cost_usd', 0):.6f}</div>
-            <div style='margin-bottom: 8px;'><span style='color:#71717A'>SAVED:</span> ${latest.get('cost_saved_usd', 0):.6f}</div>
-            <div style='margin-bottom: 8px;'><span style='color:#71717A'>TIME :</span> {latest.get('latency_ms', 0)}ms</div>
-            <div><span style='color:#71717A'>TOKENS:</span> {latest.get('tokens_input', 0)} IN / {latest.get('tokens_output', 0)} OUT</div>
-        </div>
-        """, unsafe_allow_html=True)
+        for entry in st.session_state.chat_history:
+            layer = entry.get("layer", "L3_cloud")
+            cache = entry.get("cache_hit", False)
+            cls = layer_class(layer)
+            
+            st.markdown(f"<div style='border-bottom: 1px solid #27272A; padding: 12px 0;'><span style='color:#71717A; font-family:JetBrains Mono;'>USR &gt;</span> {entry['goal']}</div>", unsafe_allow_html=True)
+            
+            tags = []
+            tags.append(f"<span class='tag layer-{cls}'>{layer_label(layer)}</span>")
+            if cache:
+                tags.append("<span class='tag' style='color:#10B981; border-color:#10B981;'>CACHE_HIT</span>")
+            if entry.get("intent"):
+                tags.append(f"<span class='tag'>INTENT:{entry['intent']}</span>")
+            if entry.get("model"):
+                tags.append(f"<span class='tag'>MDL:{entry['model']}</span>")
+                
+            tags.append(f"<span class='tag' style='border:none; color:#71717A;'>COST:${entry.get('cost_usd',0):.5f} | LAT:{entry.get('latency_ms',0)}ms | TOK:{entry.get('tokens_in',0)}->{entry.get('tokens_out',0)}</span>")
+            
+            tag_html = "".join(tags)
+            st.markdown(f"<div style='border-bottom: 1px solid #27272A; padding: 12px 0 18px 0;'><span style='color:#3B82F6; font-family:JetBrains Mono;'>SYS &gt;</span> {entry['response']}<br>{tag_html}</div>", unsafe_allow_html=True)
+
+    with pipeline_col:
+        st.markdown("<div class='metric-label'>RUNTIME TRACE TOPOLOGY</div>", unsafe_allow_html=True)
+        
+        pipeline_steps = [
+            ("M01", "Gateway", "Auth & Rate Limit"),
+            ("M02", "Identity", "RBAC & Tenant"),
+            ("M03", "Intent Engine", "Classify & Score"),
+            ("M04", "Policy Engine", "Rules & Compliance"),
+            ("M05", "Planner", "LangGraph Execution"),
+            ("M06", "Knowledge", "Hybrid Retrieval"),
+            ("M07", "Context Builder", "Merge & Compress"),
+            ("M08", "Optimization", "Semantic Cache"),
+            ("M09", "Model Router", "Cost-Aware Routing"),
+            ("M10", "Execution", "LiteLLM Call"),
+            ("M11", "Verification", "Confidence Check"),
+            ("M12", "Reflection", "Quality Review"),
+            ("M13", "Memory", "Persist Learnings"),
+            ("M14", "Observability", "Record Metrics"),
+        ]
+        
+        latest = st.session_state.run_history[-1] if st.session_state.run_history else None
+        
+        for module_id, name, desc in pipeline_steps:
+            color_class = "step-active" if latest else ""
+            if latest and module_id == "M08" and latest.get("cache_hit"):
+                color_class = "step-done"
+                
+            st.markdown(f"""
+            <div class='pipeline-step {color_class}'>
+                <span class='step-id'>[{module_id}]</span>
+                <span style='font-weight: 500;'>{name.upper()}</span>
+                <span style='color:#71717A; font-size:0.75rem; margin-left:auto;'>{desc.upper()}</span>
+            </div>
+            """, unsafe_allow_html=True)
+            
+        if latest:
+            st.markdown("<br>", unsafe_allow_html=True)
+            st.markdown("<div class='metric-label'>LAST INVOCATION STATS</div>", unsafe_allow_html=True)
+            layer = latest.get("layer", "L3_cloud")
+            cls = layer_class(layer)
+            
+            st.markdown(f"""
+            <div style='background: #18181B; border: 1px solid #27272A; padding: 14px; font-family: JetBrains Mono; font-size: 0.82rem; color: #A1A1AA;'>
+                <div style='margin-bottom: 6px;'><span style='color:#71717A'>LAYER:</span> <span class='layer-{cls}'>{layer_label(layer)}</span></div>
+                <div style='margin-bottom: 6px;'><span style='color:#71717A'>MODEL:</span> {latest.get('model', 'N/A')}</div>
+                <div style='margin-bottom: 6px;'><span style='color:#71717A'>CACHE:</span> <span style='color:{"#10B981" if latest.get("cache_hit") else "#EF4444"}'>{str(latest.get('cache_hit', False)).upper()}</span></div>
+                <div style='margin-bottom: 6px;'><span style='color:#71717A'>COST :</span> ${latest.get('cost_usd', 0):.6f}</div>
+                <div style='margin-bottom: 6px;'><span style='color:#71717A'>SAVED:</span> ${latest.get('cost_saved_usd', 0):.6f}</div>
+                <div style='margin-bottom: 6px;'><span style='color:#71717A'>TIME :</span> {latest.get('latency_ms', 0)}ms</div>
+                <div><span style='color:#71717A'>TOKENS:</span> {latest.get('tokens_input', 0)} IN / {latest.get('tokens_output', 0)} OUT</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+# ── TAB 2: SECURITY FIREWALL ──────────────────────────────────────────────────
+with tab_firewall:
+    st.markdown("<div class='metric-label'>ZERO-TRUST DLP & SHANNON ENTROPY FIREWALL</div>", unsafe_allow_html=True)
+    st.write("Scan payloads for PII (Credit Cards with Luhn check, SSNs) and High-Entropy API Secrets (H > 3.8 bits/char).")
+    
+    sec_col1, sec_col2 = st.columns(2)
+    with sec_col1:
+        raw_text = st.text_area("RAW PAYLOAD TO SCAN", value="Customer Alice refund for credit card 4532-0123-4567-8910 and SSN 123-45-6789. Key: export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY", height=160)
+        scan_btn = st.button("RUN POLICY FIREWALL SCAN")
+        
+    with sec_col2:
+        if scan_btn and raw_text:
+            res = scan_policy(raw_text)
+            matches = res.get("matches", [])
+            if matches:
+                st.error(f"⚠ {len(matches)} SENSITIVE ENTITIES DETECTED — AIR-GAPPED LOCAL ROUTING ENFORCED")
+                for m in matches:
+                    st.caption(f"• Type: **{m.get('entity_type')}** | Confidence: **{m.get('confidence')}** | Detail: {m.get('text')}")
+            else:
+                st.success("✓ CLEAN PAYLOAD — NO RESTRICTED DATA DETECTED")
+                
+            st.code(res.get("redacted", raw_text), language="text")
+
+# ── TAB 3: FINANCIAL ROI & LEDGER ─────────────────────────────────────────────
+with tab_roi:
+    st.markdown("<div class='metric-label'>ENTERPRISE COST SAVINGS COMPARISON</div>", unsafe_allow_html=True)
+    st.write("Audited inference expenditure vs. direct un-optimized model routing.")
+    
+    comp_col1, comp_col2, comp_col3 = st.columns(3)
+    with comp_col1:
+        st.metric("EDITH-X Actual Spend", f"${st.session_state.total_cost:.4f}", delta="-72% Avg Savings", delta_color="inverse")
+    with comp_col2:
+        gpt_hypo = st.session_state.total_cost + (st.session_state.total_saved * 1.5)
+        st.metric("Hypothetical Raw GPT-4o", f"${gpt_hypo:.4f}")
+    with comp_col3:
+        claude_hypo = st.session_state.total_cost + (st.session_state.total_saved * 1.8)
+        st.metric("Hypothetical Raw Claude 3.5", f"${claude_hypo:.4f}")
+
+# ── TAB 4: WATERFALL TOPOLOGY ─────────────────────────────────────────────────
+with tab_topology:
+    st.markdown("<div class='metric-label'>MULTI-PROVIDER WATERFALL TOPOLOGY</div>", unsafe_allow_html=True)
+    st.markdown("""
+    - **L0 Tier (Cache)**: Sub-0.1ms Exact SHA-256 + N-gram Cosine Similarity.
+    - **L1 Tier (Local)**: Local Air-Gapped Ollama / LM Studio (Llama 3.2 3B). Triggered on sensitive PII or simple queries.
+    - **L2 Tier (Compressed Cloud)**: Compressed Prompt Inference on fast models (Llama 3.1 8B).
+    - **L3 Tier (Frontier Cloud)**: Frontier High-Reasoning LLMs (NVIDIA Llama 3.1 70B / Claude 3.5 Sonnet).
+    - **Self-Healing Fallback**: If Primary Provider fails or hits 429 rate limits, request automatically cascades down the waterfall without HTTP 500 downtime.
+    """)

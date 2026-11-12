@@ -86,6 +86,15 @@ services:
     #       devices:
     #         - capabilities: [gpu]
 
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./deploy/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    restart: unless-stopped
+
 volumes:
   qdrant_data:
   pg_data:
