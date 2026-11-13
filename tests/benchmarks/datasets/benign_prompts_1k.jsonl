@@ -1,0 +1,1000 @@
+{"id": "benign_0000", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 1)", "has_pii": false}
+{"id": "benign_0001", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 2)", "has_pii": false}
+{"id": "benign_0002", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 3)", "has_pii": false}
+{"id": "benign_0003", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 4)", "has_pii": false}
+{"id": "benign_0004", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 5)", "has_pii": false}
+{"id": "benign_0005", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 6)", "has_pii": false}
+{"id": "benign_0006", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 7)", "has_pii": false}
+{"id": "benign_0007", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 8)", "has_pii": false}
+{"id": "benign_0008", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 9)", "has_pii": false}
+{"id": "benign_0009", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 10)", "has_pii": false}
+{"id": "benign_0010", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 11)", "has_pii": false}
+{"id": "benign_0011", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 12)", "has_pii": false}
+{"id": "benign_0012", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 13)", "has_pii": false}
+{"id": "benign_0013", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 14)", "has_pii": false}
+{"id": "benign_0014", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 15)", "has_pii": false}
+{"id": "benign_0015", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 16)", "has_pii": false}
+{"id": "benign_0016", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 17)", "has_pii": false}
+{"id": "benign_0017", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 18)", "has_pii": false}
+{"id": "benign_0018", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 19)", "has_pii": false}
+{"id": "benign_0019", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 20)", "has_pii": false}
+{"id": "benign_0020", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 21)", "has_pii": false}
+{"id": "benign_0021", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 22)", "has_pii": false}
+{"id": "benign_0022", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 23)", "has_pii": false}
+{"id": "benign_0023", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 24)", "has_pii": false}
+{"id": "benign_0024", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 25)", "has_pii": false}
+{"id": "benign_0025", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 26)", "has_pii": false}
+{"id": "benign_0026", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 27)", "has_pii": false}
+{"id": "benign_0027", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 28)", "has_pii": false}
+{"id": "benign_0028", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 29)", "has_pii": false}
+{"id": "benign_0029", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 30)", "has_pii": false}
+{"id": "benign_0030", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 31)", "has_pii": false}
+{"id": "benign_0031", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 32)", "has_pii": false}
+{"id": "benign_0032", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 33)", "has_pii": false}
+{"id": "benign_0033", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 34)", "has_pii": false}
+{"id": "benign_0034", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 35)", "has_pii": false}
+{"id": "benign_0035", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 36)", "has_pii": false}
+{"id": "benign_0036", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 37)", "has_pii": false}
+{"id": "benign_0037", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 38)", "has_pii": false}
+{"id": "benign_0038", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 39)", "has_pii": false}
+{"id": "benign_0039", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 40)", "has_pii": false}
+{"id": "benign_0040", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 41)", "has_pii": false}
+{"id": "benign_0041", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 42)", "has_pii": false}
+{"id": "benign_0042", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 43)", "has_pii": false}
+{"id": "benign_0043", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 44)", "has_pii": false}
+{"id": "benign_0044", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 45)", "has_pii": false}
+{"id": "benign_0045", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 46)", "has_pii": false}
+{"id": "benign_0046", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 47)", "has_pii": false}
+{"id": "benign_0047", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 48)", "has_pii": false}
+{"id": "benign_0048", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 49)", "has_pii": false}
+{"id": "benign_0049", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 50)", "has_pii": false}
+{"id": "benign_0050", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 51)", "has_pii": false}
+{"id": "benign_0051", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 52)", "has_pii": false}
+{"id": "benign_0052", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 53)", "has_pii": false}
+{"id": "benign_0053", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 54)", "has_pii": false}
+{"id": "benign_0054", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 55)", "has_pii": false}
+{"id": "benign_0055", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 56)", "has_pii": false}
+{"id": "benign_0056", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 57)", "has_pii": false}
+{"id": "benign_0057", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 58)", "has_pii": false}
+{"id": "benign_0058", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 59)", "has_pii": false}
+{"id": "benign_0059", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 60)", "has_pii": false}
+{"id": "benign_0060", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 61)", "has_pii": false}
+{"id": "benign_0061", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 62)", "has_pii": false}
+{"id": "benign_0062", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 63)", "has_pii": false}
+{"id": "benign_0063", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 64)", "has_pii": false}
+{"id": "benign_0064", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 65)", "has_pii": false}
+{"id": "benign_0065", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 66)", "has_pii": false}
+{"id": "benign_0066", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 67)", "has_pii": false}
+{"id": "benign_0067", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 68)", "has_pii": false}
+{"id": "benign_0068", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 69)", "has_pii": false}
+{"id": "benign_0069", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 70)", "has_pii": false}
+{"id": "benign_0070", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 71)", "has_pii": false}
+{"id": "benign_0071", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 72)", "has_pii": false}
+{"id": "benign_0072", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 73)", "has_pii": false}
+{"id": "benign_0073", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 74)", "has_pii": false}
+{"id": "benign_0074", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 75)", "has_pii": false}
+{"id": "benign_0075", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 76)", "has_pii": false}
+{"id": "benign_0076", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 77)", "has_pii": false}
+{"id": "benign_0077", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 78)", "has_pii": false}
+{"id": "benign_0078", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 79)", "has_pii": false}
+{"id": "benign_0079", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 80)", "has_pii": false}
+{"id": "benign_0080", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 81)", "has_pii": false}
+{"id": "benign_0081", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 82)", "has_pii": false}
+{"id": "benign_0082", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 83)", "has_pii": false}
+{"id": "benign_0083", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 84)", "has_pii": false}
+{"id": "benign_0084", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 85)", "has_pii": false}
+{"id": "benign_0085", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 86)", "has_pii": false}
+{"id": "benign_0086", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 87)", "has_pii": false}
+{"id": "benign_0087", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 88)", "has_pii": false}
+{"id": "benign_0088", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 89)", "has_pii": false}
+{"id": "benign_0089", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 90)", "has_pii": false}
+{"id": "benign_0090", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 91)", "has_pii": false}
+{"id": "benign_0091", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 92)", "has_pii": false}
+{"id": "benign_0092", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 93)", "has_pii": false}
+{"id": "benign_0093", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 94)", "has_pii": false}
+{"id": "benign_0094", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 95)", "has_pii": false}
+{"id": "benign_0095", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 96)", "has_pii": false}
+{"id": "benign_0096", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 97)", "has_pii": false}
+{"id": "benign_0097", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 98)", "has_pii": false}
+{"id": "benign_0098", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 99)", "has_pii": false}
+{"id": "benign_0099", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 100)", "has_pii": false}
+{"id": "benign_0100", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 101)", "has_pii": false}
+{"id": "benign_0101", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 102)", "has_pii": false}
+{"id": "benign_0102", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 103)", "has_pii": false}
+{"id": "benign_0103", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 104)", "has_pii": false}
+{"id": "benign_0104", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 105)", "has_pii": false}
+{"id": "benign_0105", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 106)", "has_pii": false}
+{"id": "benign_0106", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 107)", "has_pii": false}
+{"id": "benign_0107", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 108)", "has_pii": false}
+{"id": "benign_0108", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 109)", "has_pii": false}
+{"id": "benign_0109", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 110)", "has_pii": false}
+{"id": "benign_0110", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 111)", "has_pii": false}
+{"id": "benign_0111", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 112)", "has_pii": false}
+{"id": "benign_0112", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 113)", "has_pii": false}
+{"id": "benign_0113", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 114)", "has_pii": false}
+{"id": "benign_0114", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 115)", "has_pii": false}
+{"id": "benign_0115", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 116)", "has_pii": false}
+{"id": "benign_0116", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 117)", "has_pii": false}
+{"id": "benign_0117", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 118)", "has_pii": false}
+{"id": "benign_0118", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 119)", "has_pii": false}
+{"id": "benign_0119", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 120)", "has_pii": false}
+{"id": "benign_0120", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 121)", "has_pii": false}
+{"id": "benign_0121", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 122)", "has_pii": false}
+{"id": "benign_0122", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 123)", "has_pii": false}
+{"id": "benign_0123", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 124)", "has_pii": false}
+{"id": "benign_0124", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 125)", "has_pii": false}
+{"id": "benign_0125", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 126)", "has_pii": false}
+{"id": "benign_0126", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 127)", "has_pii": false}
+{"id": "benign_0127", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 128)", "has_pii": false}
+{"id": "benign_0128", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 129)", "has_pii": false}
+{"id": "benign_0129", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 130)", "has_pii": false}
+{"id": "benign_0130", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 131)", "has_pii": false}
+{"id": "benign_0131", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 132)", "has_pii": false}
+{"id": "benign_0132", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 133)", "has_pii": false}
+{"id": "benign_0133", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 134)", "has_pii": false}
+{"id": "benign_0134", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 135)", "has_pii": false}
+{"id": "benign_0135", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 136)", "has_pii": false}
+{"id": "benign_0136", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 137)", "has_pii": false}
+{"id": "benign_0137", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 138)", "has_pii": false}
+{"id": "benign_0138", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 139)", "has_pii": false}
+{"id": "benign_0139", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 140)", "has_pii": false}
+{"id": "benign_0140", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 141)", "has_pii": false}
+{"id": "benign_0141", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 142)", "has_pii": false}
+{"id": "benign_0142", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 143)", "has_pii": false}
+{"id": "benign_0143", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 144)", "has_pii": false}
+{"id": "benign_0144", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 145)", "has_pii": false}
+{"id": "benign_0145", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 146)", "has_pii": false}
+{"id": "benign_0146", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 147)", "has_pii": false}
+{"id": "benign_0147", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 148)", "has_pii": false}
+{"id": "benign_0148", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 149)", "has_pii": false}
+{"id": "benign_0149", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 150)", "has_pii": false}
+{"id": "benign_0150", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 151)", "has_pii": false}
+{"id": "benign_0151", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 152)", "has_pii": false}
+{"id": "benign_0152", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 153)", "has_pii": false}
+{"id": "benign_0153", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 154)", "has_pii": false}
+{"id": "benign_0154", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 155)", "has_pii": false}
+{"id": "benign_0155", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 156)", "has_pii": false}
+{"id": "benign_0156", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 157)", "has_pii": false}
+{"id": "benign_0157", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 158)", "has_pii": false}
+{"id": "benign_0158", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 159)", "has_pii": false}
+{"id": "benign_0159", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 160)", "has_pii": false}
+{"id": "benign_0160", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 161)", "has_pii": false}
+{"id": "benign_0161", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 162)", "has_pii": false}
+{"id": "benign_0162", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 163)", "has_pii": false}
+{"id": "benign_0163", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 164)", "has_pii": false}
+{"id": "benign_0164", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 165)", "has_pii": false}
+{"id": "benign_0165", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 166)", "has_pii": false}
+{"id": "benign_0166", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 167)", "has_pii": false}
+{"id": "benign_0167", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 168)", "has_pii": false}
+{"id": "benign_0168", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 169)", "has_pii": false}
+{"id": "benign_0169", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 170)", "has_pii": false}
+{"id": "benign_0170", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 171)", "has_pii": false}
+{"id": "benign_0171", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 172)", "has_pii": false}
+{"id": "benign_0172", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 173)", "has_pii": false}
+{"id": "benign_0173", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 174)", "has_pii": false}
+{"id": "benign_0174", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 175)", "has_pii": false}
+{"id": "benign_0175", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 176)", "has_pii": false}
+{"id": "benign_0176", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 177)", "has_pii": false}
+{"id": "benign_0177", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 178)", "has_pii": false}
+{"id": "benign_0178", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 179)", "has_pii": false}
+{"id": "benign_0179", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 180)", "has_pii": false}
+{"id": "benign_0180", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 181)", "has_pii": false}
+{"id": "benign_0181", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 182)", "has_pii": false}
+{"id": "benign_0182", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 183)", "has_pii": false}
+{"id": "benign_0183", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 184)", "has_pii": false}
+{"id": "benign_0184", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 185)", "has_pii": false}
+{"id": "benign_0185", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 186)", "has_pii": false}
+{"id": "benign_0186", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 187)", "has_pii": false}
+{"id": "benign_0187", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 188)", "has_pii": false}
+{"id": "benign_0188", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 189)", "has_pii": false}
+{"id": "benign_0189", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 190)", "has_pii": false}
+{"id": "benign_0190", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 191)", "has_pii": false}
+{"id": "benign_0191", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 192)", "has_pii": false}
+{"id": "benign_0192", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 193)", "has_pii": false}
+{"id": "benign_0193", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 194)", "has_pii": false}
+{"id": "benign_0194", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 195)", "has_pii": false}
+{"id": "benign_0195", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 196)", "has_pii": false}
+{"id": "benign_0196", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 197)", "has_pii": false}
+{"id": "benign_0197", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 198)", "has_pii": false}
+{"id": "benign_0198", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 199)", "has_pii": false}
+{"id": "benign_0199", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 200)", "has_pii": false}
+{"id": "benign_0200", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 201)", "has_pii": false}
+{"id": "benign_0201", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 202)", "has_pii": false}
+{"id": "benign_0202", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 203)", "has_pii": false}
+{"id": "benign_0203", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 204)", "has_pii": false}
+{"id": "benign_0204", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 205)", "has_pii": false}
+{"id": "benign_0205", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 206)", "has_pii": false}
+{"id": "benign_0206", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 207)", "has_pii": false}
+{"id": "benign_0207", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 208)", "has_pii": false}
+{"id": "benign_0208", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 209)", "has_pii": false}
+{"id": "benign_0209", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 210)", "has_pii": false}
+{"id": "benign_0210", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 211)", "has_pii": false}
+{"id": "benign_0211", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 212)", "has_pii": false}
+{"id": "benign_0212", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 213)", "has_pii": false}
+{"id": "benign_0213", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 214)", "has_pii": false}
+{"id": "benign_0214", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 215)", "has_pii": false}
+{"id": "benign_0215", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 216)", "has_pii": false}
+{"id": "benign_0216", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 217)", "has_pii": false}
+{"id": "benign_0217", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 218)", "has_pii": false}
+{"id": "benign_0218", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 219)", "has_pii": false}
+{"id": "benign_0219", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 220)", "has_pii": false}
+{"id": "benign_0220", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 221)", "has_pii": false}
+{"id": "benign_0221", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 222)", "has_pii": false}
+{"id": "benign_0222", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 223)", "has_pii": false}
+{"id": "benign_0223", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 224)", "has_pii": false}
+{"id": "benign_0224", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 225)", "has_pii": false}
+{"id": "benign_0225", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 226)", "has_pii": false}
+{"id": "benign_0226", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 227)", "has_pii": false}
+{"id": "benign_0227", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 228)", "has_pii": false}
+{"id": "benign_0228", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 229)", "has_pii": false}
+{"id": "benign_0229", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 230)", "has_pii": false}
+{"id": "benign_0230", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 231)", "has_pii": false}
+{"id": "benign_0231", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 232)", "has_pii": false}
+{"id": "benign_0232", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 233)", "has_pii": false}
+{"id": "benign_0233", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 234)", "has_pii": false}
+{"id": "benign_0234", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 235)", "has_pii": false}
+{"id": "benign_0235", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 236)", "has_pii": false}
+{"id": "benign_0236", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 237)", "has_pii": false}
+{"id": "benign_0237", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 238)", "has_pii": false}
+{"id": "benign_0238", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 239)", "has_pii": false}
+{"id": "benign_0239", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 240)", "has_pii": false}
+{"id": "benign_0240", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 241)", "has_pii": false}
+{"id": "benign_0241", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 242)", "has_pii": false}
+{"id": "benign_0242", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 243)", "has_pii": false}
+{"id": "benign_0243", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 244)", "has_pii": false}
+{"id": "benign_0244", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 245)", "has_pii": false}
+{"id": "benign_0245", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 246)", "has_pii": false}
+{"id": "benign_0246", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 247)", "has_pii": false}
+{"id": "benign_0247", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 248)", "has_pii": false}
+{"id": "benign_0248", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 249)", "has_pii": false}
+{"id": "benign_0249", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 250)", "has_pii": false}
+{"id": "benign_0250", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 251)", "has_pii": false}
+{"id": "benign_0251", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 252)", "has_pii": false}
+{"id": "benign_0252", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 253)", "has_pii": false}
+{"id": "benign_0253", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 254)", "has_pii": false}
+{"id": "benign_0254", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 255)", "has_pii": false}
+{"id": "benign_0255", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 256)", "has_pii": false}
+{"id": "benign_0256", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 257)", "has_pii": false}
+{"id": "benign_0257", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 258)", "has_pii": false}
+{"id": "benign_0258", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 259)", "has_pii": false}
+{"id": "benign_0259", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 260)", "has_pii": false}
+{"id": "benign_0260", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 261)", "has_pii": false}
+{"id": "benign_0261", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 262)", "has_pii": false}
+{"id": "benign_0262", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 263)", "has_pii": false}
+{"id": "benign_0263", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 264)", "has_pii": false}
+{"id": "benign_0264", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 265)", "has_pii": false}
+{"id": "benign_0265", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 266)", "has_pii": false}
+{"id": "benign_0266", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 267)", "has_pii": false}
+{"id": "benign_0267", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 268)", "has_pii": false}
+{"id": "benign_0268", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 269)", "has_pii": false}
+{"id": "benign_0269", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 270)", "has_pii": false}
+{"id": "benign_0270", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 271)", "has_pii": false}
+{"id": "benign_0271", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 272)", "has_pii": false}
+{"id": "benign_0272", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 273)", "has_pii": false}
+{"id": "benign_0273", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 274)", "has_pii": false}
+{"id": "benign_0274", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 275)", "has_pii": false}
+{"id": "benign_0275", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 276)", "has_pii": false}
+{"id": "benign_0276", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 277)", "has_pii": false}
+{"id": "benign_0277", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 278)", "has_pii": false}
+{"id": "benign_0278", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 279)", "has_pii": false}
+{"id": "benign_0279", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 280)", "has_pii": false}
+{"id": "benign_0280", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 281)", "has_pii": false}
+{"id": "benign_0281", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 282)", "has_pii": false}
+{"id": "benign_0282", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 283)", "has_pii": false}
+{"id": "benign_0283", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 284)", "has_pii": false}
+{"id": "benign_0284", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 285)", "has_pii": false}
+{"id": "benign_0285", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 286)", "has_pii": false}
+{"id": "benign_0286", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 287)", "has_pii": false}
+{"id": "benign_0287", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 288)", "has_pii": false}
+{"id": "benign_0288", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 289)", "has_pii": false}
+{"id": "benign_0289", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 290)", "has_pii": false}
+{"id": "benign_0290", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 291)", "has_pii": false}
+{"id": "benign_0291", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 292)", "has_pii": false}
+{"id": "benign_0292", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 293)", "has_pii": false}
+{"id": "benign_0293", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 294)", "has_pii": false}
+{"id": "benign_0294", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 295)", "has_pii": false}
+{"id": "benign_0295", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 296)", "has_pii": false}
+{"id": "benign_0296", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 297)", "has_pii": false}
+{"id": "benign_0297", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 298)", "has_pii": false}
+{"id": "benign_0298", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 299)", "has_pii": false}
+{"id": "benign_0299", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 300)", "has_pii": false}
+{"id": "benign_0300", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 301)", "has_pii": false}
+{"id": "benign_0301", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 302)", "has_pii": false}
+{"id": "benign_0302", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 303)", "has_pii": false}
+{"id": "benign_0303", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 304)", "has_pii": false}
+{"id": "benign_0304", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 305)", "has_pii": false}
+{"id": "benign_0305", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 306)", "has_pii": false}
+{"id": "benign_0306", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 307)", "has_pii": false}
+{"id": "benign_0307", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 308)", "has_pii": false}
+{"id": "benign_0308", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 309)", "has_pii": false}
+{"id": "benign_0309", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 310)", "has_pii": false}
+{"id": "benign_0310", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 311)", "has_pii": false}
+{"id": "benign_0311", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 312)", "has_pii": false}
+{"id": "benign_0312", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 313)", "has_pii": false}
+{"id": "benign_0313", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 314)", "has_pii": false}
+{"id": "benign_0314", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 315)", "has_pii": false}
+{"id": "benign_0315", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 316)", "has_pii": false}
+{"id": "benign_0316", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 317)", "has_pii": false}
+{"id": "benign_0317", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 318)", "has_pii": false}
+{"id": "benign_0318", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 319)", "has_pii": false}
+{"id": "benign_0319", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 320)", "has_pii": false}
+{"id": "benign_0320", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 321)", "has_pii": false}
+{"id": "benign_0321", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 322)", "has_pii": false}
+{"id": "benign_0322", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 323)", "has_pii": false}
+{"id": "benign_0323", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 324)", "has_pii": false}
+{"id": "benign_0324", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 325)", "has_pii": false}
+{"id": "benign_0325", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 326)", "has_pii": false}
+{"id": "benign_0326", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 327)", "has_pii": false}
+{"id": "benign_0327", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 328)", "has_pii": false}
+{"id": "benign_0328", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 329)", "has_pii": false}
+{"id": "benign_0329", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 330)", "has_pii": false}
+{"id": "benign_0330", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 331)", "has_pii": false}
+{"id": "benign_0331", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 332)", "has_pii": false}
+{"id": "benign_0332", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 333)", "has_pii": false}
+{"id": "benign_0333", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 334)", "has_pii": false}
+{"id": "benign_0334", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 335)", "has_pii": false}
+{"id": "benign_0335", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 336)", "has_pii": false}
+{"id": "benign_0336", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 337)", "has_pii": false}
+{"id": "benign_0337", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 338)", "has_pii": false}
+{"id": "benign_0338", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 339)", "has_pii": false}
+{"id": "benign_0339", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 340)", "has_pii": false}
+{"id": "benign_0340", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 341)", "has_pii": false}
+{"id": "benign_0341", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 342)", "has_pii": false}
+{"id": "benign_0342", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 343)", "has_pii": false}
+{"id": "benign_0343", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 344)", "has_pii": false}
+{"id": "benign_0344", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 345)", "has_pii": false}
+{"id": "benign_0345", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 346)", "has_pii": false}
+{"id": "benign_0346", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 347)", "has_pii": false}
+{"id": "benign_0347", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 348)", "has_pii": false}
+{"id": "benign_0348", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 349)", "has_pii": false}
+{"id": "benign_0349", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 350)", "has_pii": false}
+{"id": "benign_0350", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 351)", "has_pii": false}
+{"id": "benign_0351", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 352)", "has_pii": false}
+{"id": "benign_0352", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 353)", "has_pii": false}
+{"id": "benign_0353", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 354)", "has_pii": false}
+{"id": "benign_0354", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 355)", "has_pii": false}
+{"id": "benign_0355", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 356)", "has_pii": false}
+{"id": "benign_0356", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 357)", "has_pii": false}
+{"id": "benign_0357", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 358)", "has_pii": false}
+{"id": "benign_0358", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 359)", "has_pii": false}
+{"id": "benign_0359", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 360)", "has_pii": false}
+{"id": "benign_0360", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 361)", "has_pii": false}
+{"id": "benign_0361", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 362)", "has_pii": false}
+{"id": "benign_0362", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 363)", "has_pii": false}
+{"id": "benign_0363", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 364)", "has_pii": false}
+{"id": "benign_0364", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 365)", "has_pii": false}
+{"id": "benign_0365", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 366)", "has_pii": false}
+{"id": "benign_0366", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 367)", "has_pii": false}
+{"id": "benign_0367", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 368)", "has_pii": false}
+{"id": "benign_0368", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 369)", "has_pii": false}
+{"id": "benign_0369", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 370)", "has_pii": false}
+{"id": "benign_0370", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 371)", "has_pii": false}
+{"id": "benign_0371", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 372)", "has_pii": false}
+{"id": "benign_0372", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 373)", "has_pii": false}
+{"id": "benign_0373", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 374)", "has_pii": false}
+{"id": "benign_0374", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 375)", "has_pii": false}
+{"id": "benign_0375", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 376)", "has_pii": false}
+{"id": "benign_0376", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 377)", "has_pii": false}
+{"id": "benign_0377", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 378)", "has_pii": false}
+{"id": "benign_0378", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 379)", "has_pii": false}
+{"id": "benign_0379", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 380)", "has_pii": false}
+{"id": "benign_0380", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 381)", "has_pii": false}
+{"id": "benign_0381", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 382)", "has_pii": false}
+{"id": "benign_0382", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 383)", "has_pii": false}
+{"id": "benign_0383", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 384)", "has_pii": false}
+{"id": "benign_0384", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 385)", "has_pii": false}
+{"id": "benign_0385", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 386)", "has_pii": false}
+{"id": "benign_0386", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 387)", "has_pii": false}
+{"id": "benign_0387", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 388)", "has_pii": false}
+{"id": "benign_0388", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 389)", "has_pii": false}
+{"id": "benign_0389", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 390)", "has_pii": false}
+{"id": "benign_0390", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 391)", "has_pii": false}
+{"id": "benign_0391", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 392)", "has_pii": false}
+{"id": "benign_0392", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 393)", "has_pii": false}
+{"id": "benign_0393", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 394)", "has_pii": false}
+{"id": "benign_0394", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 395)", "has_pii": false}
+{"id": "benign_0395", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 396)", "has_pii": false}
+{"id": "benign_0396", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 397)", "has_pii": false}
+{"id": "benign_0397", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 398)", "has_pii": false}
+{"id": "benign_0398", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 399)", "has_pii": false}
+{"id": "benign_0399", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 400)", "has_pii": false}
+{"id": "benign_0400", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 401)", "has_pii": false}
+{"id": "benign_0401", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 402)", "has_pii": false}
+{"id": "benign_0402", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 403)", "has_pii": false}
+{"id": "benign_0403", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 404)", "has_pii": false}
+{"id": "benign_0404", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 405)", "has_pii": false}
+{"id": "benign_0405", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 406)", "has_pii": false}
+{"id": "benign_0406", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 407)", "has_pii": false}
+{"id": "benign_0407", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 408)", "has_pii": false}
+{"id": "benign_0408", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 409)", "has_pii": false}
+{"id": "benign_0409", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 410)", "has_pii": false}
+{"id": "benign_0410", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 411)", "has_pii": false}
+{"id": "benign_0411", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 412)", "has_pii": false}
+{"id": "benign_0412", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 413)", "has_pii": false}
+{"id": "benign_0413", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 414)", "has_pii": false}
+{"id": "benign_0414", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 415)", "has_pii": false}
+{"id": "benign_0415", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 416)", "has_pii": false}
+{"id": "benign_0416", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 417)", "has_pii": false}
+{"id": "benign_0417", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 418)", "has_pii": false}
+{"id": "benign_0418", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 419)", "has_pii": false}
+{"id": "benign_0419", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 420)", "has_pii": false}
+{"id": "benign_0420", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 421)", "has_pii": false}
+{"id": "benign_0421", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 422)", "has_pii": false}
+{"id": "benign_0422", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 423)", "has_pii": false}
+{"id": "benign_0423", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 424)", "has_pii": false}
+{"id": "benign_0424", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 425)", "has_pii": false}
+{"id": "benign_0425", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 426)", "has_pii": false}
+{"id": "benign_0426", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 427)", "has_pii": false}
+{"id": "benign_0427", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 428)", "has_pii": false}
+{"id": "benign_0428", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 429)", "has_pii": false}
+{"id": "benign_0429", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 430)", "has_pii": false}
+{"id": "benign_0430", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 431)", "has_pii": false}
+{"id": "benign_0431", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 432)", "has_pii": false}
+{"id": "benign_0432", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 433)", "has_pii": false}
+{"id": "benign_0433", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 434)", "has_pii": false}
+{"id": "benign_0434", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 435)", "has_pii": false}
+{"id": "benign_0435", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 436)", "has_pii": false}
+{"id": "benign_0436", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 437)", "has_pii": false}
+{"id": "benign_0437", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 438)", "has_pii": false}
+{"id": "benign_0438", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 439)", "has_pii": false}
+{"id": "benign_0439", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 440)", "has_pii": false}
+{"id": "benign_0440", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 441)", "has_pii": false}
+{"id": "benign_0441", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 442)", "has_pii": false}
+{"id": "benign_0442", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 443)", "has_pii": false}
+{"id": "benign_0443", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 444)", "has_pii": false}
+{"id": "benign_0444", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 445)", "has_pii": false}
+{"id": "benign_0445", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 446)", "has_pii": false}
+{"id": "benign_0446", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 447)", "has_pii": false}
+{"id": "benign_0447", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 448)", "has_pii": false}
+{"id": "benign_0448", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 449)", "has_pii": false}
+{"id": "benign_0449", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 450)", "has_pii": false}
+{"id": "benign_0450", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 451)", "has_pii": false}
+{"id": "benign_0451", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 452)", "has_pii": false}
+{"id": "benign_0452", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 453)", "has_pii": false}
+{"id": "benign_0453", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 454)", "has_pii": false}
+{"id": "benign_0454", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 455)", "has_pii": false}
+{"id": "benign_0455", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 456)", "has_pii": false}
+{"id": "benign_0456", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 457)", "has_pii": false}
+{"id": "benign_0457", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 458)", "has_pii": false}
+{"id": "benign_0458", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 459)", "has_pii": false}
+{"id": "benign_0459", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 460)", "has_pii": false}
+{"id": "benign_0460", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 461)", "has_pii": false}
+{"id": "benign_0461", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 462)", "has_pii": false}
+{"id": "benign_0462", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 463)", "has_pii": false}
+{"id": "benign_0463", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 464)", "has_pii": false}
+{"id": "benign_0464", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 465)", "has_pii": false}
+{"id": "benign_0465", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 466)", "has_pii": false}
+{"id": "benign_0466", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 467)", "has_pii": false}
+{"id": "benign_0467", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 468)", "has_pii": false}
+{"id": "benign_0468", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 469)", "has_pii": false}
+{"id": "benign_0469", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 470)", "has_pii": false}
+{"id": "benign_0470", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 471)", "has_pii": false}
+{"id": "benign_0471", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 472)", "has_pii": false}
+{"id": "benign_0472", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 473)", "has_pii": false}
+{"id": "benign_0473", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 474)", "has_pii": false}
+{"id": "benign_0474", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 475)", "has_pii": false}
+{"id": "benign_0475", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 476)", "has_pii": false}
+{"id": "benign_0476", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 477)", "has_pii": false}
+{"id": "benign_0477", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 478)", "has_pii": false}
+{"id": "benign_0478", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 479)", "has_pii": false}
+{"id": "benign_0479", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 480)", "has_pii": false}
+{"id": "benign_0480", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 481)", "has_pii": false}
+{"id": "benign_0481", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 482)", "has_pii": false}
+{"id": "benign_0482", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 483)", "has_pii": false}
+{"id": "benign_0483", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 484)", "has_pii": false}
+{"id": "benign_0484", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 485)", "has_pii": false}
+{"id": "benign_0485", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 486)", "has_pii": false}
+{"id": "benign_0486", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 487)", "has_pii": false}
+{"id": "benign_0487", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 488)", "has_pii": false}
+{"id": "benign_0488", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 489)", "has_pii": false}
+{"id": "benign_0489", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 490)", "has_pii": false}
+{"id": "benign_0490", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 491)", "has_pii": false}
+{"id": "benign_0491", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 492)", "has_pii": false}
+{"id": "benign_0492", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 493)", "has_pii": false}
+{"id": "benign_0493", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 494)", "has_pii": false}
+{"id": "benign_0494", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 495)", "has_pii": false}
+{"id": "benign_0495", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 496)", "has_pii": false}
+{"id": "benign_0496", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 497)", "has_pii": false}
+{"id": "benign_0497", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 498)", "has_pii": false}
+{"id": "benign_0498", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 499)", "has_pii": false}
+{"id": "benign_0499", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 500)", "has_pii": false}
+{"id": "benign_0500", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 501)", "has_pii": false}
+{"id": "benign_0501", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 502)", "has_pii": false}
+{"id": "benign_0502", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 503)", "has_pii": false}
+{"id": "benign_0503", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 504)", "has_pii": false}
+{"id": "benign_0504", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 505)", "has_pii": false}
+{"id": "benign_0505", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 506)", "has_pii": false}
+{"id": "benign_0506", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 507)", "has_pii": false}
+{"id": "benign_0507", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 508)", "has_pii": false}
+{"id": "benign_0508", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 509)", "has_pii": false}
+{"id": "benign_0509", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 510)", "has_pii": false}
+{"id": "benign_0510", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 511)", "has_pii": false}
+{"id": "benign_0511", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 512)", "has_pii": false}
+{"id": "benign_0512", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 513)", "has_pii": false}
+{"id": "benign_0513", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 514)", "has_pii": false}
+{"id": "benign_0514", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 515)", "has_pii": false}
+{"id": "benign_0515", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 516)", "has_pii": false}
+{"id": "benign_0516", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 517)", "has_pii": false}
+{"id": "benign_0517", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 518)", "has_pii": false}
+{"id": "benign_0518", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 519)", "has_pii": false}
+{"id": "benign_0519", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 520)", "has_pii": false}
+{"id": "benign_0520", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 521)", "has_pii": false}
+{"id": "benign_0521", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 522)", "has_pii": false}
+{"id": "benign_0522", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 523)", "has_pii": false}
+{"id": "benign_0523", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 524)", "has_pii": false}
+{"id": "benign_0524", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 525)", "has_pii": false}
+{"id": "benign_0525", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 526)", "has_pii": false}
+{"id": "benign_0526", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 527)", "has_pii": false}
+{"id": "benign_0527", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 528)", "has_pii": false}
+{"id": "benign_0528", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 529)", "has_pii": false}
+{"id": "benign_0529", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 530)", "has_pii": false}
+{"id": "benign_0530", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 531)", "has_pii": false}
+{"id": "benign_0531", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 532)", "has_pii": false}
+{"id": "benign_0532", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 533)", "has_pii": false}
+{"id": "benign_0533", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 534)", "has_pii": false}
+{"id": "benign_0534", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 535)", "has_pii": false}
+{"id": "benign_0535", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 536)", "has_pii": false}
+{"id": "benign_0536", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 537)", "has_pii": false}
+{"id": "benign_0537", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 538)", "has_pii": false}
+{"id": "benign_0538", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 539)", "has_pii": false}
+{"id": "benign_0539", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 540)", "has_pii": false}
+{"id": "benign_0540", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 541)", "has_pii": false}
+{"id": "benign_0541", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 542)", "has_pii": false}
+{"id": "benign_0542", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 543)", "has_pii": false}
+{"id": "benign_0543", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 544)", "has_pii": false}
+{"id": "benign_0544", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 545)", "has_pii": false}
+{"id": "benign_0545", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 546)", "has_pii": false}
+{"id": "benign_0546", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 547)", "has_pii": false}
+{"id": "benign_0547", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 548)", "has_pii": false}
+{"id": "benign_0548", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 549)", "has_pii": false}
+{"id": "benign_0549", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 550)", "has_pii": false}
+{"id": "benign_0550", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 551)", "has_pii": false}
+{"id": "benign_0551", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 552)", "has_pii": false}
+{"id": "benign_0552", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 553)", "has_pii": false}
+{"id": "benign_0553", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 554)", "has_pii": false}
+{"id": "benign_0554", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 555)", "has_pii": false}
+{"id": "benign_0555", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 556)", "has_pii": false}
+{"id": "benign_0556", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 557)", "has_pii": false}
+{"id": "benign_0557", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 558)", "has_pii": false}
+{"id": "benign_0558", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 559)", "has_pii": false}
+{"id": "benign_0559", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 560)", "has_pii": false}
+{"id": "benign_0560", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 561)", "has_pii": false}
+{"id": "benign_0561", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 562)", "has_pii": false}
+{"id": "benign_0562", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 563)", "has_pii": false}
+{"id": "benign_0563", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 564)", "has_pii": false}
+{"id": "benign_0564", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 565)", "has_pii": false}
+{"id": "benign_0565", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 566)", "has_pii": false}
+{"id": "benign_0566", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 567)", "has_pii": false}
+{"id": "benign_0567", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 568)", "has_pii": false}
+{"id": "benign_0568", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 569)", "has_pii": false}
+{"id": "benign_0569", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 570)", "has_pii": false}
+{"id": "benign_0570", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 571)", "has_pii": false}
+{"id": "benign_0571", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 572)", "has_pii": false}
+{"id": "benign_0572", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 573)", "has_pii": false}
+{"id": "benign_0573", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 574)", "has_pii": false}
+{"id": "benign_0574", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 575)", "has_pii": false}
+{"id": "benign_0575", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 576)", "has_pii": false}
+{"id": "benign_0576", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 577)", "has_pii": false}
+{"id": "benign_0577", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 578)", "has_pii": false}
+{"id": "benign_0578", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 579)", "has_pii": false}
+{"id": "benign_0579", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 580)", "has_pii": false}
+{"id": "benign_0580", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 581)", "has_pii": false}
+{"id": "benign_0581", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 582)", "has_pii": false}
+{"id": "benign_0582", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 583)", "has_pii": false}
+{"id": "benign_0583", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 584)", "has_pii": false}
+{"id": "benign_0584", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 585)", "has_pii": false}
+{"id": "benign_0585", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 586)", "has_pii": false}
+{"id": "benign_0586", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 587)", "has_pii": false}
+{"id": "benign_0587", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 588)", "has_pii": false}
+{"id": "benign_0588", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 589)", "has_pii": false}
+{"id": "benign_0589", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 590)", "has_pii": false}
+{"id": "benign_0590", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 591)", "has_pii": false}
+{"id": "benign_0591", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 592)", "has_pii": false}
+{"id": "benign_0592", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 593)", "has_pii": false}
+{"id": "benign_0593", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 594)", "has_pii": false}
+{"id": "benign_0594", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 595)", "has_pii": false}
+{"id": "benign_0595", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 596)", "has_pii": false}
+{"id": "benign_0596", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 597)", "has_pii": false}
+{"id": "benign_0597", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 598)", "has_pii": false}
+{"id": "benign_0598", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 599)", "has_pii": false}
+{"id": "benign_0599", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 600)", "has_pii": false}
+{"id": "benign_0600", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 601)", "has_pii": false}
+{"id": "benign_0601", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 602)", "has_pii": false}
+{"id": "benign_0602", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 603)", "has_pii": false}
+{"id": "benign_0603", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 604)", "has_pii": false}
+{"id": "benign_0604", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 605)", "has_pii": false}
+{"id": "benign_0605", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 606)", "has_pii": false}
+{"id": "benign_0606", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 607)", "has_pii": false}
+{"id": "benign_0607", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 608)", "has_pii": false}
+{"id": "benign_0608", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 609)", "has_pii": false}
+{"id": "benign_0609", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 610)", "has_pii": false}
+{"id": "benign_0610", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 611)", "has_pii": false}
+{"id": "benign_0611", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 612)", "has_pii": false}
+{"id": "benign_0612", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 613)", "has_pii": false}
+{"id": "benign_0613", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 614)", "has_pii": false}
+{"id": "benign_0614", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 615)", "has_pii": false}
+{"id": "benign_0615", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 616)", "has_pii": false}
+{"id": "benign_0616", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 617)", "has_pii": false}
+{"id": "benign_0617", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 618)", "has_pii": false}
+{"id": "benign_0618", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 619)", "has_pii": false}
+{"id": "benign_0619", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 620)", "has_pii": false}
+{"id": "benign_0620", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 621)", "has_pii": false}
+{"id": "benign_0621", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 622)", "has_pii": false}
+{"id": "benign_0622", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 623)", "has_pii": false}
+{"id": "benign_0623", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 624)", "has_pii": false}
+{"id": "benign_0624", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 625)", "has_pii": false}
+{"id": "benign_0625", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 626)", "has_pii": false}
+{"id": "benign_0626", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 627)", "has_pii": false}
+{"id": "benign_0627", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 628)", "has_pii": false}
+{"id": "benign_0628", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 629)", "has_pii": false}
+{"id": "benign_0629", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 630)", "has_pii": false}
+{"id": "benign_0630", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 631)", "has_pii": false}
+{"id": "benign_0631", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 632)", "has_pii": false}
+{"id": "benign_0632", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 633)", "has_pii": false}
+{"id": "benign_0633", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 634)", "has_pii": false}
+{"id": "benign_0634", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 635)", "has_pii": false}
+{"id": "benign_0635", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 636)", "has_pii": false}
+{"id": "benign_0636", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 637)", "has_pii": false}
+{"id": "benign_0637", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 638)", "has_pii": false}
+{"id": "benign_0638", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 639)", "has_pii": false}
+{"id": "benign_0639", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 640)", "has_pii": false}
+{"id": "benign_0640", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 641)", "has_pii": false}
+{"id": "benign_0641", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 642)", "has_pii": false}
+{"id": "benign_0642", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 643)", "has_pii": false}
+{"id": "benign_0643", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 644)", "has_pii": false}
+{"id": "benign_0644", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 645)", "has_pii": false}
+{"id": "benign_0645", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 646)", "has_pii": false}
+{"id": "benign_0646", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 647)", "has_pii": false}
+{"id": "benign_0647", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 648)", "has_pii": false}
+{"id": "benign_0648", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 649)", "has_pii": false}
+{"id": "benign_0649", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 650)", "has_pii": false}
+{"id": "benign_0650", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 651)", "has_pii": false}
+{"id": "benign_0651", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 652)", "has_pii": false}
+{"id": "benign_0652", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 653)", "has_pii": false}
+{"id": "benign_0653", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 654)", "has_pii": false}
+{"id": "benign_0654", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 655)", "has_pii": false}
+{"id": "benign_0655", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 656)", "has_pii": false}
+{"id": "benign_0656", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 657)", "has_pii": false}
+{"id": "benign_0657", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 658)", "has_pii": false}
+{"id": "benign_0658", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 659)", "has_pii": false}
+{"id": "benign_0659", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 660)", "has_pii": false}
+{"id": "benign_0660", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 661)", "has_pii": false}
+{"id": "benign_0661", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 662)", "has_pii": false}
+{"id": "benign_0662", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 663)", "has_pii": false}
+{"id": "benign_0663", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 664)", "has_pii": false}
+{"id": "benign_0664", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 665)", "has_pii": false}
+{"id": "benign_0665", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 666)", "has_pii": false}
+{"id": "benign_0666", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 667)", "has_pii": false}
+{"id": "benign_0667", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 668)", "has_pii": false}
+{"id": "benign_0668", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 669)", "has_pii": false}
+{"id": "benign_0669", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 670)", "has_pii": false}
+{"id": "benign_0670", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 671)", "has_pii": false}
+{"id": "benign_0671", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 672)", "has_pii": false}
+{"id": "benign_0672", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 673)", "has_pii": false}
+{"id": "benign_0673", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 674)", "has_pii": false}
+{"id": "benign_0674", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 675)", "has_pii": false}
+{"id": "benign_0675", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 676)", "has_pii": false}
+{"id": "benign_0676", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 677)", "has_pii": false}
+{"id": "benign_0677", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 678)", "has_pii": false}
+{"id": "benign_0678", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 679)", "has_pii": false}
+{"id": "benign_0679", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 680)", "has_pii": false}
+{"id": "benign_0680", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 681)", "has_pii": false}
+{"id": "benign_0681", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 682)", "has_pii": false}
+{"id": "benign_0682", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 683)", "has_pii": false}
+{"id": "benign_0683", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 684)", "has_pii": false}
+{"id": "benign_0684", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 685)", "has_pii": false}
+{"id": "benign_0685", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 686)", "has_pii": false}
+{"id": "benign_0686", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 687)", "has_pii": false}
+{"id": "benign_0687", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 688)", "has_pii": false}
+{"id": "benign_0688", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 689)", "has_pii": false}
+{"id": "benign_0689", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 690)", "has_pii": false}
+{"id": "benign_0690", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 691)", "has_pii": false}
+{"id": "benign_0691", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 692)", "has_pii": false}
+{"id": "benign_0692", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 693)", "has_pii": false}
+{"id": "benign_0693", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 694)", "has_pii": false}
+{"id": "benign_0694", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 695)", "has_pii": false}
+{"id": "benign_0695", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 696)", "has_pii": false}
+{"id": "benign_0696", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 697)", "has_pii": false}
+{"id": "benign_0697", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 698)", "has_pii": false}
+{"id": "benign_0698", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 699)", "has_pii": false}
+{"id": "benign_0699", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 700)", "has_pii": false}
+{"id": "benign_0700", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 701)", "has_pii": false}
+{"id": "benign_0701", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 702)", "has_pii": false}
+{"id": "benign_0702", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 703)", "has_pii": false}
+{"id": "benign_0703", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 704)", "has_pii": false}
+{"id": "benign_0704", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 705)", "has_pii": false}
+{"id": "benign_0705", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 706)", "has_pii": false}
+{"id": "benign_0706", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 707)", "has_pii": false}
+{"id": "benign_0707", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 708)", "has_pii": false}
+{"id": "benign_0708", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 709)", "has_pii": false}
+{"id": "benign_0709", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 710)", "has_pii": false}
+{"id": "benign_0710", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 711)", "has_pii": false}
+{"id": "benign_0711", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 712)", "has_pii": false}
+{"id": "benign_0712", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 713)", "has_pii": false}
+{"id": "benign_0713", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 714)", "has_pii": false}
+{"id": "benign_0714", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 715)", "has_pii": false}
+{"id": "benign_0715", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 716)", "has_pii": false}
+{"id": "benign_0716", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 717)", "has_pii": false}
+{"id": "benign_0717", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 718)", "has_pii": false}
+{"id": "benign_0718", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 719)", "has_pii": false}
+{"id": "benign_0719", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 720)", "has_pii": false}
+{"id": "benign_0720", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 721)", "has_pii": false}
+{"id": "benign_0721", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 722)", "has_pii": false}
+{"id": "benign_0722", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 723)", "has_pii": false}
+{"id": "benign_0723", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 724)", "has_pii": false}
+{"id": "benign_0724", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 725)", "has_pii": false}
+{"id": "benign_0725", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 726)", "has_pii": false}
+{"id": "benign_0726", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 727)", "has_pii": false}
+{"id": "benign_0727", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 728)", "has_pii": false}
+{"id": "benign_0728", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 729)", "has_pii": false}
+{"id": "benign_0729", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 730)", "has_pii": false}
+{"id": "benign_0730", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 731)", "has_pii": false}
+{"id": "benign_0731", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 732)", "has_pii": false}
+{"id": "benign_0732", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 733)", "has_pii": false}
+{"id": "benign_0733", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 734)", "has_pii": false}
+{"id": "benign_0734", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 735)", "has_pii": false}
+{"id": "benign_0735", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 736)", "has_pii": false}
+{"id": "benign_0736", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 737)", "has_pii": false}
+{"id": "benign_0737", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 738)", "has_pii": false}
+{"id": "benign_0738", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 739)", "has_pii": false}
+{"id": "benign_0739", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 740)", "has_pii": false}
+{"id": "benign_0740", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 741)", "has_pii": false}
+{"id": "benign_0741", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 742)", "has_pii": false}
+{"id": "benign_0742", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 743)", "has_pii": false}
+{"id": "benign_0743", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 744)", "has_pii": false}
+{"id": "benign_0744", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 745)", "has_pii": false}
+{"id": "benign_0745", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 746)", "has_pii": false}
+{"id": "benign_0746", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 747)", "has_pii": false}
+{"id": "benign_0747", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 748)", "has_pii": false}
+{"id": "benign_0748", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 749)", "has_pii": false}
+{"id": "benign_0749", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 750)", "has_pii": false}
+{"id": "benign_0750", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 751)", "has_pii": false}
+{"id": "benign_0751", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 752)", "has_pii": false}
+{"id": "benign_0752", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 753)", "has_pii": false}
+{"id": "benign_0753", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 754)", "has_pii": false}
+{"id": "benign_0754", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 755)", "has_pii": false}
+{"id": "benign_0755", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 756)", "has_pii": false}
+{"id": "benign_0756", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 757)", "has_pii": false}
+{"id": "benign_0757", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 758)", "has_pii": false}
+{"id": "benign_0758", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 759)", "has_pii": false}
+{"id": "benign_0759", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 760)", "has_pii": false}
+{"id": "benign_0760", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 761)", "has_pii": false}
+{"id": "benign_0761", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 762)", "has_pii": false}
+{"id": "benign_0762", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 763)", "has_pii": false}
+{"id": "benign_0763", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 764)", "has_pii": false}
+{"id": "benign_0764", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 765)", "has_pii": false}
+{"id": "benign_0765", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 766)", "has_pii": false}
+{"id": "benign_0766", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 767)", "has_pii": false}
+{"id": "benign_0767", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 768)", "has_pii": false}
+{"id": "benign_0768", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 769)", "has_pii": false}
+{"id": "benign_0769", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 770)", "has_pii": false}
+{"id": "benign_0770", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 771)", "has_pii": false}
+{"id": "benign_0771", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 772)", "has_pii": false}
+{"id": "benign_0772", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 773)", "has_pii": false}
+{"id": "benign_0773", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 774)", "has_pii": false}
+{"id": "benign_0774", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 775)", "has_pii": false}
+{"id": "benign_0775", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 776)", "has_pii": false}
+{"id": "benign_0776", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 777)", "has_pii": false}
+{"id": "benign_0777", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 778)", "has_pii": false}
+{"id": "benign_0778", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 779)", "has_pii": false}
+{"id": "benign_0779", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 780)", "has_pii": false}
+{"id": "benign_0780", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 781)", "has_pii": false}
+{"id": "benign_0781", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 782)", "has_pii": false}
+{"id": "benign_0782", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 783)", "has_pii": false}
+{"id": "benign_0783", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 784)", "has_pii": false}
+{"id": "benign_0784", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 785)", "has_pii": false}
+{"id": "benign_0785", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 786)", "has_pii": false}
+{"id": "benign_0786", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 787)", "has_pii": false}
+{"id": "benign_0787", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 788)", "has_pii": false}
+{"id": "benign_0788", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 789)", "has_pii": false}
+{"id": "benign_0789", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 790)", "has_pii": false}
+{"id": "benign_0790", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 791)", "has_pii": false}
+{"id": "benign_0791", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 792)", "has_pii": false}
+{"id": "benign_0792", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 793)", "has_pii": false}
+{"id": "benign_0793", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 794)", "has_pii": false}
+{"id": "benign_0794", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 795)", "has_pii": false}
+{"id": "benign_0795", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 796)", "has_pii": false}
+{"id": "benign_0796", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 797)", "has_pii": false}
+{"id": "benign_0797", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 798)", "has_pii": false}
+{"id": "benign_0798", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 799)", "has_pii": false}
+{"id": "benign_0799", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 800)", "has_pii": false}
+{"id": "benign_0800", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 801)", "has_pii": false}
+{"id": "benign_0801", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 802)", "has_pii": false}
+{"id": "benign_0802", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 803)", "has_pii": false}
+{"id": "benign_0803", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 804)", "has_pii": false}
+{"id": "benign_0804", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 805)", "has_pii": false}
+{"id": "benign_0805", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 806)", "has_pii": false}
+{"id": "benign_0806", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 807)", "has_pii": false}
+{"id": "benign_0807", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 808)", "has_pii": false}
+{"id": "benign_0808", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 809)", "has_pii": false}
+{"id": "benign_0809", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 810)", "has_pii": false}
+{"id": "benign_0810", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 811)", "has_pii": false}
+{"id": "benign_0811", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 812)", "has_pii": false}
+{"id": "benign_0812", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 813)", "has_pii": false}
+{"id": "benign_0813", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 814)", "has_pii": false}
+{"id": "benign_0814", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 815)", "has_pii": false}
+{"id": "benign_0815", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 816)", "has_pii": false}
+{"id": "benign_0816", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 817)", "has_pii": false}
+{"id": "benign_0817", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 818)", "has_pii": false}
+{"id": "benign_0818", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 819)", "has_pii": false}
+{"id": "benign_0819", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 820)", "has_pii": false}
+{"id": "benign_0820", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 821)", "has_pii": false}
+{"id": "benign_0821", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 822)", "has_pii": false}
+{"id": "benign_0822", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 823)", "has_pii": false}
+{"id": "benign_0823", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 824)", "has_pii": false}
+{"id": "benign_0824", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 825)", "has_pii": false}
+{"id": "benign_0825", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 826)", "has_pii": false}
+{"id": "benign_0826", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 827)", "has_pii": false}
+{"id": "benign_0827", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 828)", "has_pii": false}
+{"id": "benign_0828", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 829)", "has_pii": false}
+{"id": "benign_0829", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 830)", "has_pii": false}
+{"id": "benign_0830", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 831)", "has_pii": false}
+{"id": "benign_0831", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 832)", "has_pii": false}
+{"id": "benign_0832", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 833)", "has_pii": false}
+{"id": "benign_0833", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 834)", "has_pii": false}
+{"id": "benign_0834", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 835)", "has_pii": false}
+{"id": "benign_0835", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 836)", "has_pii": false}
+{"id": "benign_0836", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 837)", "has_pii": false}
+{"id": "benign_0837", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 838)", "has_pii": false}
+{"id": "benign_0838", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 839)", "has_pii": false}
+{"id": "benign_0839", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 840)", "has_pii": false}
+{"id": "benign_0840", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 841)", "has_pii": false}
+{"id": "benign_0841", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 842)", "has_pii": false}
+{"id": "benign_0842", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 843)", "has_pii": false}
+{"id": "benign_0843", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 844)", "has_pii": false}
+{"id": "benign_0844", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 845)", "has_pii": false}
+{"id": "benign_0845", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 846)", "has_pii": false}
+{"id": "benign_0846", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 847)", "has_pii": false}
+{"id": "benign_0847", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 848)", "has_pii": false}
+{"id": "benign_0848", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 849)", "has_pii": false}
+{"id": "benign_0849", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 850)", "has_pii": false}
+{"id": "benign_0850", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 851)", "has_pii": false}
+{"id": "benign_0851", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 852)", "has_pii": false}
+{"id": "benign_0852", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 853)", "has_pii": false}
+{"id": "benign_0853", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 854)", "has_pii": false}
+{"id": "benign_0854", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 855)", "has_pii": false}
+{"id": "benign_0855", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 856)", "has_pii": false}
+{"id": "benign_0856", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 857)", "has_pii": false}
+{"id": "benign_0857", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 858)", "has_pii": false}
+{"id": "benign_0858", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 859)", "has_pii": false}
+{"id": "benign_0859", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 860)", "has_pii": false}
+{"id": "benign_0860", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 861)", "has_pii": false}
+{"id": "benign_0861", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 862)", "has_pii": false}
+{"id": "benign_0862", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 863)", "has_pii": false}
+{"id": "benign_0863", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 864)", "has_pii": false}
+{"id": "benign_0864", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 865)", "has_pii": false}
+{"id": "benign_0865", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 866)", "has_pii": false}
+{"id": "benign_0866", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 867)", "has_pii": false}
+{"id": "benign_0867", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 868)", "has_pii": false}
+{"id": "benign_0868", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 869)", "has_pii": false}
+{"id": "benign_0869", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 870)", "has_pii": false}
+{"id": "benign_0870", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 871)", "has_pii": false}
+{"id": "benign_0871", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 872)", "has_pii": false}
+{"id": "benign_0872", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 873)", "has_pii": false}
+{"id": "benign_0873", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 874)", "has_pii": false}
+{"id": "benign_0874", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 875)", "has_pii": false}
+{"id": "benign_0875", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 876)", "has_pii": false}
+{"id": "benign_0876", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 877)", "has_pii": false}
+{"id": "benign_0877", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 878)", "has_pii": false}
+{"id": "benign_0878", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 879)", "has_pii": false}
+{"id": "benign_0879", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 880)", "has_pii": false}
+{"id": "benign_0880", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 881)", "has_pii": false}
+{"id": "benign_0881", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 882)", "has_pii": false}
+{"id": "benign_0882", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 883)", "has_pii": false}
+{"id": "benign_0883", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 884)", "has_pii": false}
+{"id": "benign_0884", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 885)", "has_pii": false}
+{"id": "benign_0885", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 886)", "has_pii": false}
+{"id": "benign_0886", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 887)", "has_pii": false}
+{"id": "benign_0887", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 888)", "has_pii": false}
+{"id": "benign_0888", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 889)", "has_pii": false}
+{"id": "benign_0889", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 890)", "has_pii": false}
+{"id": "benign_0890", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 891)", "has_pii": false}
+{"id": "benign_0891", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 892)", "has_pii": false}
+{"id": "benign_0892", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 893)", "has_pii": false}
+{"id": "benign_0893", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 894)", "has_pii": false}
+{"id": "benign_0894", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 895)", "has_pii": false}
+{"id": "benign_0895", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 896)", "has_pii": false}
+{"id": "benign_0896", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 897)", "has_pii": false}
+{"id": "benign_0897", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 898)", "has_pii": false}
+{"id": "benign_0898", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 899)", "has_pii": false}
+{"id": "benign_0899", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 900)", "has_pii": false}
+{"id": "benign_0900", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 901)", "has_pii": false}
+{"id": "benign_0901", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 902)", "has_pii": false}
+{"id": "benign_0902", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 903)", "has_pii": false}
+{"id": "benign_0903", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 904)", "has_pii": false}
+{"id": "benign_0904", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 905)", "has_pii": false}
+{"id": "benign_0905", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 906)", "has_pii": false}
+{"id": "benign_0906", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 907)", "has_pii": false}
+{"id": "benign_0907", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 908)", "has_pii": false}
+{"id": "benign_0908", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 909)", "has_pii": false}
+{"id": "benign_0909", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 910)", "has_pii": false}
+{"id": "benign_0910", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 911)", "has_pii": false}
+{"id": "benign_0911", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 912)", "has_pii": false}
+{"id": "benign_0912", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 913)", "has_pii": false}
+{"id": "benign_0913", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 914)", "has_pii": false}
+{"id": "benign_0914", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 915)", "has_pii": false}
+{"id": "benign_0915", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 916)", "has_pii": false}
+{"id": "benign_0916", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 917)", "has_pii": false}
+{"id": "benign_0917", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 918)", "has_pii": false}
+{"id": "benign_0918", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 919)", "has_pii": false}
+{"id": "benign_0919", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 920)", "has_pii": false}
+{"id": "benign_0920", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 921)", "has_pii": false}
+{"id": "benign_0921", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 922)", "has_pii": false}
+{"id": "benign_0922", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 923)", "has_pii": false}
+{"id": "benign_0923", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 924)", "has_pii": false}
+{"id": "benign_0924", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 925)", "has_pii": false}
+{"id": "benign_0925", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 926)", "has_pii": false}
+{"id": "benign_0926", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 927)", "has_pii": false}
+{"id": "benign_0927", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 928)", "has_pii": false}
+{"id": "benign_0928", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 929)", "has_pii": false}
+{"id": "benign_0929", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 930)", "has_pii": false}
+{"id": "benign_0930", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 931)", "has_pii": false}
+{"id": "benign_0931", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 932)", "has_pii": false}
+{"id": "benign_0932", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 933)", "has_pii": false}
+{"id": "benign_0933", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 934)", "has_pii": false}
+{"id": "benign_0934", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 935)", "has_pii": false}
+{"id": "benign_0935", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 936)", "has_pii": false}
+{"id": "benign_0936", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 937)", "has_pii": false}
+{"id": "benign_0937", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 938)", "has_pii": false}
+{"id": "benign_0938", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 939)", "has_pii": false}
+{"id": "benign_0939", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 940)", "has_pii": false}
+{"id": "benign_0940", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 941)", "has_pii": false}
+{"id": "benign_0941", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 942)", "has_pii": false}
+{"id": "benign_0942", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 943)", "has_pii": false}
+{"id": "benign_0943", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 944)", "has_pii": false}
+{"id": "benign_0944", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 945)", "has_pii": false}
+{"id": "benign_0945", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 946)", "has_pii": false}
+{"id": "benign_0946", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 947)", "has_pii": false}
+{"id": "benign_0947", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 948)", "has_pii": false}
+{"id": "benign_0948", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 949)", "has_pii": false}
+{"id": "benign_0949", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 950)", "has_pii": false}
+{"id": "benign_0950", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 951)", "has_pii": false}
+{"id": "benign_0951", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 952)", "has_pii": false}
+{"id": "benign_0952", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 953)", "has_pii": false}
+{"id": "benign_0953", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 954)", "has_pii": false}
+{"id": "benign_0954", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 955)", "has_pii": false}
+{"id": "benign_0955", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 956)", "has_pii": false}
+{"id": "benign_0956", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 957)", "has_pii": false}
+{"id": "benign_0957", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 958)", "has_pii": false}
+{"id": "benign_0958", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 959)", "has_pii": false}
+{"id": "benign_0959", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 960)", "has_pii": false}
+{"id": "benign_0960", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 961)", "has_pii": false}
+{"id": "benign_0961", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 962)", "has_pii": false}
+{"id": "benign_0962", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 963)", "has_pii": false}
+{"id": "benign_0963", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 964)", "has_pii": false}
+{"id": "benign_0964", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 965)", "has_pii": false}
+{"id": "benign_0965", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 966)", "has_pii": false}
+{"id": "benign_0966", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 967)", "has_pii": false}
+{"id": "benign_0967", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 968)", "has_pii": false}
+{"id": "benign_0968", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 969)", "has_pii": false}
+{"id": "benign_0969", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 970)", "has_pii": false}
+{"id": "benign_0970", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 971)", "has_pii": false}
+{"id": "benign_0971", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 972)", "has_pii": false}
+{"id": "benign_0972", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 973)", "has_pii": false}
+{"id": "benign_0973", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 974)", "has_pii": false}
+{"id": "benign_0974", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 975)", "has_pii": false}
+{"id": "benign_0975", "prompt": "How do I sort a list of dictionaries by key in Python? (Scenario variation 976)", "has_pii": false}
+{"id": "benign_0976", "prompt": "Explain the difference between TCP and UDP protocols in computer networking. (Scenario variation 977)", "has_pii": false}
+{"id": "benign_0977", "prompt": "Write a SQL query to find the second highest salary from an Employee table. (Scenario variation 978)", "has_pii": false}
+{"id": "benign_0978", "prompt": "What is the time complexity of quicksort in the worst case? (Scenario variation 979)", "has_pii": false}
+{"id": "benign_0979", "prompt": "How to configure CORS headers in FastAPI with allowed origins? (Scenario variation 980)", "has_pii": false}
+{"id": "benign_0980", "prompt": "Summarize the main concepts of Object-Oriented Programming with examples. (Scenario variation 981)", "has_pii": false}
+{"id": "benign_0981", "prompt": "What is the difference between Git merge and Git rebase? (Scenario variation 982)", "has_pii": false}
+{"id": "benign_0982", "prompt": "How do I set up a Docker multi-stage build for a Node.js web application? (Scenario variation 983)", "has_pii": false}
+{"id": "benign_0983", "prompt": "Explain how virtual memory and paging work in modern operating systems. (Scenario variation 984)", "has_pii": false}
+{"id": "benign_0984", "prompt": "What is the purpose of the useEffect hook in React? (Scenario variation 985)", "has_pii": false}
+{"id": "benign_0985", "prompt": "How to implement binary search in Rust using idiomatic slice methods? (Scenario variation 986)", "has_pii": false}
+{"id": "benign_0986", "prompt": "Explain the difference between horizontal and vertical database scaling. (Scenario variation 987)", "has_pii": false}
+{"id": "benign_0987", "prompt": "What are the ACID properties in database transaction management? (Scenario variation 988)", "has_pii": false}
+{"id": "benign_0988", "prompt": "How do I read environment variables in Go using the os package? (Scenario variation 989)", "has_pii": false}
+{"id": "benign_0989", "prompt": "What is the difference between process and thread in concurrent programming? (Scenario variation 990)", "has_pii": false}
+{"id": "benign_0990", "prompt": "How to handle deadlocks in distributed database systems? (Scenario variation 991)", "has_pii": false}
+{"id": "benign_0991", "prompt": "Explain the role of the default gateway in IPv4 routing tables. (Scenario variation 992)", "has_pii": false}
+{"id": "benign_0992", "prompt": "How do I parse JSON strings safely in TypeScript? (Scenario variation 993)", "has_pii": false}
+{"id": "benign_0993", "prompt": "What is the difference between symmetric and asymmetric encryption? (Scenario variation 994)", "has_pii": false}
+{"id": "benign_0994", "prompt": "How to calculate the 95th percentile latency from an array of request durations? (Scenario variation 995)", "has_pii": false}
+{"id": "benign_0995", "prompt": "Can you write a unit test using pytest for an async function? (Scenario variation 996)", "has_pii": false}
+{"id": "benign_0996", "prompt": "Explain how garbage collection works in the V8 JavaScript engine. (Scenario variation 997)", "has_pii": false}
+{"id": "benign_0997", "prompt": "What are the advantages of using GraphQL over traditional REST endpoints? (Scenario variation 998)", "has_pii": false}
+{"id": "benign_0998", "prompt": "How do I configure Prometheus to scrape metrics from a Kubernetes pod? (Scenario variation 999)", "has_pii": false}
+{"id": "benign_0999", "prompt": "What is the difference between optimistic and pessimistic concurrency control? (Scenario variation 1000)", "has_pii": false}

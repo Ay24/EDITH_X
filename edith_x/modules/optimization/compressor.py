@@ -52,33 +52,33 @@ class InformationDensityCompressor:
                 compression_ratio=cleaned_tokens / original_tokens,
             )
 
-        # Stage 2: Sentence-Level Density Ranking
+        # Stage 2: Sentence-Level Density Ranking (indexed to avoid duplicate sentence expansion)
         sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", cleaned) if s.strip()]
-        scored_sentences: list[tuple[float, str]] = []
+        scored_sentences: list[tuple[float, int, str]] = []
 
-        for s in sentences:
+        for idx, s in enumerate(sentences):
             # Score sentences based on numbers, code, identifiers, technical terms
             numbers_count = len(re.findall(r"\b\d+\b", s))
             code_markers = len(re.findall(r"[`_{}\[\]:=]", s))
             words = s.split()
             density = (numbers_count * 2.0 + code_markers * 1.5 + len(words)) / max(len(words), 1)
-            scored_sentences.append((density, s))
+            scored_sentences.append((density, idx, s))
 
         # Sort descending by information density
         scored_sentences.sort(key=lambda x: x[0], reverse=True)
 
-        selected_sentences: list[str] = []
+        selected_indices: set[int] = set()
         token_count = 0
-        for _, s in scored_sentences:
+        for _, idx, s in scored_sentences:
             s_tokens = _estimate_tokens(s)
-            if token_count + s_tokens <= budget or not selected_sentences:
-                selected_sentences.append(s)
+            if token_count + s_tokens <= budget or not selected_indices:
+                selected_indices.add(idx)
                 token_count += s_tokens
             if token_count >= budget:
                 break
 
-        # Re-order to original flow
-        final_sentences = [s for s in sentences if s in selected_sentences]
+        # Re-order strictly by original sentence sequence
+        final_sentences = [s for idx, s in enumerate(sentences) if idx in selected_indices]
         compressed_text = " ".join(final_sentences)
         final_tokens = _estimate_tokens(compressed_text)
 

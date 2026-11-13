@@ -1,0 +1,52 @@
+{
+  "version": "2.0.0",
+  "generated_at": "2026-11-13T18:22:00Z",
+  "hardware": {
+    "cpu": "AMD Ryzen 5 5600H (6C/12T)",
+    "ram": "16 GB",
+    "os": "Windows 11",
+    "python": "3.11.0"
+  },
+  "metrics": {
+    "routellm_pareto": {
+      "always_strong_accuracy": 0.93,
+      "always_weak_accuracy": 0.38,
+      "router_auc": 0.682,
+      "random_router_auc": 0.576,
+      "auc_delta": 0.106,
+      "auc_delta_ci_lower": 0.080,
+      "strong_calls_for_90pct_quality": 0.51,
+      "cost_savings_50_50": 52.64,
+      "cost_savings_70_30": 70.28,
+      "cost_savings_90_10": 87.86,
+      "downgrade_rate": 0.05
+    },
+    "llmlingua_compression": {
+      "average_compression_ratio": 0.51,
+      "token_reduction_pct": 48.9,
+      "qa_accuracy_retention": 0.90,
+      "qa_retention_ci_lower": 0.80,
+      "naive_truncation_accuracy": 0.40,
+      "random_drop_accuracy": 0.467,
+      "gain_over_truncation": 0.50,
+      "gain_over_random_drop": 0.433
+    },
+    "pii_firewall": {
+      "benign_1k_fpr": 0.00,
+      "hard_negative_fpr": 0.00,
+      "critical_secret_recall": 1.00,
+      "adversarial_recall": 1.00,
+      "naive_regex_adversarial_recall": 0.125,
+      "overall_precision": 1.00,
+      "overall_recall": 0.938,
+      "overall_f1_score": 0.968
+    },
+    "latency_and_throughput": {
+      "exact_cache_p99_ms": 0.0102,
+      "semantic_cache_p99_ms": 0.5094,
+      "prerouting_pipeline_p99_ms": 0.3470,
+      "gateway_http_proxy_delta_p99_ms": 1.85,
+      "throughput_100_concurrency_req_s": 4817.6
+    }
+  }
+}
