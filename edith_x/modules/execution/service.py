@@ -13,6 +13,7 @@ from edith_x.core.config import Settings
 from edith_x.core.interfaces import (
     Context, ExecutionResult, ModelSelection, ToolCall, ToolResult,
 )
+from edith_x.modules.gateway.circuit_breaker import CircuitBreaker
 
 log = structlog.get_logger(__name__)
 
@@ -36,7 +37,13 @@ def _is_valid_key(key: str | None) -> bool:
 class ExecutionService:
     def __init__(self, settings: Settings) -> None:
         self._settings = settings
+        self._circuit_breakers: dict[str, CircuitBreaker] = {}
         self._configure_litellm()
+
+    def get_circuit_breaker(self, provider: str) -> CircuitBreaker:
+        if provider not in self._circuit_breakers:
+            self._circuit_breakers[provider] = CircuitBreaker(name=provider)
+        return self._circuit_breakers[provider]
 
     def _configure_litellm(self) -> None:
         if _is_valid_key(self._settings.openai_api_key):
@@ -157,9 +164,11 @@ class ExecutionService:
         elif selection.provider in ("nvidia", "nvidia_nim"):
             has_key_for_primary = _is_valid_key(self._settings.nvidia_api_key)
 
-        if has_key_for_primary:
+        primary_cb = self.get_circuit_breaker(selection.provider)
+        if has_key_for_primary and primary_cb.can_execute():
             try:
                 response = await litellm.acompletion(**primary_kwargs)
+                primary_cb.record_success()
                 elapsed_ms = int((time.monotonic() - start) * 1000)
                 content = response.choices[0].message.content or ""
                 usage = response.usage
@@ -188,6 +197,7 @@ class ExecutionService:
                 )
 
             except Exception as e:
+                primary_cb.record_failure(e)
                 err_msg = str(e)
                 log.warning(
                     "primary_execution_failed_initiating_waterfall",
@@ -195,6 +205,9 @@ class ExecutionService:
                     model=selection.model,
                     error=err_msg,
                 )
+        elif not primary_cb.can_execute():
+            err_msg = f"Circuit breaker OPEN for provider '{selection.provider}'"
+            log.warning("primary_circuit_breaker_open_skipping", provider=selection.provider)
         else:
             err_msg = f"No active API key configured for provider '{selection.provider}'"
             log.info("primary_provider_skipped_unconfigured", provider=selection.provider)
@@ -202,11 +215,17 @@ class ExecutionService:
         # 2. Resilient Fallback Waterfall
         fallbacks = self._get_fallback_candidates(selection.provider, selection.model)
         for fb_provider, fb_model in fallbacks:
+            fb_cb = self.get_circuit_breaker(fb_provider)
+            if not fb_cb.can_execute():
+                log.warning("fallback_circuit_breaker_open_skipping", provider=fb_provider)
+                continue
+
             log.info("attempting_fallback_provider", provider=fb_provider, model=fb_model)
             fb_kwargs = self._resolve_model_kwargs(fb_provider, fb_model)
             fb_kwargs["messages"] = messages
             try:
                 fb_response = await litellm.acompletion(**fb_kwargs)
+                fb_cb.record_success()
                 elapsed_ms = int((time.monotonic() - start) * 1000)
                 fb_content = fb_response.choices[0].message.content or ""
                 fb_usage = fb_response.usage
@@ -233,6 +252,7 @@ class ExecutionService:
                     failover_reason=err_msg,
                 )
             except Exception as fb_err:
+                fb_cb.record_failure(fb_err)
                 log.warning(
                     "fallback_attempt_failed",
                     fallback_provider=fb_provider,
