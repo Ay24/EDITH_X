@@ -15,19 +15,24 @@ class ParetoModelRouter:
         "proof", "prove", "formal", "byzantine", "consensus", "distributed",
         "quantum", "cryptography", "kernel", "assembly", "compiler", "ast",
         "latex", "derivation", "mathematical", "deadlock", "race condition",
+        "zero-knowledge", "snark", "circuit", "combinatorial", "lock-free",
+        "threat model", "security audit", "architect", "microservices",
+        "cqrs", "event sourcing", "paxos", "raft", "multithreaded",
     ]
 
     STRUCTURED_MARKERS = [
-        "step-by-step", "in detail", "architect", "microservices", "scale",
-        "benchmark", "optimize", "refactor", "security audit", "threat model",
+        "step-by-step", "in detail", "scale", "benchmark", "optimize",
+        "refactor", "algorithmic", "complexity", "vector search",
+        "concurrency", "low latency", "fault-tolerant",
     ]
 
     SIMPLE_MARKERS = [
         "what is", "how do i", "define", "difference between", "example of",
         "hello", "hi", "help", "summary", "tldr", "syntax", "format",
+        "command to", "convert", "chemical symbol", "port for",
     ]
 
-    def __init__(self, threshold_cheap: float = 0.50, threshold_medium: float = 0.25) -> None:
+    def __init__(self, threshold_cheap: float = 0.50, threshold_medium: float = 0.35) -> None:
         self.threshold_cheap = threshold_cheap
         self.threshold_medium = threshold_medium
 
@@ -54,18 +59,18 @@ class ParetoModelRouter:
 
         # 2. Complex domain markers
         complex_hits = sum(1 for m in self.COMPLEX_MARKERS if m in q_lower)
-        score -= complex_hits * 0.20
+        score -= complex_hits * 0.28
 
         # 3. Structural depth markers
         struct_hits = sum(1 for m in self.STRUCTURED_MARKERS if m in q_lower)
-        score -= struct_hits * 0.10
+        score -= struct_hits * 0.14
 
         # 4. Simple / FAQ markers
         simple_hits = sum(1 for m in self.SIMPLE_MARKERS if m in q_lower)
-        score += simple_hits * 0.15
+        score += simple_hits * 0.18
 
         # 5. Code blocks / symbols detection
-        if "```" in query or "{" in query and "}" in query:
+        if "```" in query or ("{" in query and "}" in query):
             score -= 0.10
 
         # Sigmoid clamping to [0.01, 0.99]

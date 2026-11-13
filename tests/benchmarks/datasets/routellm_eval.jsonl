@@ -1,0 +1,50 @@
+{"id": "r_01", "prompt": "Hello! How are you doing today?", "expected_tier": "fast", "domain": "casual"}
+{"id": "r_02", "prompt": "What is the capital of Australia?", "expected_tier": "fast", "domain": "factual"}
+{"id": "r_03", "prompt": "What is the difference between Python list and tuple?", "expected_tier": "fast", "domain": "syntax"}
+{"id": "r_04", "prompt": "How do i format a date string as YYYY-MM-DD in JavaScript?", "expected_tier": "fast", "domain": "syntax"}
+{"id": "r_05", "prompt": "Define the term polymorphism in object-oriented programming.", "expected_tier": "fast", "domain": "definition"}
+{"id": "r_06", "prompt": "Give me an example of an HTTP 404 response.", "expected_tier": "fast", "domain": "syntax"}
+{"id": "r_07", "prompt": "What is the command to create a new branch in git?", "expected_tier": "fast", "domain": "factual"}
+{"id": "r_08", "prompt": "Convert 100 degrees Celsius to Fahrenheit.", "expected_tier": "fast", "domain": "calculation"}
+{"id": "r_09", "prompt": "What is the chemical symbol for gold?", "expected_tier": "fast", "domain": "factual"}
+{"id": "r_10", "prompt": "Give a quick summary of what Docker is in 2 sentences.", "expected_tier": "fast", "domain": "summary"}
+{"id": "r_11", "prompt": "What is the syntax for a for-loop in Go?", "expected_tier": "fast", "domain": "syntax"}
+{"id": "r_12", "prompt": "How do i check my IP address on Windows?", "expected_tier": "fast", "domain": "factual"}
+{"id": "r_13", "prompt": "What is the difference between SQL DROP and TRUNCATE?", "expected_tier": "fast", "domain": "factual"}
+{"id": "r_14", "prompt": "Can you give me a tldr on JSON vs YAML?", "expected_tier": "fast", "domain": "summary"}
+{"id": "r_15", "prompt": "What does CSS flexbox do?", "expected_tier": "fast", "domain": "definition"}
+{"id": "r_16", "prompt": "Define idempotency in REST APIs.", "expected_tier": "fast", "domain": "definition"}
+{"id": "r_17", "prompt": "How do i write a basic dictionary comprehension in Python?", "expected_tier": "fast", "domain": "syntax"}
+{"id": "r_18", "prompt": "What is the default port for PostgreSQL and Redis?", "expected_tier": "fast", "domain": "factual"}
+{"id": "r_19", "prompt": "Explain the concept of garbage collection in high-level languages.", "expected_tier": "fast", "domain": "factual"}
+{"id": "r_20", "prompt": "What is the command to check node version?", "expected_tier": "fast", "domain": "factual"}
+{"id": "r_21", "prompt": "Provide a simple regex to match a 5-digit zip code.", "expected_tier": "fast", "domain": "syntax"}
+{"id": "r_22", "prompt": "What is the difference between synchronous and asynchronous execution?", "expected_tier": "fast", "domain": "definition"}
+{"id": "r_23", "prompt": "How do i read a text file line by line in Python?", "expected_tier": "fast", "domain": "syntax"}
+{"id": "r_24", "prompt": "What does DNS stand for?", "expected_tier": "fast", "domain": "factual"}
+{"id": "r_25", "prompt": "Explain what a foreign key constraint is in relational databases.", "expected_tier": "fast", "domain": "factual"}
+{"id": "r_26", "prompt": "Provide a formal mathematical proof of the Byzantine Generals Problem solvability when n > 3m in distributed consensus.", "expected_tier": "frontier", "domain": "distributed_systems"}
+{"id": "r_27", "prompt": "Derive the mathematical derivation and proof of the Black-Scholes partial differential equation using Ito's Lemma with complete LaTeX equations.", "expected_tier": "frontier", "domain": "quantitative_finance"}
+{"id": "r_28", "prompt": "Architect a global fault-tolerant multi-region microservices architecture on AWS with Raft consensus, zero-downtime database replication, and sub-10ms failover.", "expected_tier": "frontier", "domain": "architecture"}
+{"id": "r_29", "prompt": "Perform a comprehensive security audit and threat model analysis of an OAuth 2.1 PKCE authorization code flow with DPoP proof-of-possession tokens.", "expected_tier": "frontier", "domain": "security"}
+{"id": "r_30", "prompt": "Write a low-level Linux kernel module in C to intercept syscall table entries, handling RCU locks, deadlock prevention, and race condition prevention.", "expected_tier": "frontier", "domain": "systems_programming"}
+{"id": "r_31", "prompt": "Provide a formal proof of correctness for the Paxos consensus algorithm handling partial network partitions and leader election deadlocks.", "expected_tier": "frontier", "domain": "distributed_systems"}
+{"id": "r_32", "prompt": "Implement a quantum circuit simulator in Python calculating state vector evolutions for Shor's algorithm, including quantum Fourier transform gates.", "expected_tier": "frontier", "domain": "quantum_computing"}
+{"id": "r_33", "prompt": "Analyze and optimize this complex SQL query with recursive CTEs, window functions, and hash joins, explaining compiler query plan execution steps in detail.", "expected_tier": "frontier", "domain": "database_optimization"}
+{"id": "r_34", "prompt": "Design an enterprise compiler AST pipeline for a statically typed functional programming language with Hindley-Milner type inference.", "expected_tier": "frontier", "domain": "compilers"}
+{"id": "r_35", "prompt": "Provide a step-by-step rigorous derivation of the backpropagation algorithm for transformer attention matrices with tensor contraction proofs.", "expected_tier": "frontier", "domain": "deep_learning"}
+{"id": "r_36", "prompt": "Conduct a deep threat model and security audit of an Ethereum ERC-4337 account abstraction bundler against front-running and MEV exploitation.", "expected_tier": "frontier", "domain": "cryptography"}
+{"id": "r_37", "prompt": "Explain how to debug complex multithreaded race condition scenarios in high-frequency trading engines with memory fences and lock-free rings.", "expected_tier": "frontier", "domain": "concurrency"}
+{"id": "r_38", "prompt": "Write a compiler assembly codegen pass targeting ARM64 registers, optimizing instruction pipelines and avoiding pipeline stalls.", "expected_tier": "frontier", "domain": "compilers"}
+{"id": "r_39", "prompt": "Formal mathematical proof of G\u00f6del's First Incompleteness Theorem in detail using Peano arithmetic and G\u00f6del numbering.", "expected_tier": "frontier", "domain": "mathematics"}
+{"id": "r_40", "prompt": "Architect an enterprise event-driven CQRS and Event Sourcing platform handling 500,000 writes/sec with Kafka, ScyllaDB, and distributed transaction compensation.", "expected_tier": "frontier", "domain": "architecture"}
+{"id": "r_41", "prompt": "Design a zero-knowledge SNARK proof verification circuit for private identity credentials using Groth16 and elliptic curve pairings in detail.", "expected_tier": "frontier", "domain": "cryptography"}
+{"id": "r_42", "prompt": "Provide a rigorous step-by-step security audit of a Kubernetes multi-tenant cluster focusing on eBPF telemetry and container escape vulnerabilities.", "expected_tier": "frontier", "domain": "security"}
+{"id": "r_43", "prompt": "Solve this complex combinatorial optimization problem using branch-and-bound linear programming relaxation with formal dual gap proofs.", "expected_tier": "frontier", "domain": "algorithms"}
+{"id": "r_44", "prompt": "Architect a high-performance vector search engine from scratch using HNSW graph indexing, SIMD AVX-512 distance calculations, and product quantization.", "expected_tier": "frontier", "domain": "architecture"}
+{"id": "r_45", "prompt": "Write a high-throughput lock-free ring buffer in modern C++20 using std::atomic, memory_order_acquire and memory_order_release to eliminate deadlocks.", "expected_tier": "frontier", "domain": "concurrency"}
+{"id": "r_46", "prompt": "Derive the mathematical proof of convergence for Langevin Dynamics in diffusion probabilistic generative models with LaTeX notations.", "expected_tier": "frontier", "domain": "machine_learning"}
+{"id": "r_47", "prompt": "Provide a comprehensive formal security audit of a zero-trust network mesh architecture implementing Spiffe/Spire workload attestation.", "expected_tier": "frontier", "domain": "security"}
+{"id": "r_48", "prompt": "Write an enterprise database transaction coordinator implementing 3-phase commit with Byzantine fault mitigation and formal validation proofs.", "expected_tier": "frontier", "domain": "distributed_systems"}
+{"id": "r_49", "prompt": "Architect and optimize an ultra-low latency real-time voice pipeline with Opus codecs, WebRTC SFU forwarding, and neural speech denoising.", "expected_tier": "frontier", "domain": "architecture"}
+{"id": "r_50", "prompt": "Formally prove the computational complexity of the Traveling Salesperson Problem reduction to 3-SAT with rigorous polynomial time reduction steps.", "expected_tier": "frontier", "domain": "algorithms"}

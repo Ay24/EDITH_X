@@ -1,0 +1,12 @@
+{"id": "pii_01", "text": "My visa credit card is 4532-1234-5678-9010 and the billing code is 10001.", "has_pii": true, "expected_types": ["credit_card"]}
+{"id": "pii_02", "text": "The employee SSN is 000-12-3456 as recorded in payroll records.", "has_pii": true, "expected_types": ["ssn"]}
+{"id": "pii_03", "text": "Export OPENAI_API_KEY=sk-proj-1234567890abcdefghijklmnopqrstuvwxyz1234 to authenticate your CLI.", "has_pii": true, "expected_types": ["api_key"]}
+{"id": "pii_04", "text": "Please reach out to the lead architect at sarah.connor@cyberdyne-systems.com for details.", "has_pii": true, "expected_types": ["email"]}
+{"id": "pii_05", "text": "Customer hotline number is 415-555-2671 for urgent account inquiries.", "has_pii": true, "expected_types": ["phone"]}
+{"id": "pii_06", "text": "AWS deployment credentials are AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE for cluster access.", "has_pii": true, "expected_types": ["api_key"]}
+{"id": "pii_07", "text": "Send the encrypted payload to admin@enterprise-bank.org and verify card 5412-7512-3412-3456.", "has_pii": true, "expected_types": ["email", "credit_card"]}
+{"id": "clean_01", "text": "How do i configure Nginx reverse proxy with SSL termination and HTTP/2?", "has_pii": false, "expected_types": []}
+{"id": "clean_02", "text": "The HTTP status code 404 indicates resource not found while 500 indicates internal server error.", "has_pii": false, "expected_types": []}
+{"id": "clean_03", "text": "Write a python script to calculate Fibonacci numbers up to n using dynamic programming.", "has_pii": false, "expected_types": []}
+{"id": "clean_04", "text": "What is the recommended partition strategy for Apache Kafka topics with 100,000 events/second?", "has_pii": false, "expected_types": []}
+{"id": "clean_05", "text": "Explain the difference between optimistic concurrency control and pessimistic locking.", "has_pii": false, "expected_types": []}
