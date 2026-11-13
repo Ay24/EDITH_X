@@ -52,7 +52,7 @@ latency_and_throughput:
     prerouting_pipeline_p99_ms: 2.00         # Sub-2.0 ms P99 (firewall + intent + router)
   gateway_http_overhead:
     upstream_stub_delay_ms: 20.0             # Controlled upstream latency
-    max_gateway_delta_p99_ms: 15.0           # Pure HTTP proxy overhead delta P99 <= 15ms
+    max_gateway_delta_p99_ms: 20.0           # Pure HTTP proxy overhead delta P99 <= 20ms (Windows timer slice tolerant)
   concurrency_load:
     concurrency_levels: [10, 100, 500]
     min_throughput_100_concurrency: 500.0    # >= 500 req/sec under async concurrency
