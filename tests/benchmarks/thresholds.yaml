@@ -1,0 +1,58 @@
+# ==============================================================================
+# EDITH-X Benchmark & Credibility Suite — Pre-Committed Thresholds
+# ==============================================================================
+# Committed BEFORE running benchmarks to eliminate circularity and post-hoc bias.
+# Version: 2.0.0
+# Hardware Baseline: AMD Ryzen 5 5600H (6C/12T, ~3.3-4.2 GHz), 16GB RAM, Windows 11, Python 3.11
+
+meta:
+  version: "2.0.0"
+  random_seed: 42
+  confidence_level: 0.95
+  bootstrap_resamples: 1000
+
+routing_benchmarks:
+  # Evaluated on held-out test split of GSM8K / reasoning corpus (n >= 200 total)
+  min_total_samples: 200
+  test_split_ratio: 0.50
+  min_test_samples: 100
+  # Efficiency targets across Pareto trade-off curve
+  max_strong_calls_for_90pct_quality: 0.45   # <= 45% strong calls to retain 90% flagship accuracy
+  max_strong_calls_for_95pct_quality: 0.65   # <= 65% strong calls to retain 95% flagship accuracy
+  min_auc_delta_vs_random: 0.10              # Router AUC must exceed Random Router by >= 0.10
+  cost_reduction:
+    split_50_50_min_pct: 35.0                # 95% CI lower bound >= 30.0%
+    split_70_30_min_pct: 50.0                # 95% CI lower bound >= 45.0%
+    split_90_10_min_pct: 65.0                # 95% CI lower bound >= 60.0%
+
+compression_benchmarks:
+  # Evaluated on multi-length needle-in-haystack QA (500, 1000, 2000 tokens)
+  context_lengths: [500, 1000, 2000]
+  min_samples_per_length: 10
+  target_compression_ratio: 0.55             # <= 0.55 (>= 45% token reduction)
+  min_qa_accuracy_retention: 0.85            # >= 85% of answers correct relative to original text
+  min_gain_over_naive_truncation: 0.25       # Must beat naive truncation by >= 25% accuracy
+  min_gain_over_random_dropping: 0.20        # Must beat random dropping by >= 20% accuracy
+
+pii_firewall_benchmarks:
+  # Evaluated on standard PII, enterprise secrets, adversarial mutations, hard negatives, and 1k benign queries
+  min_benign_samples: 1000
+  max_benign_false_positive_rate: 0.010      # <= 1.0% false positive rate on 1,000 real benign queries
+  min_critical_secret_recall: 0.95           # >= 95.0% recall on API keys, JWTs, AWS credentials
+  min_adversarial_recall: 0.85               # >= 85.0% on spaced digits, obfuscated emails, unicode lookalikes
+  max_hard_negative_fpr: 0.05                # <= 5.0% false positive rate on UUIDs, git hashes, base64 strings
+  min_overall_f1_score: 0.90                 # Overall macro F1 >= 0.90 with 95% CI lower bound >= 0.85
+
+latency_and_throughput:
+  # Evaluated on disclosed hardware baseline: AMD Ryzen 5 5600H, 16GB RAM, Windows 11
+  in_process:
+    min_iterations: 1000
+    exact_cache_p99_ms: 0.10                 # Sub-100 microseconds P99
+    semantic_cache_p99_ms: 1.50              # Sub-1.5 ms P99
+    prerouting_pipeline_p99_ms: 2.00         # Sub-2.0 ms P99 (firewall + intent + router)
+  gateway_http_overhead:
+    upstream_stub_delay_ms: 20.0             # Controlled upstream latency
+    max_gateway_delta_p99_ms: 15.0           # Pure HTTP proxy overhead delta P99 <= 15ms
+  concurrency_load:
+    concurrency_levels: [10, 100, 500]
+    min_throughput_100_concurrency: 500.0    # >= 500 req/sec under async concurrency
