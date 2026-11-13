@@ -1,6 +1,7 @@
 """M4 — Policy Engine: Evaluates enterprise policies before any AI call."""
 from __future__ import annotations
 
+import asyncio
 import structlog
 
 from edith_x.core.config import Settings
@@ -47,7 +48,12 @@ class PolicyService:
     async def evaluate(self, intent: IntentResult, ctx: AuthContext, query: str = "") -> PolicyDecision:
         # Check PII in query or intent context
         check_text = f"{query} {getattr(intent, 'summary', '')}".strip()
-        _, pii_detected, pii_types = self._firewall.redact(check_text) if check_text else ("", False, [])
+        if not check_text:
+            pii_detected, pii_types = False, []
+        elif len(check_text) > 4096:
+            _, pii_detected, pii_types = await asyncio.to_thread(self._firewall.redact, check_text)
+        else:
+            _, pii_detected, pii_types = self._firewall.redact(check_text)
 
         # Start permissive, restrict based on rules
         decision = PolicyDecision(

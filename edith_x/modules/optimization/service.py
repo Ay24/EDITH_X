@@ -1,6 +1,7 @@
 """M8 — Optimization Engine: 4-layer cost firewall with real semantic cache and information-density compressor."""
 from __future__ import annotations
 
+import asyncio
 import structlog
 
 from edith_x.core.config import Settings
@@ -47,7 +48,10 @@ class OptimizationService:
 
     async def compress_prompt(self, prompt: str, budget: int) -> CompressedPrompt:
         """Coarse-to-fine token compression preserving technical terms and identifiers."""
-        result = self._compressor.compress(prompt, budget=budget)
+        if len(prompt) > 4096:
+            result = await asyncio.to_thread(self._compressor.compress, prompt, budget=budget)
+        else:
+            result = self._compressor.compress(prompt, budget=budget)
         if result.compression_ratio < 1.0:
             log.info(
                 "prompt_compressed",
