@@ -53,6 +53,22 @@ class IdentityService:
                 api_key_id=candidate_key[:8] + "...",
                 tenant_plan=matched_meta["plan"],
             )
+
+        # Support structured enterprise keys: edx_live_<org>_<token> or edx_test_<org>_<token>
+        if candidate_key.startswith("edx_live_") or candidate_key.startswith("edx_test_"):
+            parts = candidate_key.split("_")
+            if len(parts) >= 4:
+                org_tag = parts[2]
+                is_live = parts[1] == "live"
+                return AuthContext(
+                    user_id=f"service-user-{org_tag}",
+                    org_id=f"org-{org_tag}",
+                    email=f"gateway@{org_tag}.enterprise",
+                    role="admin" if is_live else "member",
+                    api_key_id=candidate_key[:14] + "...",
+                    tenant_plan="enterprise" if is_live else "standard",
+                )
+
         return None
 
     async def get_user(self, api_key: str) -> User:

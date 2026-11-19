@@ -14,6 +14,7 @@ from edith_x.core.interfaces import (
     Context, ExecutionResult, ModelSelection, ToolCall, ToolResult,
 )
 from edith_x.modules.gateway.circuit_breaker import CircuitBreaker
+from edith_x.modules.execution.tool_registry import EnterpriseToolRegistry
 
 log = structlog.get_logger(__name__)
 
@@ -38,7 +39,12 @@ class ExecutionService:
     def __init__(self, settings: Settings) -> None:
         self._settings = settings
         self._circuit_breakers: dict[str, CircuitBreaker] = {}
+        self._tool_registry = EnterpriseToolRegistry()
         self._configure_litellm()
+
+    @property
+    def tool_registry(self) -> EnterpriseToolRegistry:
+        return self._tool_registry
 
     def get_circuit_breaker(self, provider: str) -> CircuitBreaker:
         if provider not in self._circuit_breakers:
@@ -261,42 +267,27 @@ class ExecutionService:
                 )
                 continue
 
-        # 3. Graceful Local Mesh Fallback (Ensures zero 500 crashes and immediate answers during local demos)
+        # 3. Production Grounded Knowledge & Mesh Fallback
         elapsed_ms = int((time.monotonic() - start) * 1000)
-        goal_lower = context.query.lower().strip()
-        
-        if "what is the use of ai" in goal_lower or "use of ai" in goal_lower or "benefits of ai" in goal_lower:
-            autonomous_response = (
-                "Artificial Intelligence (AI) enables computer systems to perform complex cognitive tasks that "
-                "historically required human intervention. Key enterprise use cases include:\n\n"
-                "1. **Workflow Automation & Orchestration**: Streamlining customer dispute handling, IT service requests, and data pipelines.\n"
-                "2. **Information Retrieval & Synthesis**: Indexing massive knowledge bases with semantic vector search to surface instant answers.\n"
-                "3. **Code & Software Engineering**: Accelerating test generation, refactoring, and automated code review.\n"
-                "4. **Predictive Analytics & Fraud Detection**: Analyzing transaction streams in real-time to prevent anomalies and financial loss."
-            )
-        elif "capital of france" in goal_lower:
-            autonomous_response = "The capital of France is Paris."
-        elif "sort a list of dicts" in goal_lower:
-            autonomous_response = (
-                "```python\n"
-                "def sort_dicts_by_key(data: list[dict], key: str, reverse: bool = False) -> list[dict]:\n"
-                "    \"\"\"Sorts a list of dictionaries by a specified key safely.\"\"\"\n"
-                "    return sorted(data, key=lambda x: x.get(key), reverse=reverse)\n"
-                "```"
-            )
-        elif context.chunks:
+
+        if context.chunks:
+            # Ground directly on retrieved enterprise knowledge chunks
             top_content = context.chunks[0].content
             autonomous_response = (
                 f"Based on the enterprise knowledge repository:\n\n{top_content}\n\n"
                 f"Grounding Note: Retrieved via EDITH-X hybrid vector collection ({context.chunks[0].source})."
             )
-        else:
+        elif self._settings.demo_mode:
+            # Offline demo mode fallback for zero-cloud testing
             autonomous_response = (
-                f"EDITH-X Autonomous Execution: Processed request '{context.query[:80]}'.\n\n"
-                f"Note: Upstream cloud providers are currently unconfigured or rate-limited. "
-                f"To connect to live frontier models (e.g., Llama 3.3, GPT-4o, Claude 3.5), "
-                f"add your API key (such as a free Groq key or OpenAI key) to your .env file, "
-                f"or start Ollama locally (`ollama run llama3.2:3b`)."
+                f"[EDITH-X Demo Mode] Processed query: '{context.query[:80]}'. "
+                f"Upstream providers offline; returned synthesized local demonstration response."
+            )
+        else:
+            # Clean production failover response with diagnostic telemetry
+            autonomous_response = (
+                f"EDITH-X Gateway Notice: All configured AI model providers (primary '{selection.provider}' and fallbacks) "
+                f"are currently unavailable or offline. Last error: {err_msg or 'Circuit breaker open or providers unconfigured'}."
             )
 
         return ExecutionResult(
@@ -332,4 +323,4 @@ class ExecutionService:
                 yield word + " "
 
     async def call_tool(self, tool_call: ToolCall) -> ToolResult:
-        return ToolResult(call_id=tool_call.id, output=None, success=False, error="Tool not implemented")
+        return await self._tool_registry.execute_tool(tool_call)

@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EDITH-X Enterprise AI Runtime — Interactive Architecture Canvas</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    /* Smooth transition for active nodes */
+    .node-box {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .node-box.active {
+      transform: translateY(-2px);
+      box-shadow: 0 0 0 2px var(--primary), 0 8px 20px -4px rgba(0,0,0,0.15);
+    }
+    .flow-line {
+      stroke-dasharray: 6;
+      animation: dash 20s linear infinite;
+    }
+    @keyframes dash {
+      to {
+        stroke-dashoffset: -1000;
+      }
+    }
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased min-h-screen p-6 flex flex-col gap-6">
+
+  <!-- TOP BAR: Control Center & Status -->
+  <header class="flex flex-wrap items-center justify-between gap-4 bg-[var(--card)] border border-[var(--border)] p-4 rounded-2xl shadow-sm">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-[var(--primary)] text-[var(--primary-foreground)] flex items-center justify-center font-bold text-lg shadow-sm">
+        ⚡
+      </div>
+      <div>
+        <h1 class="text-[var(--foreground)] font-bold text-xl tracking-tight flex items-center gap-2">
+          EDITH-X <span class="text-xs px-2.5 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] font-mono font-medium">Interactive Canvas Studio</span>
+        </h1>
+        <p class="text-[var(--muted-foreground)] text-xs">Visualizing 14 Decoupled Enterprise Runtime Modules · End-to-End Orchestration</p>
+      </div>
+    </div>
+
+    <!-- Live Simulation Scenarios -->
+    <div class="flex items-center gap-2 flex-wrap">
+      <span class="text-xs font-semibold text-[var(--muted-foreground)]">Run Scenario:</span>
+      <button onclick="simulateScenario('cache_hit')" class="scen-btn px-3 py-1.5 rounded-xl text-xs font-medium border border-[var(--border)] bg-[var(--content)] hover:border-[var(--primary)] transition flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-500"></span> FAQ (L0 Cache Hit)
+      </button>
+      <button onclick="simulateScenario('pii_route')" class="scen-btn px-3 py-1.5 rounded-xl text-xs font-medium border border-[var(--border)] bg-[var(--content)] hover:border-[var(--primary)] transition flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-amber-500"></span> PII Masked (L1 Local)
+      </button>
+      <button onclick="simulateScenario('code_nim')" class="scen-btn px-3 py-1.5 rounded-xl text-xs font-medium border border-[var(--border)] bg-[var(--content)] hover:border-[var(--primary)] transition flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-blue-500"></span> Code Task (L2 NIM)
+      </button>
+      <button onclick="simulateScenario('failover')" class="scen-btn px-3 py-1.5 rounded-xl text-xs font-medium border border-[var(--border)] bg-[var(--content)] hover:border-[var(--primary)] transition flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-purple-500"></span> Outage (Cascade Failover)
+      </button>
+      <button onclick="simulateScenario('deep_cloud')" class="scen-btn px-3 py-1.5 rounded-xl text-xs font-medium border border-[var(--border)] bg-[var(--content)] hover:border-[var(--primary)] transition flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-rose-500"></span> Math Proof (L3 GPT-4o)
+      </button>
+      <button onclick="resetCanvas()" class="px-3 py-1.5 rounded-xl text-xs font-medium text-[var(--muted-foreground)] hover:text-[var(--foreground)] border border-[var(--border)] transition">
+        Reset
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN DUAL-PANE WORKSPACE: Canvas on Left, Deep Inspector on Right -->
+  <main class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 items-start">
+    
+    <!-- LEFT PANE: Expansive Interactive Canvas (8 Cols) -->
+    <div class="lg:col-span-8 bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm flex flex-col gap-6 relative overflow-hidden">
+      
+      <!-- Stage Indicator Bar -->
+      <div class="flex items-center justify-between text-xs border-b border-[var(--border)] pb-3">
+        <div class="flex items-center gap-2">
+          <span class="font-semibold text-[var(--foreground)]">Canvas Navigation:</span>
+          <span class="text-[var(--muted-foreground)]">Click any module to inspect protocols, algorithms, and data payloads</span>
+        </div>
+        <div id="canvas-status" class="font-mono text-emerald-500 font-medium flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Ready
+        </div>
+      </div>
+
+      <!-- LAYER 1: CLIENT & INGRESS -->
+      <div class="space-y-2">
+        <div class="flex items-center justify-between text-[11px] font-bold tracking-wider text-[var(--muted-foreground)] uppercase">
+          <span>Layer 1: External Client Ingress</span>
+          <span>OpenAI Drop-In Compatible</span>
+        </div>
+        <div class="grid grid-cols-3 gap-3">
+          <div onclick="inspect('client_app')" id="node-client_app" class="node-box p-3.5 rounded-xl border border-[var(--border)] bg-[var(--content)] cursor-pointer hover:border-[var(--primary)]">
+            <div class="text-xs font-semibold text-[var(--foreground)] flex items-center justify-between">
+              <span>Client Application</span>
+              <span class="text-blue-500">SDK</span>
+            </div>
+            <div class="text-[11px] text-[var(--muted-foreground)] mt-1">OpenAI Client / cURL / REST API</div>
+          </div>
+          <div onclick="inspect('m1_gateway')" id="node-m1_gateway" class="node-box p-3.5 rounded-xl border border-[var(--border)] bg-[var(--content)] cursor-pointer hover:border-[var(--primary)]">
+            <div class="text-xs font-semibold text-[var(--foreground)] flex items-center justify-between">
+              <span>M1: Gateway Service</span>
+              <span class="text-emerald-500 font-mono text-[10px]">FastAPI</span>
+            </div>
+            <div class="text-[11px] text-[var(--muted-foreground)] mt-1">Sliding-window rate limiter & auth parser</div>
+          </div>
+          <div onclick="inspect('m2_identity')" id="node-m2_identity" class="node-box p-3.5 rounded-xl border border-[var(--border)] bg-[var(--content)] cursor-pointer hover:border-[var(--primary)]">
+            <div class="text-xs font-semibold text-[var(--foreground)] flex items-center justify-between">
+              <span>M2: Identity & RBAC</span>
+              <span class="text-indigo-500 text-[10px] font-mono">HMAC</span>
+            </div>
+            <div class="text-[11px] text-[var(--muted-foreground)] mt-1">Tenant isolation & constant-time auth</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Connector Line -->
+      <div class="flex justify-center -my-2 opacity-40">
+        <div class="w-0.5 h-4 bg-[var(--border)]"></div>
+      </div>
+
+      <!-- LAYER 2: SECURITY, INTENT & POLICY -->
+      <div class="space-y-2">
+        <div class="flex items-center justify-between text-[11px] font-bold tracking-wider text-[var(--muted-foreground)] uppercase">
+          <span>Layer 2: Zero-Trust Perimeter Governance</span>
+          <span>Pre-Flight Security Filters</span>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div onclick="inspect('m4_policy')" id="node-m4_policy" class="node-box p-3.5 rounded-xl border border-[var(--border)] bg-[var(--content)] cursor-pointer hover:border-[var(--primary)]">
+            <div class="text-xs font-semibold text-[var(--foreground)] flex items-center justify-between">
+              <span>M4: Policy & PII Firewall</span>
+              <span class="text-rose-500 text-[10px] font-semibold">Luhn + Entropy</span>
+            </div>
+            <div class="text-[11px] text-[var(--muted-foreground)] mt-1">Credit cards, SSNs, and API keys redacted prior to cloud</div>
+          </div>
+          <div onclick="inspect('m3_intent')" id="node-m3_intent" class="node-box p-3.5 rounded-xl border border-[var(--border)] bg-[var(--content)] cursor-pointer hover:border-[var(--primary)]">
+            <div class="text-xs font-semibold text-[var(--foreground)] flex items-center justify-between">
+              <span>M3: Intent Engine</span>
+              <span class="text-amber-500 text-[10px] font-semibold">Sub-2ms Centroid</span>
+            </div>
+            <div class="text-[11px] text-[var(--muted-foreground)] mt-1">Complexity (0.0–1.0) & risk profiling</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Connector Line -->
+      <div class="flex justify-center -my-2 opacity-40">
+        <div class="w-0.5 h-4 bg-[var(--border)]"></div>
+      </div>
+
+      <!-- LAYER 3: COGNITIVE RUNTIME & SPEED CHECK -->
+      <div class="space-y-2">
+        <div class="flex items-center justify-between text-[11px] font-bold tracking-wider text-[var(--muted-foreground)] uppercase">
+          <span>Layer 3: Cognitive Runtime & Semantic Caching</span>
+          <span>Zero-Cost Interception</span>
+        </div>
+        <div class="grid grid-cols-3 gap-3">
+          <div onclick="inspect('m5_planner')" id="node-m5_planner" class="node-box p-3.5 rounded-xl border border-[var(--border)] bg-[var(--content)] cursor-pointer hover:border-[var(--primary)]">
+            <div class="text-xs font-semibold text-[var(--foreground)] flex items-center justify-between">
+              <span>M5: LangGraph Planner</span>
+              <span class="text-purple-500 text-[10px] font-mono">Cyclic Graph</span>
+            </div>
+            <div class="text-[11px] text-[var(--muted-foreground)] mt-1">State machine for multi-step autonomous goals</div>
+          </div>
+          <div onclick="inspect('m8_cache')" id="node-m8_cache" class="node-box p-3.5 rounded-xl border border-[var(--border)] bg-[var(--content)] cursor-pointer hover:border-[var(--primary)]">
+            <div class="text-xs font-semibold text-[var(--foreground)] flex items-center justify-between">
+              <span>M8: L0 Semantic Cache</span>
+              <span class="text-emerald-500 text-[10px] font-bold">10,000 LRU</span>
+            </div>
+            <div class="text-[11px] text-[var(--muted-foreground)] mt-1">Exact SHA-256 + Inverted Index Cosine ≥ 0.92</div>
+          </div>
+          <div onclick="inspect('m6_knowledge')" id="node-m6_knowledge" class="node-box p-3.5 rounded-xl border border-[var(--border)] bg-[var(--content)] cursor-pointer hover:border-[var(--primary)]">
+            <div class="text-xs font-semibold text-[var(--foreground)] flex items-center justify-between">
+              <span>M6: Knowledge & RAG</span>
+              <span class="text-cyan-500 text-[10px] font-mono">Qdrant Vector</span>
+            </div>
+            <div class="text-[11px] text-[var(--muted-foreground)] mt-1">Hybrid dense retrieval + keyword matching</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Connector Line -->
+      <div class="flex justify-center -my-2 opacity-40">
+        <div class="w-0.5 h-4 bg-[var(--border)]"></div>
+      </div>
+
+      <!-- LAYER 4: 4-LAYER COST FIREWALL ROUTING -->
+      <div class="space-y-2">
+        <div class="flex items-center justify-between text-[11px] font-bold tracking-wider text-[var(--muted-foreground)] uppercase">
+          <span>Layer 4: M9 Pareto Cost Router & 4 Execution Tiers</span>
+          <span>Cost vs Latency Optimization</span>
+        </div>
+        <div class="grid grid-cols-4 gap-3">
+          <div onclick="inspect('tier_l0')" id="node-tier_l0" class="node-box p-3 rounded-xl border border-[var(--border)] bg-[var(--content)] cursor-pointer hover:border-emerald-500">
+            <div class="text-xs font-semibold text-emerald-500">🟢 L0 Cache</div>
+            <div class="text-[11px] font-bold mt-1">$0.00 / 1M</div>
+            <div class="text-[10px] text-[var(--muted-foreground)]">Latency &lt;20ms</div>
+          </div>
+          <div onclick="inspect('tier_l1')" id="node-tier_l1" class="node-box p-3 rounded-xl border border-[var(--border)] bg-[var(--content)] cursor-pointer hover:border-blue-500">
+            <div class="text-xs font-semibold text-blue-500">🔵 L1 Local</div>
+            <div class="text-[11px] font-bold mt-1">~$0.00 / 1M</div>
+            <div class="text-[10px] text-[var(--muted-foreground)]">Ollama Llama-3.2</div>
+          </div>
+          <div onclick="inspect('tier_l2')" id="node-tier_l2" class="node-box p-3 rounded-xl border border-[var(--border)] bg-[var(--content)] cursor-pointer hover:border-amber-500">
+            <div class="text-xs font-semibold text-amber-500">🟡 L2 NIM Cloud</div>
+            <div class="text-[11px] font-bold mt-1">$0.80 / 1M</div>
+            <div class="text-[10px] text-[var(--muted-foreground)]">Llama-3.1 70B</div>
+          </div>
+          <div onclick="inspect('tier_l3')" id="node-tier_l3" class="node-box p-3 rounded-xl border border-[var(--border)] bg-[var(--content)] cursor-pointer hover:border-rose-500">
+            <div class="text-xs font-semibold text-rose-500">🔴 L3 Frontier</div>
+            <div class="text-[11px] font-bold mt-1">$2.50-$15.00 / 1M</div>
+            <div class="text-[10px] text-[var(--muted-foreground)]">GPT-4o / Claude</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Connector Line -->
+      <div class="flex justify-center -my-2 opacity-40">
+        <div class="w-0.5 h-4 bg-[var(--border)]"></div>
+      </div>
+
+      <!-- LAYER 5: EXECUTION, QUALITY & TELEMETRY -->
+      <div class="space-y-2">
+        <div class="flex items-center justify-between text-[11px] font-bold tracking-wider text-[var(--muted-foreground)] uppercase">
+          <span>Layer 5: Execution Resilience & Telemetry</span>
+          <span>Zero 500 Outages Guarantee</span>
+        </div>
+        <div class="grid grid-cols-3 gap-3">
+          <div onclick="inspect('m10_exec')" id="node-m10_exec" class="node-box p-3.5 rounded-xl border border-[var(--border)] bg-[var(--content)] cursor-pointer hover:border-[var(--primary)]">
+            <div class="text-xs font-semibold text-[var(--foreground)] flex items-center justify-between">
+              <span>M10: Waterfall Engine</span>
+              <span class="text-purple-500 text-[10px] font-semibold">Circuit Breaker</span>
+            </div>
+            <div class="text-[11px] text-[var(--muted-foreground)] mt-1">Multi-provider automatic failover cascade</div>
+          </div>
+          <div onclick="inspect('m11_verify')" id="node-m11_verify" class="node-box p-3.5 rounded-xl border border-[var(--border)] bg-[var(--content)] cursor-pointer hover:border-[var(--primary)]">
+            <div class="text-xs font-semibold text-[var(--foreground)] flex items-center justify-between">
+              <span>M11/M12: Verification</span>
+              <span class="text-teal-500 text-[10px] font-semibold">Reflect Loop</span>
+            </div>
+            <div class="text-[11px] text-[var(--muted-foreground)] mt-1">Hallucination check & iterative refinement</div>
+          </div>
+          <div onclick="inspect('m14_obs')" id="node-m14_obs" class="node-box p-3.5 rounded-xl border border-[var(--border)] bg-[var(--content)] cursor-pointer hover:border-[var(--primary)]">
+            <div class="text-xs font-semibold text-[var(--foreground)] flex items-center justify-between">
+              <span>M14: Cost Ledger</span>
+              <span class="text-emerald-500 text-[10px] font-mono">Prometheus</span>
+            </div>
+            <div class="text-[11px] text-[var(--muted-foreground)] mt-1">Exact token accounting & savings audit trail</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT PANE: Deep Interactive Inspector & Telemetry (4 Cols) -->
+    <div class="lg:col-span-4 flex flex-col gap-5">
+      
+      <!-- Live Inspector Card -->
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm">
+        <div class="flex items-center justify-between border-b border-[var(--border)] pb-3 mb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-sm">🔎</span>
+            <h3 id="inspect-title" class="text-sm font-bold text-[var(--foreground)]">M8: L0 Semantic Cache</h3>
+          </div>
+          <span id="inspect-tag" class="text-[10px] font-mono px-2 py-0.5 rounded bg-[var(--primary)]/10 text-[var(--primary)] font-semibold">Optimization</span>
+        </div>
+
+        <p id="inspect-desc" class="text-xs text-[var(--muted-foreground)] leading-relaxed mb-4">
+          Dual-stage zero-cost interception engine. Evaluates queries in sub-millisecond memory before touching network sockets.
+        </p>
+
+        <!-- Technical Parameters Breakdown -->
+        <div class="space-y-2 mb-4">
+          <div class="text-[11px] font-bold text-[var(--foreground)] uppercase tracking-wider">Internal Specifications:</div>
+          <div id="inspect-specs" class="space-y-1.5 font-mono text-xs text-[var(--foreground)]">
+            <div class="bg-[var(--content)] p-2 rounded-lg border border-[var(--border)] flex justify-between">
+              <span class="text-[var(--muted-foreground)]">Lookup Latency:</span>
+              <span class="font-bold text-emerald-500">&lt; 0.05ms (Exact) / &lt; 15ms (Semantic)</span>
+            </div>
+            <div class="bg-[var(--content)] p-2 rounded-lg border border-[var(--border)] flex justify-between">
+              <span class="text-[var(--muted-foreground)]">Cosine Threshold:</span>
+              <span class="font-bold">≥ 0.92 Cosine Score</span>
+            </div>
+            <div class="bg-[var(--content)] p-2 rounded-lg border border-[var(--border)] flex justify-between">
+              <span class="text-[var(--muted-foreground)]">Storage Backend:</span>
+              <span class="font-bold">In-Memory LRU + Optional Qdrant</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sample Payload / Code Peek -->
+        <div>
+          <div class="text-[11px] font-bold text-[var(--foreground)] uppercase tracking-wider mb-1.5">Runtime Code Contract:</div>
+          <pre id="inspect-code" class="bg-[var(--content)] border border-[var(--border)] p-3 rounded-xl text-[11px] font-mono text-[var(--foreground)] overflow-x-auto leading-relaxed">async def check_cache(query: str) -> CacheResult</pre>
+        </div>
+      </div>
+
+      <!-- Live ROI & Financial Math Card -->
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm">
+        <h4 class="text-xs font-bold text-[var(--foreground)] uppercase tracking-wider mb-2 flex items-center justify-between">
+          <span>📊 Live ROI Accounting Engine</span>
+          <span class="text-emerald-500 font-mono text-[11px]">Real-Time Audit</span>
+        </h4>
+        <div class="space-y-3">
+          <div class="bg-[var(--content)] border border-[var(--border)] p-3 rounded-xl">
+            <div class="text-[11px] text-[var(--muted-foreground)] mb-1">Standard GPT-4o Baseline Cost:</div>
+            <div id="roi-baseline" class="text-sm font-bold font-mono text-[var(--foreground)]">$0.00975 USD</div>
+            <div class="text-[10px] text-[var(--muted-foreground)] mt-0.5">(1,500 in @ $2.50/M + 600 out @ $10.00/M)</div>
+          </div>
+
+          <div class="bg-[var(--content)] border border-[var(--border)] p-3 rounded-xl">
+            <div class="text-[11px] text-[var(--muted-foreground)] mb-1">EDITH-X Actual Execution Cost:</div>
+            <div id="roi-actual" class="text-sm font-bold font-mono text-emerald-500">$0.00000 USD</div>
+            <div id="roi-layer" class="text-[10px] text-emerald-500 mt-0.5">Executed on Layer L0 (Semantic Cache)</div>
+          </div>
+
+          <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-between">
+            <div>
+              <div class="text-[11px] font-semibold text-emerald-500">Documented Savings:</div>
+              <div id="roi-saved" class="text-lg font-bold font-mono text-emerald-500">+$0.00975</div>
+            </div>
+            <div class="text-right">
+              <span id="roi-pct" class="text-xs font-bold font-mono px-2 py-1 rounded bg-emerald-500 text-white">100% OFF</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Interactive Logic Script -->
+  <script>
+    const moduleDetails = {
+      client_app: {
+        title: "Client Application Ingress",
+        tag: "Ingress",
+        desc: "Standard OpenAI SDK drop-in endpoint (/v1/chat/completions) or native autonomous runner (/edith/v1/run). Requires zero code rewrite for existing applications.",
+        specs: [
+          { k: "Supported Protocols", v: "HTTP/1.1, HTTP/2, SSE Streaming" },
+          { k: "SDK Compatibility", v: "OpenAI, LangChain, LlamaIndex, cURL" },
+          { k: "Ingress Route", v: "POST /v1/chat/completions" }
+        ],
+        code: `client = OpenAI(base_url="http://localhost:8000/v1")\nresp = client.chat.completions.create(\n    model="edith-x-auto",\n    messages=[{"role": "user", "content": "..."}]\n)`
+      },
+      m1_gateway: {
+        title: "M1: Gateway Service",
+        tag: "Perimeter",
+        desc: "Performs rate-limiting using an in-memory or Redis sliding-window counter. Prevents Denial of Service and enforces tenant concurrency limits.",
+        specs: [
+          { k: "Sliding Window", v: "60-second rolling window" },
+          { k: "Enterprise Limit", v: "1,000 req / minute / tenant" },
+          { k: "Standard Limit", v: "100 req / minute / tenant" }
+        ],
+        code: `async def rate_limit(ctx: AuthContext) -> RateLimitResult:\n    # Prunes timestamps older than 60s\n    valid = [t for t in timestamps if t > now - 60]\n    return RateLimitResult(allowed=len(valid) < max_req)`
+      },
+      m2_identity: {
+        title: "M2: Identity & Multi-Tenancy",
+        tag: "Identity",
+        desc: "Resolves tenant metadata and enforces constant-time HMAC comparison for API keys, stopping timing side-channel attacks.",
+        specs: [
+          { k: "Timing Attack Defense", v: "hmac.compare_digest(candidate, registered)" },
+          { k: "Role Scopes", v: "admin, member, viewer" },
+          { k: "Tenant Plans", v: "starter, standard, enterprise" }
+        ],
+        code: `for reg_key, meta in self._api_key_registry.items():\n    if hmac.compare_digest(candidate_bytes, reg_bytes):\n        return AuthContext(tenant_id=meta["tenant_id"])`
+      },
+      m4_policy: {
+        title: "M4: Policy & Redaction Firewall",
+        tag: "Governance",
+        desc: "Deep inspection firewall scanning for PII, credit cards, SSNs, and high-entropy API keys (Shannon entropy > 3.8). Forces local airgap routing if sensitive data is detected.",
+        specs: [
+          { k: "Credit Card Check", v: "Luhn Double-Add-Modulo-10" },
+          { k: "Entropy Threshold", v: "≥ 3.8 bits/char for secrets" },
+          { k: "Hard-Negative Filters", v: "Permits UUIDs, Git SHAs, timestamps" }
+        ],
+        code: `def redact(text: str) -> tuple[str, bool, list[str]]:\n    # Luhn CC verification\n    if 13 <= len(digits) <= 19 and _luhn_check(digits):\n        return "[REDACTED_CREDIT_CARD]"\n    # High-entropy secret scanner\n    if _shannon_entropy(word) >= 3.8:\n        return "[REDACTED_SECRET]"`
+      },
+      m3_intent: {
+        title: "M3: Intent Engine",
+        tag: "Classifier",
+        desc: "Classifies intent into 9 functional classes (question, coding, retrieval, summarization, analysis, automation, planning, security, task) in under 2ms using precomputed vocabulary centroids.",
+        specs: [
+          { k: "Latency Budget", v: "&lt; 2.0 milliseconds" },
+          { k: "Scoring Axes", v: "Complexity (0.0-1.0), Risk (0.0-1.0)" },
+          { k: "Risk Multiplier", v: "Elevates risk for SQL/drop/delete signals" }
+        ],
+        code: `intent_type = self._router.classify(query)\ncost_est = _COST_MAP.get(intent_type, 0.005) * (1 + complexity)`
+      },
+      m5_planner: {
+        title: "M5: LangGraph Autonomous Planner",
+        tag: "Agentic DAG",
+        desc: "A directed acyclic state graph executing multi-step autonomous tasks. Coordinates retrieval, context compilation, cache checks, model routing, verification, and reflection loops.",
+        specs: [
+          { k: "Max Iterations", v: "5 cyclic loops max (prevents runaways)" },
+          { k: "State Protocol", v: "TypedDict AgentState with message histories" },
+          { k: "Graph Nodes", v: "8 conditional execution nodes" }
+        ],
+        code: `graph.add_conditional_edges("optimize", route_after_cache, {\n    "finalize": "finalize", # Cache Hit Fast Path\n    "route": "route"        # Cache Miss AI Path\n})`
+      },
+      m8_cache: {
+        title: "M8: L0 Semantic Cache Engine",
+        tag: "Optimization",
+        desc: "Dual-tier exact and semantic similarity cache. First inspects SHA-256 exact hash, then compares n-gram term-frequency vector cosine similarity with inverted index pruning.",
+        specs: [
+          { k: "Exact Hash Path", v: "&lt; 0.05ms (SHA-256 LRU lookup)" },
+          { k: "Semantic Threshold", v: "Cosine similarity ≥ 0.92" },
+          { k: "Capacity", v: "10,000 entries with automatic LRU eviction" }
+        ],
+        code: `if sim > best_score and best_score >= self.similarity_threshold:\n    return CacheResult(hit=True, response=entry.response, saved_cost_usd=entry.cost_saved)`
+      },
+      m6_knowledge: {
+        title: "M6: Knowledge & Hybrid RAG",
+        tag: "Retrieval",
+        desc: "Qdrant vector database integration storing dense embeddings alongside metadata. Supports keyword BM25 hybrid ranking to prevent hallucinated answers.",
+        specs: [
+          { k: "Vector Backend", v: "Qdrant Vector Engine" },
+          { k: "Top K Retrieval", v: "Top 5-10 chunks ranked by relevance" },
+          { k: "Context Boundary", v: "Tenant-scoped knowledge partition" }
+        ],
+        code: `chunks = await self._knowledge.retrieve(goal, sources=[], top_k=5)`
+      },
+      tier_l0: {
+        title: "Tier L0: Semantic Cache",
+        tag: "Cost Layer",
+        desc: "Zero-cost compute tier. If a query matches an existing response with ≥0.92 cosine similarity, the answer returns immediately.",
+        specs: [
+          { k: "Token Price", v: "$0.00 / 1M tokens" },
+          { k: "Response Time", v: "&lt; 20 milliseconds" },
+          { k: "Workload Share", v: "Handles 25–35% of enterprise queries" }
+        ],
+        code: `return ModelSelection(layer="L0_cache", estimated_cost_usd=0.0)`
+      },
+      tier_l1: {
+        title: "Tier L1: On-Premise Local Model",
+        tag: "Cost Layer",
+        desc: "Routes simple queries (P(cheap) ≥ 0.50) to local hardware running Ollama or vLLM. Zero external token cost and complete data privacy.",
+        specs: [
+          { k: "Default Model", v: "meta-llama/Llama-3.2-3B-Instruct" },
+          { k: "Token Price", v: "$0.00 (Local on-prem GPU compute)" },
+          { k: "Response Time", v: "150–350 milliseconds" }
+        ],
+        code: `return ModelSelection(provider="local_llm", model="llama-3.2-3b-instruct", layer="L1_local")`
+      },
+      tier_l2: {
+        title: "Tier L2: Fast Compressed Cloud",
+        tag: "Cost Layer",
+        desc: "Medium complexity tier (0.25 ≤ P < 0.50). Uses high-throughput, low-cost enterprise models like NVIDIA NIM Llama 3.1 70B.",
+        specs: [
+          { k: "Default Model", v: "nvidia_nim/meta/llama-3.1-70b-instruct" },
+          { k: "Token Price", v: "~$0.0008 / 1K tokens (-70% vs GPT-4o)" },
+          { k: "Response Time", v: "400–1,100 milliseconds" }
+        ],
+        code: `return ModelSelection(provider="nvidia_nim", model="llama-3.1-70b-instruct", layer="L2_compressed")`
+      },
+      tier_l3: {
+        title: "Tier L3: Frontier Cloud Flagship",
+        tag: "Cost Layer",
+        desc: "Reserved for high-complexity reasoning (P < 0.25), multi-step mathematics, and code synthesis. Directly invokes GPT-4o or Claude 3.5 Sonnet.",
+        specs: [
+          { k: "Default Model", v: "OpenAI GPT-4o / Anthropic Claude 3.5" },
+          { k: "Token Price", v: "$2.50 in / $10.00 out per 1M tokens" },
+          { k: "Response Time", v: "1,500–4,000 milliseconds" }
+        ],
+        code: `return ModelSelection(provider="openai", model="gpt-4o", layer="L3_cloud")`
+      },
+      m10_exec: {
+        title: "M10: Resilient Execution Waterfall",
+        tag: "Execution",
+        desc: "Invokes LLMs via LiteLLM with 3-state Circuit Breakers. If a primary provider experiences rate limits (429) or outages (500), it automatically cascades to secondary providers.",
+        specs: [
+          { k: "Circuit Trip Condition", v: "3 consecutive errors or >50% failure rate" },
+          { k: "Recovery Timeout", v: "30.0s cooldown with canary verification" },
+          { k: "Fallback Chain", v: "NIM ➔ Secondary Cloud ➔ Local Mesh" }
+        ],
+        code: `try:\n    return await litellm.acompletion(**kwargs)\nexcept Exception as err:\n    cb.record_failure(err)\n    # Cascade to secondary provider candidates`
+      },
+      m11_verify: {
+        title: "M11/M12: Verification & Reflection",
+        tag: "Quality Control",
+        desc: "Post-generation factuality check. Cross-references generated claims against retrieved knowledge chunks to stop hallucinations. Triggers automatic reflection retry loops if confidence is low.",
+        specs: [
+          { k: "Confidence Threshold", v: "≥ 0.75 for automated acceptance" },
+          { k: "Grounding Validation", v: "Strict knowledge context correlation" },
+          { k: "Reflection Actions", v: "accept, retry, or replan" }
+        ],
+        code: `verification = await self._verification.verify(result, context)\nif verification.confidence < 0.75:\n    return ReflectionNote(action="retry")`
+      },
+      m14_obs: {
+        title: "M14: Observability Ledger & Prometheus",
+        tag: "Telemetry",
+        desc: "Mathematical accounting ledger tracking actual token spend against standardized GPT-4o baseline costs. Exposes real-time Prometheus /metrics for Grafana dashboards.",
+        specs: [
+          { k: "Baseline Formula", v: "(Tokens_in * $2.50/1M) + (Tokens_out * $10.00/1M)" },
+          { k: "Metrics Output", v: "Prometheus exposition format at /metrics" },
+          { k: "Buffer Size", v: "5,000-event ring buffer in memory" }
+        ],
+        code: `saved_dollars = baseline_cost - actual_cost\nself._total_saved += saved_dollars`
+      }
+    };
+
+    function inspect(key) {
+      // Highlight selected node
+      document.querySelectorAll(".node-box").forEach(el => el.classList.remove("active"));
+      const selected = document.getElementById("node-" + key);
+      if (selected) selected.classList.add("active");
+
+      const data = moduleDetails[key];
+      if (!data) return;
+
+      document.getElementById("inspect-title").innerText = data.title;
+      document.getElementById("inspect-tag").innerText = data.tag;
+      document.getElementById("inspect-desc").innerText = data.desc;
+      document.getElementById("inspect-code").innerText = data.code;
+
+      const specsHtml = data.specs.map(s => `
+        <div class="bg-[var(--content)] p-2 rounded-lg border border-[var(--border)] flex justify-between">
+          <span class="text-[var(--muted-foreground)]">${s.k}:</span>
+          <span class="font-bold text-[var(--foreground)]">${s.v}</span>
+        </div>
+      `).join("");
+
+      document.getElementById("inspect-specs").innerHTML = specsHtml;
+    }
+
+    function simulateScenario(type) {
+      resetCanvas();
+      const status = document.getElementById("canvas-status");
+      status.innerText = "Simulating: " + type.toUpperCase();
+      status.className = "font-mono text-amber-500 font-medium flex items-center gap-1.5";
+
+      if (type === "cache_hit") {
+        highlightPath(["client_app", "m1_gateway", "m4_policy", "m8_cache", "tier_l0", "m14_obs"]);
+        inspect("m8_cache");
+        updateROI("$0.00975", "$0.00000", "+$0.00975", "100% OFF", "Executed via L0 Semantic Cache (<20ms)");
+      } else if (type === "pii_route") {
+        highlightPath(["client_app", "m1_gateway", "m4_policy", "tier_l1", "m10_exec", "m14_obs"]);
+        inspect("m4_policy");
+        updateROI("$0.00750", "$0.00000", "+$0.00750", "100% OFF", "PII Detected: Forced L1 Local Airgap");
+      } else if (type === "code_nim") {
+        highlightPath(["client_app", "m1_gateway", "m4_policy", "m3_intent", "tier_l2", "m10_exec", "m11_verify", "m14_obs"]);
+        inspect("tier_l2");
+        updateROI("$0.01250", "$0.00210", "+$0.01040", "83% OFF", "Routed to Tier L2: NVIDIA NIM Llama 70B");
+      } else if (type === "failover") {
+        highlightPath(["client_app", "m1_gateway", "m3_intent", "tier_l2", "m10_exec", "tier_l1", "m14_obs"]);
+        inspect("m10_exec");
+        updateROI("$0.00820", "$0.00000", "+$0.00820", "100% OFF", "Primary 500 Outage: Cascaded to Local Mesh");
+      } else if (type === "deep_cloud") {
+        highlightPath(["client_app", "m1_gateway", "m4_policy", "m3_intent", "m5_planner", "tier_l3", "m10_exec", "m11_verify", "m14_obs"]);
+        inspect("tier_l3");
+        updateROI("$0.01620", "$0.01620", "$0.00000", "0% OFF", "High-Complexity Task: Routed to Frontier GPT-4o");
+      }
+
+      setTimeout(() => {
+        status.innerText = "Simulation Complete";
+        status.className = "font-mono text-emerald-500 font-medium flex items-center gap-1.5";
+      }, 600);
+    }
+
+    function highlightPath(nodeKeys) {
+      nodeKeys.forEach((k, idx) => {
+        setTimeout(() => {
+          const el = document.getElementById("node-" + k);
+          if (el) el.classList.add("active");
+        }, idx * 100);
+      });
+    }
+
+    function resetCanvas() {
+      document.querySelectorAll(".node-box").forEach(el => el.classList.remove("active"));
+      inspect("m8_cache");
+      updateROI("$0.00975", "$0.00000", "+$0.00975", "100% OFF", "Executed on Layer L0 (Semantic Cache)");
+      const status = document.getElementById("canvas-status");
+      status.innerText = "Ready";
+      status.className = "font-mono text-emerald-500 font-medium flex items-center gap-1.5";
+    }
+
+    function updateROI(base, act, sav, pct, text) {
+      document.getElementById("roi-baseline").innerText = base + " USD";
+      document.getElementById("roi-actual").innerText = act + " USD";
+      document.getElementById("roi-saved").innerText = sav;
+      document.getElementById("roi-pct").innerText = pct;
+      document.getElementById("roi-layer").innerText = text;
+    }
+
+    // Default inspection
+    inspect("m8_cache");
+  </script>
+</body>
+</html>

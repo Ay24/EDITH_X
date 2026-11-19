@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 965.43 2383.945" width="965.43" height="2383.945" style="--bg:#18181B;--fg:#F4F4F5;--line:#71717A;--muted:#A1A1AA;--surface:#27272A;--border:#3F3F46;background:var(--bg)">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<g class="subgraph" data-id="Step1" data-label="🚪 Step 1: Security &amp; Identity Check">
+  <rect x="212.51874999999995" y="147.8" width="234.74699999999996" height="368.1" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="212.51874999999995" y="147.8" width="234.74699999999996" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="224.51874999999995" y="161.8" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">🚪 Step 1: Security &amp; Identity Check</text>
+</g>
+<g class="subgraph" data-id="Step2" data-label="⚡ Step 2: Zero-Cost Speed Check">
+  <rect x="202.51524999999995" y="575.9" width="254.75399999999996" height="361.13" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="202.51524999999995" y="575.9" width="254.75399999999996" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="214.51524999999995" y="589.9" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">⚡ Step 2: Zero-Cost Speed Check</text>
+</g>
+<g class="subgraph" data-id="Step3" data-label="🧠 Step 3: Smart Routing (4 Cost Layers)">
+  <rect x="189.916" y="1041.33" width="735.5139999999999" height="300.8" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="189.916" y="1041.33" width="735.5139999999999" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="201.916" y="1055.33" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">🧠 Step 3: Smart Routing (4 Cost Layers)</text>
+</g>
+<g class="subgraph" data-id="Step4" data-label="⚙️ Step 4: Execution &amp; Safety Nets">
+  <rect x="396.06749999999994" y="1402.1299999999999" width="309.06933333333336" height="520.115" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="396.06749999999994" y="1402.1299999999999" width="309.06933333333336" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="408.06749999999994" y="1416.1299999999999" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">⚙️ Step 4: Execution &amp; Safety Nets</text>
+</g>
+<g class="subgraph" data-id="Step5" data-label="🔍 Step 5: Verification &amp; Delivery">
+  <rect x="54.85629166666659" y="2026.5449999999998" width="339.6545" height="317.40000000000003" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="54.85629166666659" y="2026.5449999999998" width="339.6545" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="66.85629166666659" y="2040.5449999999998" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">🔍 Step 5: Verification &amp; Delivery</text>
+</g>
+<polyline class="edge" data-from="User" data-to="GW" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="329.89224999999993,93.80000000000001 329.89224999999993,191.8" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="PII" data-to="Intent" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="329.89224999999993,499.90000000000003 329.89224999999993,619.9" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Cache" data-to="Obs" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="🟢 Cache Hit: 92%+ Match" points="296.6705833333333,887.8083333333334 296.6705833333333,1023.3299999999999 101,1023.3299999999999 101,2008.545 124.0087916666666,2008.545 124.00879166666658,2136.345 151.40612499999992,2136.345 151.40612499999992,2172.345" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Cache" data-to="Router" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="⚪ Cache Miss: New Question" points="363.11391666666657,887.8083333333334 363.11391666666657,955.03 558.7845,955.03 558.7845,1085.33" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="L1" data-to="Run" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="318.775,1326.1299999999999 318.775,1386.1299999999999 558.2287499999999,1386.1299999999999 558.2287499999999,1446.1299999999999" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="L2" data-to="Run" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="558.7845,1326.1299999999999 558.7845,1386.1299999999999 558.2287499999999,1386.1299999999999 558.2287499999999,1446.1299999999999" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="L3" data-to="Run" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="797.6824999999999,1326.1299999999999 797.6824999999999,1386.1299999999999 558.2287499999999,1386.1299999999999 558.2287499999999,1446.1299999999999" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Failover" data-to="Verify" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="✅ Success" points="474.80583333333334,1704.7758333333331 474.80583333333334,1748.145 466.49783333333335,1748.145 466.4978333333333,2008.5449999999998 256.7597916666666,2008.5449999999998 256.7597916666666,2070.545" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="GW" data-to="ID" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="329.89224999999993,262.5 329.89224999999993,310.5" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="ID" data-to="PII" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="329.89224999999993,381.20000000000005 329.89224999999993,429.2" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Intent" data-to="Cache" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="329.89224999999993,673.7 329.89224999999993,721.7" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Router" data-to="L1" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Simple Query" points="513.28475,1156.03 513.28475,1168.03 318.775,1168.03 318.775,1272.33" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Router" data-to="L2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Medium Query" points="558.7845,1156.03 558.7845,1272.33" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Router" data-to="L3" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Hard Reasoning" points="604.2842499999999,1156.03 604.2842499999999,1168.03 797.6824999999999,1168.03 797.6824999999999,1272.33" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Run" data-to="Failover" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="523.0790833333333,1499.9299999999998 523.0790833333333,1511.9299999999998 506.17499999999995,1511.9299999999998 506.17499999999995,1547.9299999999998" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Failover" data-to="Fallback" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="❌ Outage" points="537.5441666666666,1704.7758333333331 537.5441666666666,1748.145 546.9481666666666,1748.145 546.9481666666666,1816.445 548.0441666666666,1816.445 548.0441666666666,1852.445" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Fallback" data-to="Run" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="618.5904999999999,1852.445 618.5904999999999,1816.445 610.2824999999999,1816.445 610.2824999999999,1511.9299999999998 593.3784166666666,1511.9299999999998 593.3784166666666,1499.9299999999998" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Verify" data-to="Obs" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="256.7597916666666,2124.345 256.7597916666666,2136.345 229.36245833333328,2136.345 229.36245833333328,2172.345" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Obs" data-to="Resp" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="190.38429166666657,2226.145 190.38429166666657,2274.145" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="Cache" data-to="Obs" data-label="🟢 Cache Hit: 92%+ Match">
+  <rect x="36" y="1947.245" width="129.916" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="100.958" y="1962.395" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">🟢 Cache Hit: 92%+ Match</text>
+</g>
+<g class="edge-label" data-from="Cache" data-to="Router" data-label="⚪ Cache Miss: New Question">
+  <rect x="481.2845" y="962.03" width="154.864" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="558.7165" y="977.18" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">⚪ Cache Miss: New Question</text>
+</g>
+<g class="edge-label" data-from="Failover" data-to="Verify" data-label="✅ Success">
+  <rect x="428.9978333333333" y="1971.245" width="74.08000000000001" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="466.0378333333333" y="1986.395" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">✅ Success</text>
+</g>
+<g class="edge-label" data-from="Router" data-to="L1" data-label="Simple Query">
+  <rect x="278.275" y="1199.0299999999997" width="80.02000000000001" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="318.28499999999997" y="1214.1799999999998" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Simple Query</text>
+</g>
+<g class="edge-label" data-from="Router" data-to="L2" data-label="Medium Query">
+  <rect x="515.7845" y="1199.0299999999997" width="85.36600000000001" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="558.4675" y="1214.1799999999998" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Medium Query</text>
+</g>
+<g class="edge-label" data-from="Router" data-to="L3" data-label="Hard Reasoning">
+  <rect x="750.1825" y="1199.0299999999997" width="94.27600000000001" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="797.3205" y="1214.1799999999998" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Hard Reasoning</text>
+</g>
+<g class="edge-label" data-from="Failover" data-to="Fallback" data-label="❌ Outage">
+  <rect x="514.4481666666666" y="1779.1449999999998" width="64.57600000000001" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="546.7361666666666" y="1794.2949999999998" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">❌ Outage</text>
+</g>
+<g class="node" data-id="User" data-label="👤 User or App
+(Sends a Question / Task)" data-shape="rectangle">
+  <rect x="234.44674999999992" y="40" width="190.891" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="329.89224999999993" y="66.9" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="329.89224999999993" dy="-3.9000000000000012">👤 User or App</tspan><tspan x="329.89224999999993" dy="16.900000000000002">(Sends a Question / Task)</tspan></text>
+</g>
+<g class="node" data-id="GW" data-label="M1 Gateway
+Is API Key Valid?
+Check rate limits" data-shape="rectangle">
+  <rect x="259.6407499999999" y="191.8" width="140.503" height="70.7" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="329.8922499999999" y="227.15" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="329.8922499999999" dy="-12.350000000000001">M1 Gateway</tspan><tspan x="329.8922499999999" dy="16.900000000000002">Is API Key Valid?</tspan><tspan x="329.8922499999999" dy="16.900000000000002">Check rate limits</tspan></text>
+</g>
+<g class="node" data-id="ID" data-label="M2 Identity
+What company is this?
+What is their role?" data-shape="rectangle">
+  <rect x="245.19124999999994" y="310.5" width="169.402" height="70.7" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="329.89224999999993" y="345.85" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="329.89224999999993" dy="-12.350000000000001">M2 Identity</tspan><tspan x="329.89224999999993" dy="16.900000000000002">What company is this?</tspan><tspan x="329.89224999999993" dy="16.900000000000002">What is their role?</tspan></text>
+</g>
+<g class="node" data-id="PII" data-label="M4 Policy &amp; PII Firewall
+Redact Credit Cards, SSNs,
+and Private Secrets!" data-shape="rectangle">
+  <rect x="228.51874999999995" y="429.2" width="202.74699999999996" height="70.7" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="329.89224999999993" y="464.55" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="329.89224999999993" dy="-12.350000000000001">M4 Policy &amp; PII Firewall</tspan><tspan x="329.89224999999993" dy="16.900000000000002">Redact Credit Cards, SSNs,</tspan><tspan x="329.89224999999993" dy="16.900000000000002">and Private Secrets!</tspan></text>
+</g>
+<g class="node" data-id="Intent" data-label="M3 Intent Classifier
+Is this a question, task, or math?" data-shape="rectangle">
+  <rect x="218.51524999999995" y="619.9" width="222.75399999999996" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="329.89224999999993" y="646.8" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="329.89224999999993" dy="-3.9000000000000012">M3 Intent Classifier</tspan><tspan x="329.89224999999993" dy="16.900000000000002">Is this a question, task, or math?</tspan></text>
+</g>
+<g class="node" data-id="Cache" data-label="M8 L0 Semantic Cache
+Has this question been
+answered before?" data-shape="diamond">
+  <polygon points="329.89224999999993,721.7 429.55724999999995,821.365 329.89224999999993,921.03 230.22724999999994,821.365" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="329.89224999999993" y="821.365" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="329.89224999999993" dy="-12.350000000000001">M8 L0 Semantic Cache</tspan><tspan x="329.89224999999993" dy="16.900000000000002">Has this question been</tspan><tspan x="329.89224999999993" dy="16.900000000000002">answered before?</tspan></text>
+</g>
+<g class="node" data-id="Router" data-label="M9 Pareto Cost Router
+Pick the cheapest model
+that is smart enough" data-shape="rectangle">
+  <rect x="467.7849999999999" y="1085.33" width="181.99899999999997" height="70.7" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="558.7844999999999" y="1120.6799999999998" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="558.7844999999999" dy="-12.350000000000001">M9 Pareto Cost Router</tspan><tspan x="558.7844999999999" dy="16.900000000000002">Pick the cheapest model</tspan><tspan x="558.7844999999999" dy="16.900000000000002">that is smart enough</tspan></text>
+</g>
+<g class="node" data-id="L1" data-label="🔵 L1: Free Local Model
+(Llama-3 on company computer)" data-shape="rectangle">
+  <rect x="205.916" y="1272.33" width="225.718" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="318.775" y="1299.23" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="318.775" dy="-3.9000000000000012">🔵 L1: Free Local Model</tspan><tspan x="318.775" dy="16.900000000000002">(Llama-3 on company computer)</tspan></text>
+</g>
+<g class="node" data-id="L2" data-label="🟡 L2: Medium Fast Cloud
+(Llama-70B on NVIDIA NIM)" data-shape="rectangle">
+  <rect x="459.63399999999996" y="1272.33" width="198.30099999999996" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="558.7845" y="1299.23" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="558.7845" dy="-3.9000000000000012">🟡 L2: Medium Fast Cloud</tspan><tspan x="558.7845" dy="16.900000000000002">(Llama-70B on NVIDIA NIM)</tspan></text>
+</g>
+<g class="node" data-id="L3" data-label="🔴 L3: Frontier Supercomputer
+(GPT-4o or Claude-3.5)" data-shape="rectangle">
+  <rect x="685.935" y="1272.33" width="223.49499999999998" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="797.6824999999999" y="1299.23" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="797.6824999999999" dy="-3.9000000000000012">🔴 L3: Frontier Supercomputer</tspan><tspan x="797.6824999999999" dy="16.900000000000002">(GPT-4o or Claude-3.5)</tspan></text>
+</g>
+<g class="node" data-id="Run" data-label="M10 Execution Waterfall
+Send prompt to chosen model" data-shape="rectangle">
+  <rect x="452.7797499999999" y="1446.1299999999999" width="210.898" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="558.2287499999999" y="1473.03" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="558.2287499999999" dy="-3.9000000000000012">M10 Execution Waterfall</tspan><tspan x="558.2287499999999" dy="16.900000000000002">Send prompt to chosen model</tspan></text>
+</g>
+<g class="node" data-id="Failover" data-label="Did Provider Fail?
+(Rate limit or outage?)" data-shape="diamond">
+  <polygon points="506.17499999999995,1547.9299999999998 600.2824999999999,1642.0375 506.17499999999995,1736.145 412.0675,1642.0375" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="506.17499999999995" y="1642.0375" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="506.17499999999995" dy="-3.9000000000000012">Did Provider Fail?</tspan><tspan x="506.17499999999995" dy="16.900000000000002">(Rate limit or outage?)</tspan></text>
+</g>
+<g class="node" data-id="Fallback" data-label="Cascade to Backup Provider
+(Groq / Secondary / Local)" data-shape="rectangle">
+  <rect x="477.49783333333323" y="1852.445" width="211.639" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="583.3173333333332" y="1879.345" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="583.3173333333332" dy="-3.9000000000000012">Cascade to Backup Provider</tspan><tspan x="583.3173333333332" dy="16.900000000000002">(Groq / Secondary / Local)</tspan></text>
+</g>
+<g class="node" data-id="Verify" data-label="M11 Verification &amp; Reflection
+Check facts against company docs" data-shape="rectangle">
+  <rect x="135.00879166666658" y="2070.545" width="243.50199999999998" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="256.75979166666656" y="2097.445" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="256.75979166666656" dy="-3.9000000000000012">M11 Verification &amp; Reflection</tspan><tspan x="256.75979166666656" dy="16.900000000000002">Check facts against company docs</tspan></text>
+</g>
+<g class="node" data-id="Obs" data-label="M14 Observability Ledger
+Record dollars saved vs GPT-4o" data-shape="rectangle">
+  <rect x="73.44979166666658" y="2172.345" width="233.869" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="190.38429166666657" y="2199.245" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="190.38429166666657" dy="-3.9000000000000012">M14 Observability Ledger</tspan><tspan x="190.38429166666657" dy="16.900000000000002">Record dollars saved vs GPT-4o</tspan></text>
+</g>
+<g class="node" data-id="Resp" data-label="🎉 Final Response to User
+(Fast, Accurate, Secure &amp; Cheap!)" data-shape="rectangle">
+  <rect x="70.85629166666659" y="2274.145" width="239.05599999999998" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="190.38429166666657" y="2301.045" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="190.38429166666657" dy="-3.9000000000000012">🎉 Final Response to User</tspan><tspan x="190.38429166666657" dy="16.900000000000002">(Fast, Accurate, Secure &amp; Cheap!)</tspan></text>
+</g>
+</svg>

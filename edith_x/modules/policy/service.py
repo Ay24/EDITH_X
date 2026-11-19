@@ -56,20 +56,26 @@ class PolicyService:
             _, pii_detected, pii_types = self._firewall.redact(check_text)
 
         # Start permissive, restrict based on rules
+        tenant_residency = getattr(ctx, "data_residency", None)
+        domain_policy = _DOMAIN_POLICIES.get(getattr(intent, "domain", ""), {})
+        effective_residency = (
+            "local" if pii_detected
+            else (tenant_residency or domain_policy.get("data_residency") or "any")
+        )
+
         decision = PolicyDecision(
             allowed_models=self._settings.cloud_model_list + self._settings.local_model_list,
-            requires_local=pii_detected,
-            requires_human_approval=False,
+            requires_local=pii_detected or domain_policy.get("requires_local", False) or (effective_residency == "local"),
+            requires_human_approval=domain_policy.get("requires_human_approval", False),
             pii_detected=pii_detected,
-            data_residency="local" if pii_detected else "any",
+            data_residency=effective_residency,
             blocked=False,
         )
 
-        # If PII detected, lock down models to local only
-        if pii_detected:
+        # If PII detected or local required, lock down models to local only
+        if decision.requires_local:
             decision.allowed_models = list(self._settings.local_model_list)
-            decision.requires_local = True
-            log.warning("pii_detected_enforcing_local", detected=pii_types)
+            log.warning("policy_enforcing_local", detected_pii=pii_types, residency=effective_residency)
 
         # Block very high risk intents that need human approval
         if intent.risk > 0.8:

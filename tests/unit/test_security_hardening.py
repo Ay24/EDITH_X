@@ -44,6 +44,13 @@ async def test_constant_time_api_key_validation(identity_service: IdentityServic
     altered_res = await identity_service.validate_key_timing_safe("valid-secret-key-12344")
     assert altered_res is None
 
+    # Structured enterprise key check
+    structured_res = await identity_service.validate_key_timing_safe("edx_live_apexpay_9876543210abcdef")
+    assert structured_res is not None
+    assert structured_res.org_id == "org-apexpay"
+    assert structured_res.role == "admin"
+    assert structured_res.tenant_plan == "enterprise"
+
 
 @pytest.mark.asyncio
 async def test_sliding_window_rate_limiter(gateway_service: GatewayService):

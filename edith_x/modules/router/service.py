@@ -40,15 +40,16 @@ class RouterService:
         policy: PolicyDecision,
         intent: IntentResult,
     ) -> ModelSelection:
-        # 1. Policy Constraint: Air-gapped / PII detected
-        if policy.requires_local:
+        # 1. Policy Constraint: Air-gapped / PII detected / Data Residency
+        if policy.requires_local or policy.data_residency in ("local", "eu"):
             local = self._settings.local_model_list
             model = local[0] if local else "llama-3.2-3b-instruct"
-            log.info("policy_enforcing_local_tier", model=model)
+            reason = "Air-gapped policy requires local on-premise model" if policy.requires_local else f"GDPR / Data residency ({policy.data_residency}) mandates local sovereign execution"
+            log.info("policy_enforcing_local_tier", model=model, residency=policy.data_residency)
             return ModelSelection(
                 provider="local_llm",
                 model=model,
-                reasoning="Policy firewall requires local on-premise model",
+                reasoning=reason,
                 estimated_cost_usd=0.0,
                 estimated_latency_ms=_MODEL_LATENCY.get(model, 250),
                 layer="L1_local",

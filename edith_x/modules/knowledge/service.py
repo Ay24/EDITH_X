@@ -111,12 +111,14 @@ class KnowledgeService:
 
         return self._client
 
-    async def index(self, document: Document, source: str) -> str:
+    async def index(self, document: Document, source: str | None = None) -> str:
         """Index a document by chunking into semantic passages and upserting into Qdrant."""
         client = self._get_client()
         content = document.content.strip()
         if not content:
             return document.id
+
+        actual_source = source or getattr(document, "source", None) or "knowledge_base"
 
         # Chunk document into ~400 character sliding passages
         paragraphs = [p.strip() for p in content.split("\n\n") if p.strip()]
@@ -142,44 +144,62 @@ class KnowledgeService:
             chunks_text = [content[:500]]
 
         points: list[PointStruct] = []
+        org_id = (document.metadata or {}).get("org_id", "default_org")
         for idx, chunk_str in enumerate(chunks_text):
             chunk_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, f"{document.id}_{idx}"))
             vec = _hash_vector(chunk_str, dim=VECTOR_DIM)
             payload = {
                 "doc_id": document.id,
+                "org_id": org_id,
                 "chunk_id": chunk_id,
                 "content": chunk_str,
-                "source": source,
+                "source": actual_source,
                 "metadata": document.metadata,
                 "chunk_index": idx,
             }
             points.append(PointStruct(id=chunk_id, vector=vec, payload=payload))
 
         client.upsert(collection_name=COLLECTION_NAME, points=points)
-        log.info("document_indexed_qdrant", doc_id=document.id, source=source, chunks=len(points))
+        log.info("document_indexed_qdrant", doc_id=document.id, source=actual_source, chunks=len(points))
         return document.id
+
+    async def ingest(self, document: Document, source: str | None = None) -> str:
+        """Alias for index to support ingestion protocols."""
+        return await self.index(document, source=source)
 
     async def retrieve(
         self,
         query: str,
         sources: list[str] | None = None,
         top_k: int = 10,
+        org_id: str | None = None,
     ) -> list[KnowledgeChunk]:
-        """Perform hybrid search (dense cosine vector search + lexical re-ranking)."""
+        """Perform hybrid search (dense cosine vector search + lexical re-ranking) with tenant isolation."""
         client = self._get_client()
         if not query.strip():
             return []
 
         q_vec = _hash_vector(query, dim=VECTOR_DIM)
 
-        query_filter = None
+        must_conditions: list[Any] = []
+        if org_id:
+            must_conditions.append(FieldCondition(key="org_id", match=MatchValue(value=org_id)))
+
+        should_conditions: list[Any] = []
         if sources and len(sources) > 0:
-            query_filter = Filter(
-                should=[
-                    FieldCondition(key="source", match=MatchValue(value=s))
-                    for s in sources
-                ]
-            )
+            should_conditions = [
+                FieldCondition(key="source", match=MatchValue(value=s))
+                for s in sources
+            ]
+
+        if must_conditions and should_conditions:
+            query_filter = Filter(must=must_conditions, should=should_conditions)
+        elif must_conditions:
+            query_filter = Filter(must=must_conditions)
+        elif should_conditions:
+            query_filter = Filter(should=should_conditions)
+        else:
+            query_filter = None
 
         # Retrieve top candidates via vector search
         search_limit = max(top_k * 3, 20)
@@ -200,8 +220,11 @@ class KnowledgeService:
         scored_chunks: list[tuple[float, KnowledgeChunk]] = []
         for p in candidate_points:
             payload = p.payload or {}
+            # Strict tenant isolation post-filter guard
+            if org_id and payload.get("org_id") != org_id:
+                continue
             content = payload.get("content", "")
-            source = payload.get("source", "knowledge_base")
+            source = payload.get("source") or "knowledge_base"
             dense_score = max(0.0, float(p.score)) if p.score is not None else 0.5
             lex_score = _lexical_similarity(query, content)
 

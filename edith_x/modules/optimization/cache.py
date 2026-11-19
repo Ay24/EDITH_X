@@ -57,6 +57,42 @@ def _cosine_similarity(vec1: dict[str, float], vec2: dict[str, float]) -> float:
     return min(max(dot, 0.0), 1.0)
 
 
+_NEGATION_TOKENS = {
+    "not", "no", "never", "without", "except", "none", "neither", "nor",
+    "cannot", "cant", "dont", "wont", "isnt", "arent", "wasnt", "werent",
+}
+
+_DIRECTION_PAIRS = [
+    ({"to"}, {"from"}),
+    ({"into"}, {"out", "out of"}),
+    ({"increase", "increasing", "increased"}, {"decrease", "decreasing", "decreased"}),
+    ({"buy", "buying"}, {"sell", "selling"}),
+    ({"deposit", "depositing"}, {"withdraw", "withdrawing"}),
+    ({"import", "importing"}, {"export", "exporting"}),
+]
+
+
+def _has_divergent_intent(q1: str, q2: str) -> bool:
+    """Detect grammatical polarity flips or directionality differences that fool token cosine."""
+    words1 = set(re.findall(r"\b\w+\b", q1.lower()))
+    words2 = set(re.findall(r"\b\w+\b", q2.lower()))
+
+    # 1. Negation mismatch
+    neg1 = bool(words1 & _NEGATION_TOKENS)
+    neg2 = bool(words2 & _NEGATION_TOKENS)
+    if neg1 != neg2:
+        return True
+
+    # 2. Directional / antonym pair divergence
+    for set_a, set_b in _DIRECTION_PAIRS:
+        has_a1, has_b1 = bool(words1 & set_a), bool(words1 & set_b)
+        has_a2, has_b2 = bool(words2 & set_a), bool(words2 & set_b)
+        if (has_a1 and has_b2) or (has_b1 and has_a2):
+            return True
+
+    return False
+
+
 @dataclass
 class CacheEntry:
     query: str
@@ -175,6 +211,8 @@ class SemanticCache:
             if not entry:
                 continue
             if entry.expires_at is not None and entry.expires_at <= now:
+                continue
+            if _has_divergent_intent(query, entry.query):
                 continue
             sim = _cosine_similarity(q_vector, entry.vector)
             if sim > best_score:
