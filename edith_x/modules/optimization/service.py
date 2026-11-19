@@ -24,27 +24,28 @@ class OptimizationService:
         self._initialized = True
         log.info("optimization_service_initialized", cache="semantic_and_exact", compressor="information_density")
 
-    async def check_cache(self, query: str) -> CacheResult | None:
-        """Check L0 dual exact and semantic cache."""
-        result = await self._cache.get(query)
+    async def check_cache(self, query: str, org_id: str = "default") -> CacheResult | None:
+        """Check L0 dual exact and semantic cache with tenant isolation."""
+        result = await self._cache.get(query, org_id=org_id)
         if result.hit:
             log.info(
                 "cache_hit",
                 similarity=result.similarity,
                 saved_usd=result.saved_cost_usd,
+                org_id=org_id,
                 query=query[:60],
             )
         return result
 
-    async def store_cache(self, query: str, response: str) -> None:
-        """Store query and response in L0 cache with cost savings estimation."""
+    async def store_cache(self, query: str, response: str, org_id: str = "default") -> None:
+        """Store query and response in L0 cache with cost savings estimation and tenant isolation."""
         in_tokens = await self.estimate_tokens(query)
         out_tokens = await self.estimate_tokens(response)
         # GPT-4o baseline: $2.50 / 1M in, $10.00 / 1M out
         baseline_cost = (in_tokens * 2.50 / 1_000_000) + (out_tokens * 10.00 / 1_000_000)
 
-        await self._cache.set(query=query, response=response, cost_saved=baseline_cost)
-        log.info("cache_stored", query=query[:60], saved_usd=baseline_cost)
+        await self._cache.set(query=query, response=response, cost_saved=baseline_cost, org_id=org_id)
+        log.info("cache_stored", query=query[:60], org_id=org_id, saved_usd=baseline_cost)
 
     async def compress_prompt(self, prompt: str, budget: int) -> CompressedPrompt:
         """Coarse-to-fine token compression preserving technical terms and identifiers."""

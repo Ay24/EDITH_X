@@ -47,9 +47,16 @@ async def root_dashboard():
 # ── Auth Dependency ──────────────────────────────────────────────────────────
 
 async def get_auth(authorization: str = Header(default="Bearer demo-key")) -> AuthContext:
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Invalid authorization header scheme. Bearer required.")
     api_key = authorization.replace("Bearer ", "").strip()
+    if not api_key:
+        raise HTTPException(status_code=401, detail="API key is required.")
     gateway = container.gateway()
-    return await gateway.authenticate(api_key)
+    auth = await gateway.authenticate(api_key)
+    if not auth:
+        raise HTTPException(status_code=401, detail="Invalid, expired, or forged API credentials.")
+    return auth
 
 
 # ── OpenAI-Compatible Models ─────────────────────────────────────────────────
@@ -120,19 +127,22 @@ async def chat_completions(
     policy_svc = container.policy()
     planner = container.planner()
 
-    intent = await intent_svc.classify(goal, auth)
-    policy = await policy_svc.evaluate(intent, auth)
+    # Pre-execution PII & Secret Redaction (BUG-002)
+    sanitized_goal, _, _ = policy_svc.sanitize_payload(goal)
+
+    intent = await intent_svc.classify(sanitized_goal, auth)
+    policy = await policy_svc.evaluate(intent, auth, query=sanitized_goal)
 
     if policy.blocked:
         raise HTTPException(status_code=403, detail=policy.block_reason)
 
     if request.stream:
         return StreamingResponse(
-            _stream_response(goal, auth, intent, policy, planner),
+            _stream_response(sanitized_goal, auth, intent, policy, planner),
             media_type="text/event-stream",
         )
 
-    state = await planner.run(goal, auth, intent, policy, history)
+    state = await planner.run(sanitized_goal, auth, intent, policy, history)
     response_text = state.get("final_response", "No response generated")
 
     return {
@@ -188,13 +198,16 @@ async def run_goal(
     policy_svc = container.policy()
     planner = container.planner()
 
-    intent = await intent_svc.classify(request.goal, auth)
-    policy = await policy_svc.evaluate(intent, auth)
+    # Pre-execution PII & Secret Redaction (BUG-002)
+    sanitized_goal, _, _ = policy_svc.sanitize_payload(request.goal)
+
+    intent = await intent_svc.classify(sanitized_goal, auth)
+    policy = await policy_svc.evaluate(intent, auth, query=sanitized_goal)
 
     if policy.blocked:
         raise HTTPException(status_code=403, detail=policy.block_reason)
 
-    state = await planner.run(request.goal, auth, intent, policy)
+    state = await planner.run(sanitized_goal, auth, intent, policy)
     return {
         "run_id": state.get("run_id"),
         "response": state.get("final_response"),

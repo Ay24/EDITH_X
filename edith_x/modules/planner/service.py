@@ -57,8 +57,11 @@ class PlannerService:
         goal = state["goal"]
         user_id = state["user_id"]
 
-        # Parallel: knowledge + memory (both non-blocking)
-        chunks = await self._knowledge.retrieve(goal, sources=[], top_k=5)
+        auth = state.get("auth")
+        org_id = getattr(auth, "org_id", None) or state.get("org_id", "default_org")
+
+        # Parallel: knowledge + memory (both non-blocking) with strict tenant isolation
+        chunks = await self._knowledge.retrieve(goal, sources=[], top_k=5, org_id=org_id)
         memories = await self._memory.get(user_id, goal, top_k=3)
 
         # Convert memories to chunks
@@ -90,7 +93,9 @@ class PlannerService:
     async def _node_optimize(self, state: AgentState) -> AgentState:
         """Check semantic cache first — zero cost path."""
         goal = state["goal"]
-        cache = await self._optimization.check_cache(goal)
+        auth = state.get("auth")
+        org_id = getattr(auth, "org_id", None) or state.get("org_id", "default")
+        cache = await self._optimization.check_cache(goal, org_id=org_id)
         if cache and cache.hit:
             state["final_response"] = cache.response
             state["cache_hit"] = True
@@ -158,9 +163,11 @@ class PlannerService:
 
     async def _node_finalize(self, state: AgentState) -> AgentState:
         """Store cache and memory, record observability."""
-        # Store in cache
+        # Store in cache with tenant isolation
         if not state.get("cache_hit") and state.get("final_response"):
-            await self._optimization.store_cache(state["goal"], state["final_response"])
+            auth = state.get("auth")
+            org_id = getattr(auth, "org_id", None) or state.get("org_id", "default")
+            await self._optimization.store_cache(state["goal"], state["final_response"], org_id=org_id)
 
         # Store in memory
         if state.get("final_response"):

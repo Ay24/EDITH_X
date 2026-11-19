@@ -5,6 +5,7 @@ import hmac
 import structlog
 from edith_x.core.config import Settings
 from edith_x.core.interfaces import AuditEvent, AuthContext, Tenant, User
+from edith_x.modules.identity.audit_ledger import AuditLedger
 
 log = structlog.get_logger(__name__)
 
@@ -17,6 +18,7 @@ class IdentityService:
         self._settings = settings
         # In-memory registry of api_keys mapping to tenant/user metadata
         self._api_key_registry: dict[str, dict[str, str]] = {}
+        self._audit_ledger = AuditLedger()
 
     def register_api_key(
         self,
@@ -36,6 +38,9 @@ class IdentityService:
 
     async def validate_key_timing_safe(self, candidate_key: str) -> AuthContext | None:
         """Validate API key using constant-time comparison to prevent timing attacks."""
+        if not candidate_key:
+            return None
+
         candidate_bytes = candidate_key.encode("utf-8")
         matched_meta: dict[str, str] | None = None
 
@@ -54,15 +59,41 @@ class IdentityService:
                 tenant_plan=matched_meta["plan"],
             )
 
-        # Support structured enterprise keys: edx_live_<org>_<token> or edx_test_<org>_<token>
+        # Support structured enterprise keys: edx_live_<role>_<org_id> or edx_live_usr_<id>_<org_id>
         if candidate_key.startswith("edx_live_") or candidate_key.startswith("edx_test_"):
             parts = candidate_key.split("_")
-            if len(parts) >= 4:
+            is_live = parts[1] == "live"
+            # Format A: edx_live_admin_org_01 or edx_live_user_org_01 (len == 5, parts[3] == 'org')
+            if len(parts) == 5 and parts[3] == "org":
+                role = "admin" if parts[2] == "admin" else "member"
+                org_id = f"org_{parts[4]}"
+                return AuthContext(
+                    user_id=f"usr_{parts[2]}_{org_id}",
+                    org_id=org_id,
+                    email=f"{parts[2]}@{org_id}.enterprise",
+                    role=role,
+                    api_key_id=candidate_key[:14] + "...",
+                    tenant_plan="enterprise" if is_live else "standard",
+                )
+            # Format B: edx_live_usr_0001_org_01 (len >= 6, parts[2] == 'usr')
+            elif len(parts) >= 6 and parts[2] == "usr":
+                user_id = f"usr_{parts[3]}"
+                org_id = "_".join(parts[4:])
+                return AuthContext(
+                    user_id=user_id,
+                    org_id=org_id,
+                    email=f"{user_id}@{org_id}.internal",
+                    role="member",
+                    api_key_id=candidate_key[:14] + "...",
+                    tenant_plan="enterprise" if is_live else "standard",
+                )
+            # Format C: edx_live_<org_tag>_<token>
+            elif len(parts) >= 4:
                 org_tag = parts[2]
-                is_live = parts[1] == "live"
+                org_id = f"org_{org_tag}" if not org_tag.startswith("org") else org_tag
                 return AuthContext(
                     user_id=f"service-user-{org_tag}",
-                    org_id=f"org-{org_tag}",
+                    org_id=org_id,
                     email=f"gateway@{org_tag}.enterprise",
                     role="admin" if is_live else "member",
                     api_key_id=candidate_key[:14] + "...",
@@ -80,5 +111,15 @@ class IdentityService:
     async def check_permission(self, user: User, action: str) -> bool:
         return user.role in ("admin", "member")
 
+    @property
+    def audit_ledger(self) -> AuditLedger:
+        return self._audit_ledger
+
     async def log_audit(self, event: AuditEvent) -> None:
         log.info("audit", action=event.action, user=event.user_id, resource=event.resource)
+        self._audit_ledger.record_event(
+            action=event.action,
+            user_id=event.user_id,
+            org_id=getattr(event, "org_id", "default_org"),
+            details={"resource": event.resource, "status": event.status, "metadata": getattr(event, "metadata", {})},
+        )

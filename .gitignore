@@ -4,3 +4,10 @@ __pycache__/
 *$py.class
 .pytest_cache/
 .venv/
+.env
+.env.local
+.env.*.local
+*.log
+tests/prod_sim/data/
+tests/prod_sim/results/
+

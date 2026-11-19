@@ -1,0 +1,66 @@
+# EDITH-X Production Simulation Pre-Committed Thresholds
+# NON-NEGOTIABLE: Written before running ANY load tests. Do not modify post-run.
+
+version: "1.0.0"
+committed_at: "2026-11-19T14:30:00Z"
+target_hardware: "AMD Ryzen 5 5600H (6C/12T), 16 GB RAM, Windows 11"
+
+smoke_test_t0:
+  max_error_rate_pct: 0.0
+  max_p99_latency_ms: 1000.0
+
+baseline_t1:
+  concurrent_users: 50
+  max_error_rate_pct: 0.1
+  max_p95_latency_ms: 300.0
+  max_p99_latency_ms: 600.0
+
+ramp_load_t2:
+  max_error_rate_500_users_pct: 0.5
+  max_error_rate_1000_users_pct: 1.0
+  max_p95_latency_500_ms: 500.0
+  max_p99_latency_500_ms: 1200.0
+  max_p95_latency_1000_ms: 1000.0
+  max_p99_latency_1000_ms: 2500.0
+
+latency_overhead:
+  # EDITH gateway latency minus mock-LLM latency
+  max_gateway_delta_p95_ms: 100.0
+  max_gateway_delta_p99_ms: 250.0
+
+caching_end_to_end:
+  # Exact & semantic cache hits over real HTTP
+  max_cache_hit_p95_ms: 150.0
+  max_cache_hit_p99_ms: 300.0
+  min_cache_hit_ratio_zipfian_pct: 35.0
+
+spike_test_t3:
+  step_users: "100 -> 1000 in 30s"
+  max_recovery_time_seconds: 60.0
+  max_post_recovery_p95_multiplier: 2.0
+
+soak_test_t4:
+  duration_minutes: 30
+  max_memory_growth_pct: 10.0
+  max_latency_drift_pct: 20.0
+  max_fd_leak_count: 0
+
+breaking_point_t5:
+  min_sustainable_concurrent_users: 250
+  min_sustainable_throughput_rps: 150.0
+
+fault_injection_t6:
+  circuit_breaker_trip_time_seconds: 5.0
+  recovery_time_seconds: 60.0
+  duplicate_billing_events: 0
+
+security_and_isolation_t7:
+  max_cross_tenant_canary_leaks: 0
+  min_pii_recall_pct: 99.0
+  max_pii_false_positive_pct: 5.0
+  unauthenticated_requests_rejected_pct: 100.0
+  rbac_escalation_blocked_pct: 100.0
+
+cost_and_sanity_t8:
+  max_token_discrepancy_pct: 2.0
+  near_miss_cache_contamination_errors: 0

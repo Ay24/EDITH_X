@@ -98,6 +98,7 @@ class CacheEntry:
     query: str
     response: str
     cost_saved: float
+    org_id: str = "default"
     created_at: float = field(default_factory=time.time)
     expires_at: float | None = None
     vector: dict[str, float] = field(default_factory=dict)
@@ -150,13 +151,13 @@ class SemanticCache:
         # Inverted index for O(k) candidate pruning: token -> set[entry_hash]
         self._inverted_index: dict[str, set[str]] = {}
 
-    def _hash_query(self, query: str) -> str:
-        norm = _normalize(query)
+    def _hash_query(self, query: str, org_id: str = "default") -> str:
+        norm = f"{org_id}:{_normalize(query)}"
         return hashlib.sha256(norm.encode("utf-8")).hexdigest()
 
-    async def get(self, query: str) -> CacheResult:
+    async def get(self, query: str, org_id: str = "default") -> CacheResult:
         now = time.time()
-        q_hash = self._hash_query(query)
+        q_hash = self._hash_query(query, org_id=org_id)
 
         # 1. Exact Match Fast-Path (< 0.05ms) in L1 LRU
         if q_hash in self._exact_cache:
@@ -210,6 +211,8 @@ class SemanticCache:
             entry = self._exact_cache.get(c_hash)
             if not entry:
                 continue
+            if entry.org_id != org_id:
+                continue
             if entry.expires_at is not None and entry.expires_at <= now:
                 continue
             if _has_divergent_intent(query, entry.query):
@@ -254,6 +257,7 @@ class SemanticCache:
         response: str,
         cost_saved: float = 0.0,
         ttl_seconds: float | None = None,
+        org_id: str = "default",
     ) -> None:
         if not query.strip() or not response.strip():
             return
@@ -262,7 +266,7 @@ class SemanticCache:
         ttl = ttl_seconds if ttl_seconds is not None else self.default_ttl
         expires_at = (now + ttl) if ttl > 0 else None
 
-        q_hash = self._hash_query(query)
+        q_hash = self._hash_query(query, org_id=org_id)
         tokens = _tokenize(query)
         vector = _compute_vector(tokens)
 
@@ -270,6 +274,7 @@ class SemanticCache:
             query=query,
             response=response,
             cost_saved=cost_saved,
+            org_id=org_id,
             created_at=now,
             expires_at=expires_at,
             vector=vector,

@@ -1,0 +1,111 @@
+version: '3.8'
+
+services:
+  edith-api:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - EDITH_ENV=production
+      - DEMO_MODE=false
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - LOCAL_LLM_HOST=http://mock-llm:8001/v1
+      - GROQ_API_BASE=http://mock-llm:8001/v1
+      - OPENAI_API_BASE=http://mock-llm:8001/v1
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 6G
+        reservations:
+          cpus: '2.0'
+          memory: 2G
+    depends_on:
+      qdrant:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mock-llm:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/edith/v1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: uvicorn edith_x.interfaces.rest.app:app --host 0.0.0.0 --port 8000 --workers 4
+
+  mock-llm:
+    build:
+      context: ./mock_llm
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+
+  qdrant:
+    image: qdrant/qdrant:v1.12.0
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_prod_data:/qdrant/storage
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/healthz"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_prod_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+  locust-master:
+    image: locustio/locust
+    ports:
+      - "8089:8089"
+    volumes:
+      - .:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --master -H http://edith-api:8000
+    depends_on:
+      - edith-api
+
+  locust-worker:
+    image: locustio/locust
+    volumes:
+      - .:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --worker --master-host locust-master
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+    depends_on:
+      - locust-master
+
+volumes:
+  qdrant_prod_data:
+  redis_prod_data:
