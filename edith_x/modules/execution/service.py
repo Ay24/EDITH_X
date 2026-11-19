@@ -97,6 +97,7 @@ class ExecutionService:
             "model": model_name,
             "max_tokens": 2048,
             "temperature": 0.3,
+            "timeout": getattr(self._settings, "llm_request_timeout_seconds", 6.0),
         }
 
         if provider == "local_llm":

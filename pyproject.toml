@@ -7,7 +7,7 @@ name = "edith-x"
 version = "0.1.0"
 description = "EDITH-X: Enterprise Distributed Intelligence Token Handler — eXtended"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 license = { text = "MIT" }
 
 dependencies = [
@@ -36,6 +36,8 @@ dependencies = [
 
     # Observability
     "structlog>=24.4.0",
+    "python-pptx>=1.0.0",
+    "pillow>=10.0.0",
 ]
 
 [project.optional-dependencies]

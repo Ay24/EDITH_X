@@ -6,24 +6,30 @@ echo.
 
 cd /d "%~dp0"
 
+set PYTHON_CMD=python
+if exist ".\.venv\Scripts\python.exe" (
+    set PYTHON_CMD=.\.venv\Scripts\python.exe
+)
+
 echo [1/2] Starting EDITH-X API Server (Port 8000)...
-start "EDITH-X API" cmd /k "py -3.12 -m uvicorn edith_x.interfaces.rest.app:app --host 0.0.0.0 --port 8000 --log-level info"
+start "EDITH-X API" cmd /k "%PYTHON_CMD% -m uvicorn edith_x.interfaces.rest.app:app --host 0.0.0.0 --port 8000 --log-level info"
 
 echo Waiting for API to initialize...
-timeout /t 5 /nobreak > nul
+timeout /t 4 /nobreak > nul
 
-echo [2/2] Starting EDITH-X Dashboard (Port 8501)...
-start "EDITH-X Dashboard" cmd /k "py -3.12 -m streamlit run edith_x/demo/ui.py --server.port 8501 --server.headless false --browser.gatherUsageStats false"
+echo [2/2] Launching Web Control Center...
+start http://localhost:8000/dashboard
 
 echo.
 echo ===================================================
 echo                SYSTEM ONLINE
 echo ===================================================
 echo.
-echo Dashboard: http://localhost:8501
-echo API Docs:  http://localhost:8000/docs
+echo Control Center: http://localhost:8000/dashboard
+echo API Docs:       http://localhost:8000/docs
+echo Metrics:        http://localhost:8000/edith/v1/metrics
 echo.
-echo Note: Ensure LM Studio is running on Port 1234.
-echo Close the two newly opened terminal windows to stop the servers.
-echo.
+echo Press any key to run real-time diagnostic test...
+pause > nul
+%PYTHON_CMD% test_realtime.py
 pause
