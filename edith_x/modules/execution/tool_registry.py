@@ -122,6 +122,8 @@ class EnterpriseToolRegistry:
                 error=f"Error executing tool '{call.tool}': {str(e)}",
             )
 
+    execute = execute_tool
+
     # ── Default Tool Implementations ──────────────────────────────────────────
 
     def _tool_calculator(self, expression: str) -> str:

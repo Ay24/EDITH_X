@@ -6,6 +6,10 @@ import time
 import uuid
 from typing import AsyncGenerator
 
+# Suppress remote price map fetching and unnecessary debug network calls before litellm import
+os.environ["LITELLM_LOCAL_MODEL_COST_MAP"] = "True"
+os.environ["LITELLM_TELEMETRY"] = "False"
+
 import litellm
 import structlog
 
@@ -18,8 +22,6 @@ from edith_x.modules.execution.tool_registry import EnterpriseToolRegistry
 
 log = structlog.get_logger(__name__)
 
-# Suppress remote price map fetching and unnecessary debug network calls
-os.environ["LITELLM_LOCAL_MODEL_COST_MAP"] = "True"
 litellm.drop_params = True
 litellm.telemetry = False
 litellm.suppress_debug_info = True
