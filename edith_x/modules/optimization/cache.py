@@ -394,3 +394,13 @@ class SemanticCache:
         for h in to_delete:
             self._remove_entry(h)
         return len(to_delete)
+
+    def invalidate_by_user(self, user_id: str) -> int:
+        """Purge cache entries belonging to a user (GDPR Article 17 Erasure)."""
+        to_delete = [
+            h for h, entry in list(self._exact_cache.items())
+            if entry.user_id == user_id or f"user:{user_id}" in entry.tags
+        ]
+        for h in to_delete:
+            self._remove_entry(h)
+        return len(to_delete)

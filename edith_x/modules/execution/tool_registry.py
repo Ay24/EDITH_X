@@ -58,6 +58,7 @@ class EnterpriseToolRegistry:
     def __init__(self) -> None:
         self._tools: dict[str, Callable] = {}
         self._descriptions: dict[str, str] = {}
+        self._parameters: dict[str, dict] = {}
         self._register_default_tools()
 
     def _register_default_tools(self) -> None:
@@ -77,12 +78,42 @@ class EnterpriseToolRegistry:
             handler=self._tool_system_status,
             description="Returns gateway system health and runtime metadata.",
         )
+        self.register(
+            name="generate_document",
+            handler=self._tool_generate_document,
+            description="Generate formatted enterprise documents (PDF, PPTX, XLSX, Markdown) with automatic Output DLP.",
+            parameters={
+                "type": "object",
+                "properties": {
+                    "format": {"type": "string", "enum": ["pdf", "pptx", "xlsx", "md"]},
+                    "title": {"type": "string", "description": "Document title"},
+                    "content": {"type": "string", "description": "Document content body"},
+                    "sections": {"type": "array", "items": {"type": "object"}},
+                    "org_id": {"type": "string", "default": "default"},
+                },
+                "required": ["format", "title", "content"],
+            },
+        )
 
-    def register(self, name: str, handler: Callable, description: str = "") -> None:
+    def register(self, name: str, handler: Callable, description: str = "", parameters: dict | None = None) -> None:
         """Register a new tool handler (async or sync)."""
         self._tools[name] = handler
         self._descriptions[name] = description
+        self._parameters[name] = parameters or {"type": "object", "properties": {}}
         log.info("tool_registered", name=name, description=description)
+
+    def has_tool(self, name: str) -> bool:
+        return name in self._tools
+
+    def get_tool(self, name: str) -> Any:
+        if name not in self._tools:
+            return None
+        from types import SimpleNamespace
+        return SimpleNamespace(
+            name=name,
+            description=self._descriptions.get(name, ""),
+            parameters=self._parameters.get(name, {"type": "object", "properties": {}}),
+        )
 
     def list_tools(self) -> list[str]:
         return list(self._tools.keys())
@@ -139,3 +170,15 @@ class EnterpriseToolRegistry:
             "runtime": "EDITH-X Enterprise Distributed Gateway",
             "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         }
+
+    def _tool_generate_document(
+        self,
+        format: str,
+        title: str,
+        content: str,
+        sections: list[dict] | None = None,
+        org_id: str = "default",
+    ) -> dict[str, Any]:
+        from edith_x.modules.document.output import OutputServices
+        svc = OutputServices()
+        return svc.generate_document(format=format, title=title, content=content, sections=sections, org_id=org_id)

@@ -1,8 +1,11 @@
 """EDITH-X FastAPI REST Interface — OpenAI-compatible + native endpoints."""
 from __future__ import annotations
 
+import hashlib
+import json
 import time
 import uuid
+from pathlib import Path
 from typing import Any, AsyncGenerator
 
 import structlog
@@ -14,6 +17,7 @@ from pydantic import BaseModel
 
 from edith_x.core.container import container
 from edith_x.core.interfaces import AuthContext
+from edith_x.interfaces.rest.multipart import parse_multipart_form
 
 log = structlog.get_logger(__name__)
 
@@ -63,7 +67,10 @@ async def get_auth(authorization: str = Header(default="Bearer demo-key")) -> Au
 
 class ChatMessage(BaseModel):
     role: str
-    content: str
+    content: str | None = None
+    name: str | None = None
+    tool_call_id: str | None = None
+    tool_calls: list[dict] | None = None
 
 
 class EdithOptions(BaseModel):
@@ -78,6 +85,8 @@ class ChatCompletionRequest(BaseModel):
     stream: bool = False
     max_tokens: int | None = None
     temperature: float | None = None
+    tools: list[dict] | None = None
+    tool_choice: Any | None = "auto"
     edith_options: EdithOptions | None = None
 
 
@@ -118,10 +127,74 @@ async def chat_completions(
     """OpenAI-compatible endpoint — drop-in replacement."""
     # Extract the last user message as the goal
     goal = next(
-        (m.content for m in reversed(request.messages) if m.role == "user"),
+        (m.content for m in reversed(request.messages) if m.role == "user" and m.content),
         "Hello"
     )
     history = [{"role": m.role, "content": m.content} for m in request.messages[:-1]]
+
+    # OpenAI Function Calling dispatch
+    target_tool = None
+    if request.tools and request.tool_choice != "none":
+        has_tool_response = any(m.role == "tool" for m in request.messages)
+        if not has_tool_response:
+            if isinstance(request.tool_choice, dict) and "function" in request.tool_choice:
+                target_tool = request.tool_choice["function"].get("name")
+            elif isinstance(request.tool_choice, str) and request.tool_choice not in ("auto", "none", "required"):
+                target_tool = request.tool_choice
+            elif request.tool_choice == "required" and len(request.tools) > 0:
+                target_tool = request.tools[0].get("function", {}).get("name")
+            elif request.tool_choice == "auto":
+                for t in request.tools:
+                    fname = t.get("function", {}).get("name", "")
+                    if fname == "generate_document" and any(k in goal.lower() for k in ("pdf", "pptx", "xlsx", "document", "report", "presentation")):
+                        target_tool = fname
+                        break
+
+    if target_tool:
+        doc_type = "pdf"
+        if "pptx" in goal.lower():
+            doc_type = "pptx"
+        elif "xlsx" in goal.lower():
+            doc_type = "xlsx"
+        args = {
+            "document_type": doc_type,
+            "title": "Document Report",
+            "content": goal,
+        }
+        return {
+            "id": f"chatcmpl-{uuid.uuid4().hex[:8]}",
+            "object": "chat.completion",
+            "created": int(time.time()),
+            "model": request.model or "edith-x-auto",
+            "choices": [{
+                "index": 0,
+                "message": {
+                    "role": "assistant",
+                    "content": None,
+                    "tool_calls": [{
+                        "id": f"call_{uuid.uuid4().hex[:8]}",
+                        "type": "function",
+                        "function": {
+                            "name": target_tool,
+                            "arguments": json.dumps(args),
+                        }
+                    }]
+                },
+                "finish_reason": "tool_calls",
+            }],
+            "usage": {
+                "prompt_tokens": len(goal.split()),
+                "completion_tokens": 15,
+                "total_tokens": len(goal.split()) + 15,
+            },
+            "edith_metadata": {
+                "cache_hit": False,
+                "cost_usd": 0.0,
+                "cost_saved_usd": 0.0,
+                "layer": "L0_tool_dispatch",
+                "run_id": f"tool-{uuid.uuid4().hex[:8]}",
+            },
+        }
 
     intent_svc = container.intent()
     policy_svc = container.policy()
@@ -142,8 +215,15 @@ async def chat_completions(
             media_type="text/event-stream",
         )
 
-    state = await planner.run(sanitized_goal, auth, intent, policy, history)
-    raw_response = state.get("final_response", "No response generated")
+    tool_msgs = [m for m in request.messages if m.role == "tool"]
+    if tool_msgs:
+        latest_tool = tool_msgs[-1]
+        synthesis_goal = f"Tool result for '{goal}': {latest_tool.content}. Please summarize cleanly."
+        state = await planner.run(synthesis_goal, auth, intent, policy, history)
+        raw_response = state.get("final_response") or f"Operation completed: {latest_tool.content}"
+    else:
+        state = await planner.run(sanitized_goal, auth, intent, policy, history)
+        raw_response = state.get("final_response", "No response generated")
     # Output DLP Sanitization
     response_text, _, _ = policy_svc.sanitize_payload(raw_response)
 
@@ -174,19 +254,22 @@ async def chat_completions(
 
 async def _stream_response(goal, auth, intent, policy, planner) -> AsyncGenerator[str, None]:
     import json
+    policy_svc = container.policy()
     state = await planner.run(goal, auth, intent, policy)
-    content = state.get("final_response", "")
+    raw_content = state.get("final_response", "")
+    # Output DLP & Redaction on stream content
+    content, _, _ = policy_svc.sanitize_payload(raw_content)
     # Stream word by word for demo effect
     words = content.split(" ")
     for i, word in enumerate(words):
         chunk = {
             "id": f"chatcmpl-stream-{i}",
             "object": "chat.completion.chunk",
-            "choices": [{"delta": {"content": word + " "}, "index": 0}],
+            "choices": [{"delta": {"content": word + (" " if i < len(words) - 1 else "")}, "index": 0}],
         }
         yield f"data: {json.dumps(chunk)}\n\n"
         import asyncio
-        await asyncio.sleep(0.02)
+        await asyncio.sleep(0.01)
     yield "data: [DONE]\n\n"
 
 
@@ -305,3 +388,119 @@ async def query_knowledge(
     knowledge = container.knowledge()
     chunks = await knowledge.retrieve(q, top_k=top_k)
     return {"query": q, "chunks": [c.model_dump() for c in chunks]}
+
+
+# ── M15 Document Pipeline & GDPR Endpoints ────────────────────────────────────
+
+@app.post("/v1/files")
+async def upload_file(
+    request: Request,
+    auth: AuthContext = Depends(get_auth),
+) -> dict:
+    """OpenAI-compatible file upload endpoint with tenant isolation (pure stdlib multipart)."""
+    body = await request.body()
+    content_type = request.headers.get("content-type", "")
+    content, filename, purpose = parse_multipart_form(body, content_type)
+    file_hash = hashlib.sha256(content).hexdigest()
+    file_id = f"file-{file_hash[:16]}"
+
+    tenant_dir = Path(f"storage/tenants/{auth.org_id}/files")
+    tenant_dir.mkdir(parents=True, exist_ok=True)
+    file_path = tenant_dir / f"{file_id}_{filename}"
+    with open(file_path, "wb") as f:
+        f.write(content)
+
+    return {
+        "id": file_id,
+        "object": "file",
+        "bytes": len(content),
+        "created_at": int(time.time()),
+        "filename": filename,
+        "purpose": purpose,
+        "status": "processed",
+        "file_hash": file_hash,
+    }
+
+
+class FileSummarizeRequest(BaseModel):
+    file_id: str
+    prompt: str = "Summarize key information and actionable points."
+
+
+@app.post("/edith/v1/files/summarize")
+async def summarize_file(
+    request: FileSummarizeRequest,
+    auth: AuthContext = Depends(get_auth),
+) -> dict:
+    """Hierarchical map-reduce summarization with per-chunk PII redaction and $0 repeat cache."""
+    from edith_x.modules.document.pipeline import DocumentPipeline
+    tenant_dir = Path(f"storage/tenants/{auth.org_id}/files")
+    matching_files = list(tenant_dir.glob(f"{request.file_id}_*"))
+    if not matching_files:
+        raise HTTPException(status_code=404, detail=f"File {request.file_id} not found for tenant {auth.org_id}")
+
+    target_path = matching_files[0]
+    filename = target_path.name.split("_", 1)[1] if "_" in target_path.name else target_path.name
+    with open(target_path, "rb") as f:
+        file_bytes = f.read()
+
+    pipeline = DocumentPipeline(cache=container.optimization().cache)
+    parsed = pipeline.parse_document(file_bytes=file_bytes, filename=filename)
+    result = await pipeline.summarize_document(
+        parsed=parsed,
+        org_id=auth.org_id,
+        prompt=request.prompt,
+    )
+    return {
+        "file_id": request.file_id,
+        "summary": result.summary,
+        "file_hash": result.sha256,
+        "chunks_processed": result.chunks_processed,
+        "cache_hit": result.cache_hit,
+        "cost_usd": result.cost_usd,
+    }
+
+
+class PrivacyErasureRequest(BaseModel):
+    user_id: str
+    reason: str = "GDPR Article 17 Right to Erasure"
+
+
+@app.post("/edith/v1/privacy/erasure")
+async def gdpr_privacy_erasure(
+    request: PrivacyErasureRequest,
+    auth: AuthContext = Depends(get_auth),
+) -> dict:
+    """Enforce GDPR Right to Erasure across cache, memory, and record cryptographic tombstone in audit ledger."""
+    # 1. Purge cache entries
+    opt_svc = container.optimization()
+    purged_cache_count = opt_svc.purge_user_data(request.user_id)
+
+    # 2. Purge user memories
+    mem_svc = container.memory()
+    purged_mem_count = await mem_svc.purge_user_memory(request.user_id)
+
+    # 3. Log cryptographic tombstone in audit ledger
+    ledger = container.identity().audit_ledger
+    tombstone_event = ledger.record_event(
+        action="gdpr_erasure_tombstone",
+        user_id=request.user_id,
+        org_id=auth.org_id,
+        details={
+            "reason": request.reason,
+            "purged_cache_entries": purged_cache_count,
+            "purged_memory_records": purged_mem_count,
+            "initiated_by_role": auth.role,
+            "legal_basis": "GDPR Art. 17 / India DPDP Act 2023 Sec. 12",
+        },
+    )
+
+    return {
+        "status": "erased",
+        "user_id": request.user_id,
+        "org_id": auth.org_id,
+        "cache_entries_purged": purged_cache_count,
+        "memory_records_purged": purged_mem_count,
+        "tombstone_hash": tombstone_event["entry_hash"],
+        "timestamp": tombstone_event["timestamp"],
+    }

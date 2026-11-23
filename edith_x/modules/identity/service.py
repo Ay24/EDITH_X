@@ -90,7 +90,7 @@ class IdentityService:
             # Format C: edx_live_<org_tag>_<token>
             elif len(parts) >= 4:
                 org_tag = parts[2]
-                org_id = f"org_{org_tag}" if not org_tag.startswith("org") else org_tag
+                org_id = f"org-{org_tag}" if not org_tag.startswith("org") else org_tag
                 return AuthContext(
                     user_id=f"service-user-{org_tag}",
                     org_id=org_id,

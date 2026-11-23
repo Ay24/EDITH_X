@@ -24,6 +24,14 @@ class OptimizationService:
         self._initialized = True
         log.info("optimization_service_initialized", cache="semantic_and_exact", compressor="information_density")
 
+    @property
+    def cache(self) -> SemanticCache:
+        return self._cache
+
+    def purge_user_data(self, user_id: str) -> int:
+        """Purge all cache entries matching user_id or user tag."""
+        return self._cache.invalidate_by_user(user_id)
+
     async def check_cache(
         self,
         query: str,

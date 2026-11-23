@@ -124,3 +124,17 @@ class MemoryService:
             self._fallback_store[user_id] = [
                 m for m in self._fallback_store[user_id] if m["id"] != memory_id
             ]
+
+    async def purge_user_memory(self, user_id: str) -> int:
+        """Purge all stored memories for a user (GDPR Article 17 Erasure)."""
+        await self._ensure_init()
+        purged = 0
+        if self._mem0:
+            try:
+                self._mem0.delete_all(user_id=user_id)
+            except Exception as e:
+                log.warning("mem0_delete_all_failed", error=str(e))
+        if user_id in self._fallback_store:
+            purged = len(self._fallback_store[user_id])
+            del self._fallback_store[user_id]
+        return purged
