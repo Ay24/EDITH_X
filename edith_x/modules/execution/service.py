@@ -135,23 +135,31 @@ class ExecutionService:
 
         return kwargs
 
-    def _get_fallback_candidates(self, primary_provider: str, primary_model: str) -> list[tuple[str, str]]:
-        """Ordered list of fallback (provider, model) candidates."""
+    def _get_fallback_candidates(
+        self,
+        primary_provider: str,
+        primary_model: str,
+        data_residency: str | None = None,
+    ) -> list[tuple[str, str]]:
+        """Ordered list of fallback (provider, model) candidates respecting data sovereignty."""
         candidates = []
+        is_sovereign_restricted = (data_residency or "").lower() in ("local", "eu", "in")
 
-        # 1. Secondary Cloud Fallbacks (only if actual valid keys are present)
-        if _is_valid_key(self._settings.groq_api_key) and primary_provider != "groq":
-            candidates.append(("groq", "llama-3.1-8b-instant"))
-        if _is_valid_key(self._settings.openai_api_key) and primary_provider != "openai":
-            candidates.append(("openai", "gpt-4o-mini"))
-        if _is_valid_key(self._settings.anthropic_api_key) and primary_provider != "anthropic":
-            candidates.append(("anthropic", "claude-3-haiku-20240307"))
-        if _is_valid_key(self._settings.nvidia_api_key) and primary_provider not in ("nvidia", "nvidia_nim"):
-            candidates.append(("nvidia_nim", "meta/llama-3.1-70b-instruct"))
+        # 1. Secondary Cloud Fallbacks (only if NOT restricted by sovereign data residency)
+        if not is_sovereign_restricted:
+            if _is_valid_key(self._settings.groq_api_key) and primary_provider != "groq":
+                candidates.append(("groq", "llama-3.1-8b-instant"))
+            if _is_valid_key(self._settings.openai_api_key) and primary_provider != "openai":
+                candidates.append(("openai", "gpt-4o-mini"))
+            if _is_valid_key(self._settings.anthropic_api_key) and primary_provider != "anthropic":
+                candidates.append(("anthropic", "claude-3-haiku-20240307"))
+            if _is_valid_key(self._settings.nvidia_api_key) and primary_provider not in ("nvidia", "nvidia_nim"):
+                candidates.append(("nvidia_nim", "meta/llama-3.1-70b-instruct"))
 
         # 2. Local Fallback (Ollama / LM Studio)
         if self._settings.local_model_list:
-            candidates.append(("local_llm", self._settings.local_model_list[0]))
+            for m in self._settings.local_model_list:
+                candidates.append(("local_llm", m))
 
         return [c for c in candidates if not (c[0] == primary_provider and c[1] == primary_model)]
 
@@ -222,7 +230,8 @@ class ExecutionService:
             log.info("primary_provider_skipped_unconfigured", provider=selection.provider)
 
         # 2. Resilient Fallback Waterfall
-        fallbacks = self._get_fallback_candidates(selection.provider, selection.model)
+        data_res = getattr(context, "data_residency", None)
+        fallbacks = self._get_fallback_candidates(selection.provider, selection.model, data_residency=data_res)
         for fb_provider, fb_model in fallbacks:
             fb_cb = self.get_circuit_breaker(fb_provider)
             if not fb_cb.can_execute():

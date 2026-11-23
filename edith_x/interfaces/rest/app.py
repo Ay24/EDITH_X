@@ -143,7 +143,9 @@ async def chat_completions(
         )
 
     state = await planner.run(sanitized_goal, auth, intent, policy, history)
-    response_text = state.get("final_response", "No response generated")
+    raw_response = state.get("final_response", "No response generated")
+    # Output DLP Sanitization
+    response_text, _, _ = policy_svc.sanitize_payload(raw_response)
 
     return {
         "id": f"chatcmpl-{uuid.uuid4().hex[:8]}",
@@ -208,9 +210,12 @@ async def run_goal(
         raise HTTPException(status_code=403, detail=policy.block_reason)
 
     state = await planner.run(sanitized_goal, auth, intent, policy)
+    raw_response = state.get("final_response", "")
+    # Output DLP Sanitization
+    sanitized_response, _, _ = policy_svc.sanitize_payload(raw_response)
     return {
         "run_id": state.get("run_id"),
-        "response": state.get("final_response"),
+        "response": sanitized_response,
         "cache_hit": state.get("cache_hit", False),
         "cost_usd": state.get("cost_usd", 0.0),
         "cost_saved_usd": state.get("cost_saved_usd", 0.0),

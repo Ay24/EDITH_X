@@ -7,6 +7,7 @@ import structlog
 from edith_x.core.config import Settings
 from edith_x.core.interfaces import AuthContext, IntentResult, PolicyDecision
 from edith_x.modules.policy.firewall import PIIFirewall
+from edith_x.modules.policy.vault import EphemeralVault
 
 log = structlog.get_logger(__name__)
 
@@ -40,10 +41,19 @@ class PolicyService:
     def __init__(self, settings: Settings) -> None:
         self._settings = settings
         self._firewall = PIIFirewall()
+        self._vault = EphemeralVault()
 
     def sanitize_payload(self, text: str) -> tuple[str, bool, list[str]]:
         """Redact PII/secrets from text."""
         return self._firewall.redact(text)
+
+    def tokenize_payload(self, text: str, session_id: str | None = None) -> tuple[str, str]:
+        """Pseudonymize payload into typed surrogate tokens via ephemeral vault."""
+        return self._vault.tokenize(text, session_id=session_id)
+
+    def detokenize_payload(self, text: str, session_id: str, mask_mode: str = "full") -> str:
+        """Restore surrogate tokens in text from ephemeral vault."""
+        return self._vault.detokenize(text, session_id=session_id, mask_mode=mask_mode)
 
     async def evaluate(self, intent: IntentResult, ctx: AuthContext, query: str = "") -> PolicyDecision:
         # Check PII in query or intent context

@@ -72,8 +72,31 @@ _DIRECTION_PAIRS = [
 ]
 
 
+def _extract_numerical_tokens(text: str) -> set[str]:
+    """Extract normalized numbers, percentages, years, currencies, quarters."""
+    found = set()
+    for q, y in re.findall(r"\bq([1-4])\s*(\d{2,4})\b", text.lower()):
+        found.add(f"q{q}_{y}")
+    for num in re.findall(r"\$?\b\d+(?:\.\d+)?%?\b", text.lower()):
+        found.add(num)
+    return found
+
+
+def _extract_entity_tokens(text: str) -> set[str]:
+    """Extract capitalized entity tokens and proper names from text."""
+    words = text.split()
+    entities = set()
+    for i, w in enumerate(words):
+        clean_w = re.sub(r"[^\w]", "", w)
+        if not clean_w:
+            continue
+        if (i > 0 and clean_w[0].isupper()) or (clean_w.isupper() and len(clean_w) >= 2):
+            entities.add(clean_w.lower())
+    return entities
+
+
 def _has_divergent_intent(q1: str, q2: str) -> bool:
-    """Detect grammatical polarity flips or directionality differences that fool token cosine."""
+    """Detect grammatical polarity flips, directionality, numerical, or entity differences."""
     words1 = set(re.findall(r"\b\w+\b", q1.lower()))
     words2 = set(re.findall(r"\b\w+\b", q2.lower()))
 
@@ -90,6 +113,18 @@ def _has_divergent_intent(q1: str, q2: str) -> bool:
         if (has_a1 and has_b2) or (has_b1 and has_a2):
             return True
 
+    # 3. Numerical / Date / Year / Quarter discrepancy
+    nums1 = _extract_numerical_tokens(q1)
+    nums2 = _extract_numerical_tokens(q2)
+    if nums1 != nums2:
+        return True
+
+    # 4. Entity discrepancy
+    ents1 = _extract_entity_tokens(q1)
+    ents2 = _extract_entity_tokens(q2)
+    if ents1 != ents2:
+        return True
+
     return False
 
 
@@ -99,6 +134,11 @@ class CacheEntry:
     response: str
     cost_saved: float
     org_id: str = "default"
+    user_role: str = "default"
+    acl_scope: str = "public"  # "public", "role_restricted", "user_private"
+    user_id: str | None = None
+    doc_ids: list[str] = field(default_factory=list)
+    tags: list[str] = field(default_factory=list)
     created_at: float = field(default_factory=time.time)
     expires_at: float | None = None
     vector: dict[str, float] = field(default_factory=dict)
@@ -151,42 +191,72 @@ class SemanticCache:
         # Inverted index for O(k) candidate pruning: token -> set[entry_hash]
         self._inverted_index: dict[str, set[str]] = {}
 
-    def _hash_query(self, query: str, org_id: str = "default") -> str:
-        norm = f"{org_id}:{_normalize(query)}"
+    def _hash_query(
+        self,
+        query: str,
+        org_id: str = "default",
+        user_role: str = "default",
+        acl_scope: str = "public",
+        user_id: str | None = None,
+    ) -> str:
+        if acl_scope == "public":
+            norm = f"{org_id}:public:{_normalize(query)}"
+        elif acl_scope == "user_private" and user_id:
+            norm = f"{org_id}:user:{user_id}:{_normalize(query)}"
+        else:
+            norm = f"{org_id}:role:{user_role}:{_normalize(query)}"
         return hashlib.sha256(norm.encode("utf-8")).hexdigest()
 
-    async def get(self, query: str, org_id: str = "default") -> CacheResult:
+    async def get(
+        self,
+        query: str,
+        org_id: str = "default",
+        user_role: str = "default",
+        user_id: str | None = None,
+    ) -> CacheResult:
         now = time.time()
-        q_hash = self._hash_query(query, org_id=org_id)
+        possible_hashes = [
+            self._hash_query(query, org_id=org_id, acl_scope="public"),
+            self._hash_query(query, org_id=org_id, user_role=user_role, acl_scope="role_restricted"),
+        ]
+        if user_id:
+            possible_hashes.append(self._hash_query(query, org_id=org_id, user_id=user_id, acl_scope="user_private"))
 
-        # 1. Exact Match Fast-Path (< 0.05ms) in L1 LRU
-        if q_hash in self._exact_cache:
-            entry = self._exact_cache[q_hash]
-            if entry.expires_at is None or entry.expires_at > now:
-                self._exact_cache.move_to_end(q_hash)
-                entry.hits += 1
-                return CacheResult(
-                    hit=True,
-                    response=entry.response,
-                    saved_cost_usd=entry.cost_saved,
-                    similarity=1.0,
-                )
-            else:
-                self._remove_entry(q_hash)
+        for q_hash in possible_hashes:
+            if q_hash in self._exact_cache:
+                entry = self._exact_cache[q_hash]
+                if entry.expires_at is None or entry.expires_at > now:
+                    if entry.acl_scope == "role_restricted" and entry.user_role != user_role:
+                        continue
+                    if entry.acl_scope == "user_private" and entry.user_id != user_id:
+                        continue
+                    self._exact_cache.move_to_end(q_hash)
+                    entry.hits += 1
+                    return CacheResult(
+                        hit=True,
+                        response=entry.response,
+                        saved_cost_usd=entry.cost_saved,
+                        similarity=1.0,
+                    )
+                else:
+                    self._remove_entry(q_hash)
 
-        # 1b. Check L2 Distributed Store if configured
         if self._l2_backend:
-            l2_entry = await self._l2_backend.get_exact(q_hash)
-            if l2_entry and (l2_entry.expires_at is None or l2_entry.expires_at > now):
-                # Backfill L1
-                self._insert_l1(q_hash, l2_entry)
-                l2_entry.hits += 1
-                return CacheResult(
-                    hit=True,
-                    response=l2_entry.response,
-                    saved_cost_usd=l2_entry.cost_saved,
-                    similarity=1.0,
-                )
+            for q_hash in possible_hashes:
+                l2_entry = await self._l2_backend.get_exact(q_hash)
+                if l2_entry and (l2_entry.expires_at is None or l2_entry.expires_at > now):
+                    if l2_entry.acl_scope == "role_restricted" and l2_entry.user_role != user_role:
+                        continue
+                    if l2_entry.acl_scope == "user_private" and l2_entry.user_id != user_id:
+                        continue
+                    self._insert_l1(q_hash, l2_entry)
+                    l2_entry.hits += 1
+                    return CacheResult(
+                        hit=True,
+                        response=l2_entry.response,
+                        saved_cost_usd=l2_entry.cost_saved,
+                        similarity=1.0,
+                    )
 
         # 2. Semantic Similarity Path with Inverted Index Candidate Pruning
         q_tokens = _tokenize(query)
@@ -212,6 +282,10 @@ class SemanticCache:
             if not entry:
                 continue
             if entry.org_id != org_id:
+                continue
+            if entry.acl_scope == "role_restricted" and entry.user_role != user_role:
+                continue
+            if entry.acl_scope == "user_private" and entry.user_id != user_id:
                 continue
             if entry.expires_at is not None and entry.expires_at <= now:
                 continue
@@ -258,6 +332,11 @@ class SemanticCache:
         cost_saved: float = 0.0,
         ttl_seconds: float | None = None,
         org_id: str = "default",
+        user_role: str = "default",
+        acl_scope: str = "public",
+        user_id: str | None = None,
+        doc_ids: list[str] | None = None,
+        tags: list[str] | None = None,
     ) -> None:
         if not query.strip() or not response.strip():
             return
@@ -266,7 +345,13 @@ class SemanticCache:
         ttl = ttl_seconds if ttl_seconds is not None else self.default_ttl
         expires_at = (now + ttl) if ttl > 0 else None
 
-        q_hash = self._hash_query(query, org_id=org_id)
+        q_hash = self._hash_query(
+            query,
+            org_id=org_id,
+            user_role=user_role,
+            acl_scope=acl_scope,
+            user_id=user_id,
+        )
         tokens = _tokenize(query)
         vector = _compute_vector(tokens)
 
@@ -275,6 +360,11 @@ class SemanticCache:
             response=response,
             cost_saved=cost_saved,
             org_id=org_id,
+            user_role=user_role,
+            acl_scope=acl_scope,
+            user_id=user_id,
+            doc_ids=list(doc_ids or []),
+            tags=list(tags or []),
             created_at=now,
             expires_at=expires_at,
             vector=vector,
@@ -284,3 +374,23 @@ class SemanticCache:
 
         if self._l2_backend:
             await self._l2_backend.set_exact(q_hash, entry)
+
+    def invalidate_by_document(self, doc_id: str) -> int:
+        """Purge all cache entries associated with a specific document ID."""
+        to_delete = [
+            h for h, entry in list(self._exact_cache.items())
+            if doc_id in entry.doc_ids
+        ]
+        for h in to_delete:
+            self._remove_entry(h)
+        return len(to_delete)
+
+    def invalidate_by_tag(self, tag: str) -> int:
+        """Purge cache entries matching a category tag."""
+        to_delete = [
+            h for h, entry in list(self._exact_cache.items())
+            if tag in entry.tags
+        ]
+        for h in to_delete:
+            self._remove_entry(h)
+        return len(to_delete)

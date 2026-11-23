@@ -33,6 +33,61 @@ def _shannon_entropy(data: str) -> float:
         entropy -= p * math.log2(p)
     return entropy
 
+# ── Verhoeff & Modulus-11 Checksum Tables ─────────────────────────────────────
+_VERHOEFF_D = [
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [1, 2, 3, 4, 0, 6, 7, 8, 9, 5],
+    [2, 3, 4, 0, 1, 7, 8, 9, 5, 6],
+    [3, 4, 0, 1, 2, 8, 9, 5, 6, 7],
+    [4, 0, 1, 2, 3, 9, 5, 6, 7, 8],
+    [5, 9, 8, 7, 6, 0, 4, 3, 2, 1],
+    [6, 5, 9, 8, 7, 1, 0, 4, 3, 2],
+    [7, 6, 5, 9, 8, 2, 1, 0, 4, 3],
+    [8, 7, 6, 5, 9, 3, 2, 1, 0, 4],
+    [9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+]
+
+_VERHOEFF_P = [
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [1, 5, 7, 6, 2, 8, 3, 0, 9, 4],
+    [5, 8, 0, 3, 7, 9, 6, 1, 4, 2],
+    [8, 9, 1, 6, 0, 4, 3, 5, 2, 7],
+    [9, 4, 5, 3, 1, 2, 6, 8, 7, 0],
+    [4, 2, 8, 6, 5, 7, 3, 9, 0, 1],
+    [2, 7, 9, 3, 8, 0, 6, 4, 1, 5],
+    [7, 0, 4, 6, 9, 1, 3, 2, 5, 8],
+]
+
+
+def _verhoeff_validate(num_str: str) -> bool:
+    """Validate 12-digit Indian Aadhaar number using Verhoeff algorithm."""
+    clean = re.sub(r"\D", "", num_str)
+    if len(clean) != 12:
+        return False
+    if clean[0] in ("0", "1"):
+        return False
+    c = 0
+    for i, digit in enumerate(reversed(clean)):
+        c = _VERHOEFF_D[c][_VERHOEFF_P[i % 8][int(digit)]]
+    return c == 0
+
+
+def _nhs_modulus11_validate(num_str: str) -> bool:
+    """Validate 10-digit UK NHS number using Modulus 11 algorithm."""
+    digits = [int(c) for c in num_str if c.isdigit()]
+    if len(digits) != 10:
+        return False
+    weights = [10, 9, 8, 7, 6, 5, 4, 3, 2]
+    total = sum(d * w for d, w in zip(digits[:9], weights))
+    rem = total % 11
+    check_digit = 11 - rem
+    if check_digit == 11:
+        check_digit = 0
+    elif check_digit == 10:
+        return False
+    return check_digit == digits[9]
+
+
 
 class PIIFirewall:
     """Enterprise-grade context-aware PII and secret scanner with adversarial robustness."""
@@ -52,6 +107,12 @@ class PIIFirewall:
         r"\b(?:sk-[-a-zA-Z0-9_]{20,}|AKIA[-_0-9A-Z]{16,}|ghp_[-a-zA-Z0-9]{36,}|Bearer\s+[-a-zA-Z0-9_\.]{20,})\b"
     )
 
+    # Global & Regional PII patterns
+    PAN_PATTERN = re.compile(r"\b[A-Z]{5}[0-9]{4}[A-Z]\b")
+    AADHAAR_PATTERN = re.compile(r"\b\d{4}\s?\d{4}\s?\d{4}\b")
+    NHS_PATTERN = re.compile(r"\b\d{3}\s?\d{3}\s?\d{4}\b")
+    DOB_PATTERN = re.compile(r"\b(?:\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\d{4}[/-]\d{1,2}[/-]\d{1,2})\b")
+
     # Hard-negative exemption filters (UUIDs, git SHAs, RFC timestamps, base64 data URIs)
     UUID_PATTERN = re.compile(r"\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\b")
     GIT_SHA_PATTERN = re.compile(r"\b[0-9a-fA-F]{40}\b")
@@ -63,6 +124,10 @@ class PIIFirewall:
         "credit_card": ["visa", "mastercard", "amex", "card", "billing", "payment", "cvv", "expiry", "charge"],
         "ssn": ["ssn", "social", "security", "tax", "ein", "employee", "identification", "payroll"],
         "api_key": ["secret", "token", "auth", "key", "password", "bearer", "private", "api", "connection"],
+        "dob": ["dob", "born", "birth", "birthdate", "birthday"],
+        "aadhaar": ["aadhaar", "uid", "uidai", "aadhar"],
+        "nhs": ["nhs", "health", "patient", "medical", "hospital", "clinic"],
+        "pan": ["pan", "tax", "income tax", "permanent account number"],
     }
 
     def _has_context(self, text: str, span: tuple[int, int], context_type: str, window: int = 50) -> bool:
@@ -114,7 +179,40 @@ class PIIFirewall:
         result = self.EMAIL_PATTERN.sub(replace_email, result)
         result = self.OBFUSCATED_EMAIL_PATTERN.sub(replace_email, result)
 
-        # 5. Phone
+        # 4b. Indian PAN Card
+        def replace_pan(match):
+            detected_types.append("pan")
+            return "[REDACTED_PAN]"
+
+        result = self.PAN_PATTERN.sub(replace_pan, result)
+
+        # 4c. UK NHS Number (Modulus-11 validated)
+        matches_nhs = list(self.NHS_PATTERN.finditer(result))
+        for m in sorted(matches_nhs, key=lambda x: x.start(), reverse=True):
+            raw = m.group(0)
+            if _nhs_modulus11_validate(raw):
+                detected_types.append("nhs")
+                start, end = m.span()
+                result = result[:start] + "[REDACTED_NHS]" + result[end:]
+
+        # 4d. Indian Aadhaar Number (Verhoeff validated)
+        matches_aadhaar = list(self.AADHAAR_PATTERN.finditer(result))
+        for m in sorted(matches_aadhaar, key=lambda x: x.start(), reverse=True):
+            raw = m.group(0)
+            if _verhoeff_validate(raw):
+                detected_types.append("aadhaar")
+                start, end = m.span()
+                result = result[:start] + "[REDACTED_AADHAAR]" + result[end:]
+
+        # 4e. Date of Birth (DOB) contextually validated
+        matches_dob = list(self.DOB_PATTERN.finditer(result))
+        for m in sorted(matches_dob, key=lambda x: x.start(), reverse=True):
+            start, end = m.span()
+            if self._has_context(result, (start, end), "dob"):
+                detected_types.append("dob")
+                result = result[:start] + "[REDACTED_DOB]" + result[end:]
+
+        # 5. Phone (excluding items already redacted)
         def replace_phone(match):
             detected_types.append("phone")
             return "[REDACTED_PHONE]"

@@ -67,10 +67,16 @@ def _lexical_similarity(query: str, text: str) -> float:
 
 
 class KnowledgeService:
-    def __init__(self, settings: Settings) -> None:
+    def __init__(self, settings: Settings, fail_closed: bool = False) -> None:
         self._settings = settings
         self._client: QdrantClient | None = None
         self._initialized = False
+        self.fail_closed = fail_closed
+        self.rag_status = "HEALTHY"
+
+    @property
+    def is_degraded(self) -> bool:
+        return self.rag_status == "DEGRADED_OFFLINE"
 
     def _get_client(self) -> QdrantClient:
         """Lazily initialize Qdrant client with automatic fallback to in-memory mode."""
@@ -213,7 +219,10 @@ class KnowledgeService:
             )
             candidate_points = results.points
         except Exception as e:
-            log.warning("qdrant_query_failed", error=str(e))
+            self.rag_status = "DEGRADED_OFFLINE"
+            log.error("qdrant_query_failed_rag_offline", error=str(e), fail_closed=self.fail_closed)
+            if self.fail_closed:
+                raise RuntimeError(f"Knowledge retrieval service is offline (Qdrant unreachable): {e}") from e
             candidate_points = []
 
         # Hybrid scoring & deduplication
